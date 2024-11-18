@@ -2,15 +2,15 @@
 {
     public class Attendance
     {
-        public int AttendanceId { get; set; }  // Primary Key
+        public int Id { get; set; }  // Primary Key
         public int TimetableId { get; set; }  // Foreign Key from Timetable
-        public int StudentId { get; set; }  // Foreign Key from Student
+        public string UTNumber { get; set; }  // Foreign Key from Student
         public DateTime Date { get; set; }
-        public string AttendanceStatus { get; set; }  // Present or Absent
-
+        public bool IsPresent { get; set; }  // Present or Absent
         // Navigation properties
-        public Timetable Timetable { get; set; }
-        public Student Student { get; set; }
+        public Timetable? Timetable { get; set; }
+        public Student? Student { get; set; }
     }
+    
 
 }

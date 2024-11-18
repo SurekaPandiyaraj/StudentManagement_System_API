@@ -7,6 +7,9 @@ namespace StudentManagement_System_API.Database
 {
     public class StudentManagementContext : DbContext
     {
+        public StudentManagementContext(DbContextOptions options) : base(options)
+        {
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -29,12 +32,12 @@ namespace StudentManagement_System_API.Database
 
             // Many-to-many relationship between Student and Course via Enrollment
             modelBuilder.Entity<Enrollment>()
-                .HasKey(e => new { e.StudentId, e.CourseId });
+                .HasKey(e => new { e.UTNumber, e.CourseId });
 
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.Student)
                 .WithMany(s => s.Enrollments)
-                .HasForeignKey(e => e.StudentId);
+                .HasForeignKey(e => e.UTNumber);
 
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.Course)
@@ -57,7 +60,7 @@ namespace StudentManagement_System_API.Database
             modelBuilder.Entity<Marks>()
                 .HasOne(m => m.Student)
                 .WithMany(s => s.Marks)
-                .HasForeignKey(m => m.StudentId);
+                .HasForeignKey(m => m.UTNumber);
 
             // One-to-many relationship between Timetable and Course
             modelBuilder.Entity<Timetable>()
@@ -75,7 +78,7 @@ namespace StudentManagement_System_API.Database
             modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.Student)
                 .WithMany(s => s.Attendances)
-                .HasForeignKey(a => a.StudentId);
+                .HasForeignKey(a => a.UTNumber);
         }
 
     }

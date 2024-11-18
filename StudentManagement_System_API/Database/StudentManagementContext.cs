@@ -17,20 +17,7 @@ namespace StudentManagement_System_API.Database
         public DbSet<Timetable> Timetables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            // Configure UserRole as an enum (stored as a string in the database)
-            modelBuilder.Entity<User>()
-                .Property(u => u.UserRole )
-                .HasConversion(
-                    v => v.ToString(),
-                    v => (Role)Enum.Parse(typeof(Role), v));  // Convert enum to string when saving to the database and back
-
-            // Many-to-many relationship between Student and Course via Enrollment
-            modelBuilder.Entity<Enrollment>()
-                .HasKey(e => new { e.StudentId, e.CourseId });
-
+        {   
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.Student)
                 .WithMany(s => s.Enrollments)

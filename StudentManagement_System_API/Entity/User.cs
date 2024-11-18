@@ -19,10 +19,10 @@ namespace StudentManagement_System_API.Entity
 
     public enum Role
     {
-        Admin,
-        Staff,
-        Lecturer,
-        Student
+        Admin = 1,
+        Staff = 2,
+        Lecturer = 3,
+        Student = 4
     }
 
 

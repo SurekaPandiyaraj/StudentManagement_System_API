@@ -5,20 +5,15 @@ namespace StudentManagement_System_API.Entity
     public class Student
     {
         [Key]
-        public string UTNumber { get; set; }  // Unique identifier for the student
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string NIC { get; set; }
-        public string Gender { get; set; }
+        public int UTNumber { get; set; }  // Primary Key for Student (UT Number)
+        public string Batch { get; set; }
+        public int UserId { get; set; }  // Foreign Key from User
 
         // Navigation properties
-        public virtual ICollection<StudentAddress> Addresses { get; set; }
-        public virtual ICollection<StudentContact> Contacts { get; set; }
-        public virtual ICollection<StudentEmail> Emails { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
-        public virtual ICollection<EducationInfo> EducationInfos { get; set; }
-        public virtual User User { get; set; }
-    }
+        public User User { get; set; }  // One-to-one relationship with User
+        public ICollection<Enrollment> Enrollments { get; set; }  // Many-to-many with Course via Enrollment
+        public ICollection<Marks> Marks { get; set; }  // One-to-many with Marks
+        public ICollection<Attendance> Attendances { get; set; }  // One-to-many with Attendance
 
+    }
 }

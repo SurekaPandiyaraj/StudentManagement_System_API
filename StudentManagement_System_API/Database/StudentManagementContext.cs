@@ -7,61 +7,76 @@ namespace StudentManagement_System_API.Database
 {
     public class StudentManagementContext : DbContext
     {
-        public DbSet<Student> Students { get; set; }
-        public DbSet<StudentAddress> StudentAddresses { get; set; }
-        public DbSet<StudentContact> StudentContacts { get; set; }
-        public DbSet<StudentEmail> StudentEmails { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Image> Images { get; set; }
-        public DbSet<EducationInfo> EducationInfos { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<StudentResults> Results { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Exam> Exams { get; set; }
+        public DbSet<Marks> Marks { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Timetable> Timetables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Define relationships between tables
-            modelBuilder.Entity<Student>()
-                .HasOne(s => s.User)
-                .WithOne(u => u.Student)
-                .HasForeignKey<User>(u => u.StudentUTNumber);
+            // Configure UserRole as an enum (stored as a string in the database)
+            modelBuilder.Entity<User>()
+                .Property(u => u.UserRole )
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (Role)Enum.Parse(typeof(Role), v));  // Convert enum to string when saving to the database and back
 
-            modelBuilder.Entity<StudentAddress>()
-                .HasOne(sa => sa.Student)
-                .WithMany(s => s.Addresses)
-                .HasForeignKey(sa => sa.StudentUTNumber);
+            // Many-to-many relationship between Student and Course via Enrollment
+            modelBuilder.Entity<Enrollment>()
+                .HasKey(e => new { e.StudentId, e.CourseId });
 
-            modelBuilder.Entity<StudentContact>()
-                .HasOne(sc => sc.Student)
-                .WithMany(s => s.Contacts)
-                .HasForeignKey(sc => sc.StudentUTNumber);
-
-            modelBuilder.Entity<StudentEmail>()
-                .HasOne(se => se.Student)
-                .WithMany(s => s.Emails)
-                .HasForeignKey(se => se.StudentUTNumber);
-
-            modelBuilder.Entity<Image>()
-                .HasOne(i => i.Student)
-                .WithMany(s => s.Images)
-                .HasForeignKey(i => i.StudentUTNumber);
-
-            modelBuilder.Entity<EducationInfo>()
+            modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.Student)
-                .WithMany(s => s.EducationInfos)
-                .HasForeignKey(e => e.StudentUTNumber);
+                .WithMany(s => s.Enrollments)
+                .HasForeignKey(e => e.StudentId);
 
-            modelBuilder.Entity<StudentResults>()
-                .HasOne(r => r.EducationInfo)
-                .WithMany(e => e.StudentResults )
-                .HasForeignKey(r => r.EducationInfoId);
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.CourseId);
 
-            modelBuilder.Entity<EducationInfo>()
-                .HasMany(e => e.Subjects)
-                .WithMany(s => s.EducationInfos)
-                .UsingEntity(join => join.ToTable("EducationInfoSubject"));
+            // One-to-many relationship between Course and Exam
+            modelBuilder.Entity<Exam>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Exams)
+                .HasForeignKey(e => e.CourseId);
+
+            // One-to-many relationship between Marks and Exam
+            modelBuilder.Entity<Marks>()
+                .HasOne(m => m.Exam)
+                .WithMany(e => e.Marks)
+                .HasForeignKey(m => m.ExamId);
+
+            // One-to-many relationship between Marks and Student
+            modelBuilder.Entity<Marks>()
+                .HasOne(m => m.Student)
+                .WithMany(s => s.Marks)
+                .HasForeignKey(m => m.StudentId);
+
+            // One-to-many relationship between Timetable and Course
+            modelBuilder.Entity<Timetable>()
+                .HasOne(t => t.Course)
+                .WithMany(c => c.Timetables)
+                .HasForeignKey(t => t.CourseId);
+
+            // One-to-many relationship between Attendance and Timetable
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.Timetable)
+                .WithMany(t => t.Attendances)
+                .HasForeignKey(a => a.TimetableId);
+
+            // One-to-many relationship between Attendance and Student
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.Student)
+                .WithMany(s => s.Attendances)
+                .HasForeignKey(a => a.StudentId);
         }
-    }
 
+    }
 }

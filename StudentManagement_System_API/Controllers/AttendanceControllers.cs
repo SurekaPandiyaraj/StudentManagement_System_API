@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly IAttendanceService _attendanceService;
 
-        public AttendanceControllers(AttendanceService attendanceService)
+        public AttendanceControllers(IAttendanceService attendanceService)
         {
             _attendanceService = attendanceService;
         }

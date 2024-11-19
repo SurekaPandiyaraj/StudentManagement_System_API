@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly ICourseService _courseService;
 
-        public CourseControllers(CourseService courseService)
+        public CourseControllers(ICourseService courseService)
         {
             _courseService = courseService;
         }

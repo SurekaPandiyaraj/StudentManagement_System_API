@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.Database;
+using StudentManagement_System_API.IRepository;
+using StudentManagement_System_API.IService;
+using StudentManagement_System_API.Repository;
+using StudentManagement_System_API.Service;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -28,37 +32,53 @@ namespace StudentManagement_System_API
 
             builder.Services.AddDbContext<StudentManagementContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("StudentDBConnection")));
 
-            //var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]));
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
-            //builder.Services.AddAuthentication()
-            //    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        IssuerSigningKey = key,
-            //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            //        ValidAudience = builder.Configuration["Jwt:Audience"],
-            //    });
+            builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
+            builder.Services.AddScoped<ITimetableService, TimetableService>();
 
-            builder.Services.AddCors(opt =>
-            {
-                opt.AddPolicy(
-                   name: "CORSPolicy",
-                   builder =>
-                   {
-                       builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+            builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
-                   }
-                   );
-            });
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
+
+            builder.Services.AddScoped<IExamRepository, ExamRepository>();
+            builder.Services.AddScoped<IExamService, ExamService>();
+
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+
+            builder.Services.AddScoped<IMarksRepository, MarksRepository>();
+            builder.Services.AddScoped<IMarksService, MarksService>();
+
+            builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+
+
+
+
+            //builder.Services.AddCors(opt =>
+            //{
+            //    opt.AddPolicy(
+            //       name: "CORSPolicy",
+            //       builder =>
+            //       {
+            //           builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+
+            //       }
+            //       );
+            //});
+
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment()) // This condition is important for Swagger UI in Dev environment
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseCors("CORSPolicy");
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

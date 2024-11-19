@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly ITimetableService _timetableService;
 
-        public TimetableControllers(TimetableService timetableService)
+        public TimetableControllers(ITimetableService timetableService)
         {
             _timetableService = timetableService;
         }

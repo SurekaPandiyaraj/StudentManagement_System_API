@@ -9,7 +9,7 @@ namespace StudentManagement_System_API.Controllers
     [ApiController]
     public class ExamControllers : ControllerBase
     {
-        private readonly IExamService _examService;
+        private readonly ExamService _examService;
 
         public ExamControllers(ExamService examService)
         {

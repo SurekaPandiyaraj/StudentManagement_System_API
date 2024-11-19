@@ -1,6 +1,8 @@
-﻿namespace StudentManagement_System_API.Service
+﻿using StudentManagement_System_API.IService;
+
+namespace StudentManagement_System_API.Service
 {
-    public class AttendanceService
+    public class AttendanceService : IAttendanceService
     {
     }
 }

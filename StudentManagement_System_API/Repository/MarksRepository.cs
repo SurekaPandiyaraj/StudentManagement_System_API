@@ -1,6 +1,8 @@
-﻿namespace StudentManagement_System_API.Repository
+﻿using StudentManagement_System_API.IRepository;
+
+namespace StudentManagement_System_API.Repository
 {
-    public class MarksRepository
+    public class MarksRepository : IMarksRepository
     {
     }
 }

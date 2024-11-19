@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly IMarksService _marksService;
 
-        public MarksControllers(MarksService marksService)
+        public MarksControllers(IMarksService marksService)
         {
             _marksService = marksService;
         }

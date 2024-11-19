@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagement_System_API.Entity;
 
-
-
 namespace StudentManagement_System_API.Database
 {
     public class StudentManagementContext : DbContext
@@ -81,5 +79,9 @@ namespace StudentManagement_System_API.Database
                 .HasForeignKey(a => a.UTNumber);
         }
 
+        internal async Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

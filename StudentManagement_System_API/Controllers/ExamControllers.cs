@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly IExamService _examService;
 
-        public ExamControllers(ExamService examService)
+        public ExamControllers(IExamService examService)
         {
             _examService = examService;
         }

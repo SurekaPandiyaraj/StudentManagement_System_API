@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserControllers(UserService userService)
+        public UserControllers(IUserService userService)
         {
             _userService = userService;
         }

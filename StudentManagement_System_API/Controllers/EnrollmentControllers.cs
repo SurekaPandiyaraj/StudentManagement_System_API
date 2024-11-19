@@ -11,7 +11,7 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly IEnrollmentService _enrollmentService;
 
-        public EnrollmentControllers(EnrollmentService enrollmentService)
+        public EnrollmentControllers(IEnrollmentService enrollmentService)
         {
             _enrollmentService = enrollmentService;
         }

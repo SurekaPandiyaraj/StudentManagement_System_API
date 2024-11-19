@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.Database;
+using StudentManagement_System_API.IRepository;
+using StudentManagement_System_API.IService;
+using StudentManagement_System_API.Repository;
+using StudentManagement_System_API.Service;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -37,6 +41,9 @@ namespace StudentManagement_System_API
             //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
             //        ValidAudience = builder.Configuration["Jwt:Audience"],
             //    });
+
+            builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
             builder.Services.AddCors(opt =>
             {

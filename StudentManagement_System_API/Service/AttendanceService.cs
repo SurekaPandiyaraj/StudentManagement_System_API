@@ -7,15 +7,23 @@ namespace StudentManagement_System_API.Service
     public class AttendanceService : IAttendanceService
     {
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly IStudentService _studentService;
 
-        public AttendanceService(IAttendanceRepository attendanceRepository)
+        public AttendanceService(IAttendanceRepository attendanceRepository , IStudentService studentService)
         {
             _attendanceRepository = attendanceRepository;
+            _studentService = studentService;
         }
 
         public async Task<IEnumerable<Attendance>> GetAllAttendancesAsync()
         {
             return await _attendanceRepository.GetAllAsync();
+        }
+
+        public async Task<List<Student>>GetStudentsForAttendance(int courseId)
+        {
+            var data = await _studentService.GetStudentsForAttendance(courseId);
+            return data;
         }
 
         public async Task<Attendance> GetAttendanceByIdAsync(int id)

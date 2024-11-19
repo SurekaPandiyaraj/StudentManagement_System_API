@@ -4,7 +4,7 @@
     {
         public int AttendanceId { get; set; }  // Primary Key
         public int TimetableId { get; set; }  // Foreign Key from Timetable
-        public int StudentId { get; set; }  // Foreign Key from Student
+        public string UTNumber { get; set; }  // Foreign Key from Student
         public DateTime Date { get; set; }
         public string AttendanceStatus { get; set; }  // Present or Absent
 

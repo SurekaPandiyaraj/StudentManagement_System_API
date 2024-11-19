@@ -11,6 +11,7 @@ namespace StudentManagement_System_API.Service
     {
         private readonly UserRepository _repository;
 
+
         public UserService(UserRepository repository)
         {
             _repository = repository;

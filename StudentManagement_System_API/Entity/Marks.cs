@@ -4,7 +4,7 @@
     {
         public int MarksId { get; set; }
         public int ExamId { get; set; }
-        public int StudentId { get; set; }
+        public string UTNumber { get; set; }
         public int MarksObtained { get; set; }
         public string ApprovalStatus { get; set; } // Pending or Approved
 

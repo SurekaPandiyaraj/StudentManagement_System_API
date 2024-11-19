@@ -19,7 +19,7 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserResponseDto>> CreateUser( UserRequestDto userRequestDto)
+        public async Task<ActionResult<UserResponseDto>> CreateUser(UserRequestDto userRequestDto)
         {
             var createdUser = await _userService.CreateUserAsync(userRequestDto);
             return Ok(createdUser);

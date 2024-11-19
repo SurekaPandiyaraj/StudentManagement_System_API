@@ -24,6 +24,14 @@ namespace StudentManagement_System_API.Controllers
             return Ok(attendances);
         }
 
+        // GET: api/Attendance
+        [HttpGet("Get-Students")]
+        public async Task<ActionResult<IEnumerable<Attendance>>> GetStudentsForAttendance(int courseId)
+        {
+            var attendances = await _attendanceService.GetStudentsForAttendance(courseId);
+            return Ok(attendances);
+        }
+
         // GET: api/Attendance/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Attendance>> GetAttendanceById(int id)

@@ -1,7 +1,9 @@
 ﻿using StudentManagement_System_API.DTOs.RequestDTOs;
+using StudentManagement_System_API.DTOs.ResponseDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
+using StudentManagement_System_API.Repository;
 
 namespace StudentManagement_System_API.Service
 {
@@ -24,6 +26,28 @@ namespace StudentManagement_System_API.Service
                 EndTime = timetableRequestDto.EndTime,
                 Location = timetableRequestDto.Location
             };
+        }
+
+        public async Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync()
+        {
+            var timetables = await _repository.GetAllAsync();
+            var timetableDtos = new List<TimetableResponseDto>();
+
+            foreach (var timetable in timetables)
+            {
+                timetableDtos.Add(new TimetableResponseDto
+                {
+                    Id = timetable.Id,
+                    CourseId = timetable.CourseId,
+                    Date = timetable.Date,
+                    StartTime = timetable.StartTime,
+                    EndTime = timetable.EndTime,
+                    Location = timetable.Location,
+                    CourseName = timetable.Course?.CourseName
+                });
+            }
+
+            return timetableDtos;
         }
     }
 }

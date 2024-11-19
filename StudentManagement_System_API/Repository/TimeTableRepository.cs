@@ -1,4 +1,5 @@
-﻿using StudentManagement_System_API.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentManagement_System_API.Database;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 
@@ -16,6 +17,11 @@ namespace StudentManagement_System_API.Repository
         {
             await _context.Timetables.AddAsync(timetable);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Timetable>> GetAllAsync()
+        {
+            return await _context.Timetables.Include(t => t.Course).ToListAsync();
         }
 
     }

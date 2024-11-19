@@ -24,5 +24,9 @@ namespace StudentManagement_System_API.Repository
             return await _context.Timetables.Include(t => t.Course).ToListAsync();
         }
 
+        public async Task<Timetable> GetByIdAsync(int id)
+        {
+            return await _context.Timetables.Include(t => t.Course).FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

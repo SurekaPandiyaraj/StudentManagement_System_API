@@ -49,5 +49,23 @@ namespace StudentManagement_System_API.Service
 
             return timetableDtos;
         }
+
+        public async Task<TimetableResponseDto> GetTimetableByIdAsync(int id)
+        {
+            var timetable = await _repository.GetByIdAsync(id);
+            if (timetable == null)
+                return null;
+
+            return new TimetableResponseDto
+            {
+                Id = timetable.Id,
+                CourseId = timetable.CourseId,
+                Date = timetable.Date,
+                StartTime = timetable.StartTime,
+                EndTime = timetable.EndTime,
+                Location = timetable.Location,
+                CourseName = timetable.Course?.CourseName
+            };
+        }
     }
 }

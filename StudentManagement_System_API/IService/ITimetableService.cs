@@ -7,5 +7,6 @@ namespace StudentManagement_System_API.IService
     {
         Task CreateTimetableAsync(TimetableRequestDto timetableRequestDto);
         Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync();
+        Task<TimetableResponseDto> GetTimetableByIdAsync(int id);
     }
 }

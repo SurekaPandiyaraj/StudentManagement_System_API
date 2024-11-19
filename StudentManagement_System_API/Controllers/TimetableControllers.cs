@@ -33,5 +33,17 @@ namespace StudentManagement_System_API.Controllers
             var timetables = await _timetableService.GetAllTimetablesAsync();
             return Ok(timetables);
         }
+
+        // GET: api/timetable/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TimetableResponseDto>> GetTimetable(int id)
+        {
+            var timetable = await _timetableService.GetTimetableByIdAsync(id);
+            if (timetable == null)
+            {
+                return NotFound();
+            }
+            return Ok(timetable);
+        }
     }
 }

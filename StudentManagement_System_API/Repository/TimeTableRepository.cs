@@ -13,10 +13,11 @@ namespace StudentManagement_System_API.Repository
         {
             _context = context;
         }
-        public async Task CreateAsync(Timetable timetable)
+        public async Task<Timetable> CreateAsync(Timetable timetable)
         {
-            await _context.Timetables.AddAsync(timetable);
+            var data = await _context.Timetables.AddAsync(timetable);
             await _context.SaveChangesAsync();
+            return data.Entity;
         }
 
         public async Task<IEnumerable<Timetable>> GetAllAsync()

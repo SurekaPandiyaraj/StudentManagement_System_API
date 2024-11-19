@@ -4,7 +4,7 @@ namespace StudentManagement_System_API.IRepository
 {
     public interface ITimetableRepository
     {
-        Task CreateAsync(Timetable timetable);
+        Task<Timetable> CreateAsync(Timetable timetable);
         Task<IEnumerable<Timetable>> GetAllAsync();
         Task<Timetable> GetByIdAsync(int id);
         Task UpdateAsync(Timetable timetable);

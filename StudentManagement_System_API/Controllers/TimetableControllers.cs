@@ -22,8 +22,16 @@ namespace StudentManagement_System_API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateTimetable(TimetableRequestDto timetableRequestDto)
         {
-           var data =  _timetableService.CreateTimetableAsync(timetableRequestDto);
-            return Ok(data); 
+            try
+            {
+                var data = _timetableService.CreateTimetableAsync(timetableRequestDto);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         // GET: api/timetable

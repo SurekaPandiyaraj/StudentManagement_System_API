@@ -16,7 +16,7 @@ namespace StudentManagement_System_API.Service
             _repository = repository;
         }
 
-        public async Task CreateTimetableAsync(TimetableRequestDto timetableRequestDto)
+        public async Task<TimetableResponseDto> CreateTimetableAsync(TimetableRequestDto timetableRequestDto)
         {
             var timetable = new Timetable
             {
@@ -26,6 +26,22 @@ namespace StudentManagement_System_API.Service
                 EndTime = timetableRequestDto.EndTime,
                 Location = timetableRequestDto.Location
             };
+            var data = await _repository.CreateAsync(timetable);
+
+            var response = new TimetableResponseDto
+            {
+                Id = timetable.Id,
+                CourseId = timetable.CourseId,
+                Date = timetable.Date,
+                StartTime = timetable.StartTime,
+                EndTime = timetable.EndTime,
+                Location = timetable.Location,
+                CourseName = timetable.Course?.CourseName
+            };
+
+            return response;
+          
+            
         }
 
         public async Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync()

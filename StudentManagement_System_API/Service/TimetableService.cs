@@ -67,5 +67,20 @@ namespace StudentManagement_System_API.Service
                 CourseName = timetable.Course?.CourseName
             };
         }
+
+        public async Task UpdateTimetableAsync(int id, TimetableRequestDto timetableRequestDto)
+        {
+            var existingTimetable = await _repository.GetByIdAsync(id);
+            if (existingTimetable != null)
+            {
+                existingTimetable.CourseId = timetableRequestDto.CourseId;
+                existingTimetable.Date = timetableRequestDto.Date;
+                existingTimetable.StartTime = timetableRequestDto.StartTime;
+                existingTimetable.EndTime = timetableRequestDto.EndTime;
+                existingTimetable.Location = timetableRequestDto.Location;
+
+                await _repository.UpdateAsync(existingTimetable);
+            }
+        }
     }
 }

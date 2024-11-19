@@ -45,5 +45,13 @@ namespace StudentManagement_System_API.Controllers
             }
             return Ok(timetable);
         }
+
+        // PUT: api/timetable/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTimetable(int id, TimetableRequestDto timetableRequestDto)
+        {
+            await _timetableService.UpdateTimetableAsync(id, timetableRequestDto);
+            return NoContent();
+        }
     }
 }

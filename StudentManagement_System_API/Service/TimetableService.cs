@@ -82,5 +82,10 @@ namespace StudentManagement_System_API.Service
                 await _repository.UpdateAsync(existingTimetable);
             }
         }
+
+        public async Task DeleteTimetableAsync(int id)
+        {
+            await _repository.DeleteAsync(id);
+        }
     }
 }

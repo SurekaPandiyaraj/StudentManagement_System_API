@@ -8,5 +8,6 @@ namespace StudentManagement_System_API.IRepository
         Task<IEnumerable<Timetable>> GetAllAsync();
         Task<Timetable> GetByIdAsync(int id);
         Task UpdateAsync(Timetable timetable);
+        Task DeleteAsync(int id);
     }
 }

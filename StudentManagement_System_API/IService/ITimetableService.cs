@@ -9,5 +9,6 @@ namespace StudentManagement_System_API.IService
         Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync();
         Task<TimetableResponseDto> GetTimetableByIdAsync(int id);
         Task UpdateTimetableAsync(int id, TimetableRequestDto timetableRequestDto);
+        Task DeleteTimetableAsync(int id);
     }
 }

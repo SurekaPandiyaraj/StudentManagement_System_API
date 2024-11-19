@@ -53,5 +53,13 @@ namespace StudentManagement_System_API.Controllers
             await _timetableService.UpdateTimetableAsync(id, timetableRequestDto);
             return NoContent();
         }
+
+        // DELETE: api/timetable/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTimetable(int id)
+        {
+            await _timetableService.DeleteTimetableAsync(id);
+            return NoContent();
+        }
     }
 }

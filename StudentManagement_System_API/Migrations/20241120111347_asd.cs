@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagement_System_API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class asd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace StudentManagement_System_API.Migrations
                     CourseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,14 +139,15 @@ namespace StudentManagement_System_API.Migrations
                 name: "Enrollments",
                 columns: table => new
                 {
-                    UTNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    EnrolledDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EnrolledDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentUTNumber = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enrollments", x => new { x.UTNumber, x.CourseId });
+                    table.PrimaryKey("PK_Enrollments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Enrollments_Courses_CourseId",
                         column: x => x.CourseId,
@@ -153,11 +155,10 @@ namespace StudentManagement_System_API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollments_Students_UTNumber",
-                        column: x => x.UTNumber,
+                        name: "FK_Enrollments_Students_StudentUTNumber",
+                        column: x => x.StudentUTNumber,
                         principalTable: "Students",
-                        principalColumn: "UTNumber",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UTNumber");
                 });
 
             migrationBuilder.CreateTable(
@@ -202,6 +203,11 @@ namespace StudentManagement_System_API.Migrations
                 name: "IX_Enrollments_CourseId",
                 table: "Enrollments",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_StudentUTNumber",
+                table: "Enrollments",
+                column: "StudentUTNumber");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exams_CourseId",

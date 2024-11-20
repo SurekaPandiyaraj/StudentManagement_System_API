@@ -24,7 +24,7 @@ namespace StudentManagement_System_API.Controllers
         {
             try
             {
-                var data = _timetableService.CreateTimetableAsync(timetableRequestDto);
+                var data = await _timetableService.CreateTimetableAsync(timetableRequestDto);
                 return Ok(data);
             }
             catch (Exception ex)

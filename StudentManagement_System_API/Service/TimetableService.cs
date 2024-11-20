@@ -30,13 +30,13 @@ namespace StudentManagement_System_API.Service
 
             var response = new TimetableResponseDto
             {
-                Id = timetable.Id,
-                CourseId = timetable.CourseId,
-                Date = timetable.Date,
-                StartTime = timetable.StartTime,
-                EndTime = timetable.EndTime,
-                Location = timetable.Location,
-                CourseName = timetable.Course?.CourseName
+                Id = data.Id,
+                CourseId = data.CourseId,
+                Date = data.Date,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Location = data.Location,
+                CourseName = data.Course?.CourseName
             };
 
             return response;

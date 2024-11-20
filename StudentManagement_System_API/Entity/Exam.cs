@@ -8,8 +8,9 @@
         public int? MaximumMarks { get; set; }
         public int? CutOffMarks { get; set; }
 
+
         // Navigation properties
-        public Course? Course { get; set; }  // One-to-many with Course
+        public Course Course { get; set; }  // One-to-many with Course
         public ICollection<Marks>? Marks { get; set; }  // One-to-many with Marks
     }
 

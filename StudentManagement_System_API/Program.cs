@@ -49,6 +49,13 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IExamService, ExamService>();
 
 
+            builder.Services.AddScoped <ICourseRepository,CourseRepository>();
+            builder.Services.AddScoped<ICourseService,CourseService>();
+
+            builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            builder.Services.AddScoped<IEntrollementService, EnrollmentService>();
+
+
 
             builder.Services.AddCors(opt =>
             {

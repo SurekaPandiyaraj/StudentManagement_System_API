@@ -20,7 +20,7 @@ namespace StudentManagement_System_API
 
             // Add services to the container.
 
-            // builder.Services.AddControllers();
+            
             builder.Services.AddControllers()
              .AddJsonOptions(options =>
              {
@@ -32,15 +32,27 @@ namespace StudentManagement_System_API
 
             builder.Services.AddDbContext<StudentManagementContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("StudentDBConnection")));
 
-            //var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]));
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
-            //builder.Services.AddAuthentication()
-            //    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        IssuerSigningKey = key,
-            //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            //        ValidAudience = builder.Configuration["Jwt:Audience"],
-            //    });
+            builder.Services.AddAuthentication()
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = jwtSettings["Issuer"],
+                      ValidAudience = jwtSettings["Audience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(key)
+                  };
+              });
+
+            
+
+            builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
+            builder.Services.AddScoped<ITimetableService, TimetableService>();
 
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();
@@ -55,6 +67,8 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<IEntrollementService, EnrollmentService>();
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 
             builder.Services.AddCors(opt =>

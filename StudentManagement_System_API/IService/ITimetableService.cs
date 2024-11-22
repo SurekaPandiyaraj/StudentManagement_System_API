@@ -1,6 +1,14 @@
-﻿namespace StudentManagement_System_API.IService
+﻿using StudentManagement_System_API.DTOs.RequestDTOs;
+using StudentManagement_System_API.DTOs.ResponseDTOs;
+
+namespace StudentManagement_System_API.IService
 {
     public interface ITimetableService
     {
+        Task<TimetableResponseDto> CreateTimetableAsync(TimetableRequestDto timetableRequestDto);
+        Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync();
+        Task<TimetableResponseDto> GetTimetableByIdAsync(int id);
+        Task UpdateTimetableAsync(int id, TimetableRequestDto timetableRequestDto);
+        Task DeleteTimetableAsync(int id);
     }
 }

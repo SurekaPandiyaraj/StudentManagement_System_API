@@ -20,7 +20,7 @@ namespace StudentManagement_System_API
 
             // Add services to the container.
 
-            // builder.Services.AddControllers();
+          
             builder.Services.AddControllers()
              .AddJsonOptions(options =>
              {
@@ -56,17 +56,25 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 
-            builder.Services.AddCors(opt =>
-            {
-                opt.AddPolicy(
-                   name: "CORSPolicy",
-                   builder =>
-                   {
-                       builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
 
-                   }
-                   );
-            });
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
+            builder.Services.AddAuthentication()
+              .AddJwtBearer(options =>
+        {
+         options.TokenValidationParameters = new TokenValidationParameters
+          { 
+             ValidateIssuer = true,
+             ValidateAudience = true,
+             ValidateIssuerSigningKey = true,
+             ValidIssuer = jwtSettings["Issuer"],
+             ValidAudience = jwtSettings["Audience"],
+             IssuerSigningKey = new SymmetricSecurityKey(key)
+         };
+        });
 
 
             var app = builder.Build();

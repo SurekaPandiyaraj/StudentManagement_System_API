@@ -56,20 +56,17 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy(
+                   name: "CORSPolicy",
+                   builder =>
+                   {
+                       builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
 
-
-
-            //builder.Services.AddCors(opt =>
-            //{
-            //    opt.AddPolicy(
-            //       name: "CORSPolicy",
-            //       builder =>
-            //       {
-            //           builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
-
-            //       }
-            //       );
-            //});
+                   }
+                   );
+            });
 
 
             var app = builder.Build();
@@ -78,7 +75,7 @@ namespace StudentManagement_System_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("CORSPolicy");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

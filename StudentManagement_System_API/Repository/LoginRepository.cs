@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.Documents;
+﻿
 using Microsoft.EntityFrameworkCore;
 using StudentManagement_System_API.Database;
 using StudentManagement_System_API.Entity;

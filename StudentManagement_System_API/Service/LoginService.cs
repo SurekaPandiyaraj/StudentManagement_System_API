@@ -1,11 +1,10 @@
-﻿using Microsoft.Azure.Documents;
+﻿
 using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.DTOs.RequestDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 
@@ -60,7 +59,7 @@ namespace StudentManagement_System_API.Service
             claimsList.Add(new Claim("UserRole", user.Id.ToString()));
 
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-            var credintials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"],
                 claims: claimsList,
                 expires: DateTime.Now.AddDays(30),

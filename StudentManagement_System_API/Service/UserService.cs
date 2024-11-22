@@ -23,7 +23,7 @@ namespace StudentManagement_System_API.Service
                 Id = Guid.NewGuid().ToString(),  // Assuming GUID as ID generator for the user
                 Name = userRequestDTO.Name,
                 Email = userRequestDTO.Email,
-                Password = userRequestDTO.Password,
+                PasswordHash = userRequestDTO.Password,
                 UserRole = userRequestDTO.UserRole
             };
 
@@ -78,7 +78,7 @@ namespace StudentManagement_System_API.Service
             // Manually update User entity from UserRequestDTO
             user.Name = userRequestDTO.Name;
             user.Email = userRequestDTO.Email;
-            user.Password = userRequestDTO.Password;
+            user.PasswordHash = userRequestDTO.Password;
             user.UserRole = userRequestDTO.UserRole;
 
             await _repository.UpdateUserAsync(user);

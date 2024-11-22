@@ -1,5 +1,6 @@
-﻿using StudentManagement_System_API.DTOs.RequestDTOs;
-using StudentManagement_System_API.DTOs.ResponseDTOs;
+﻿
+using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
@@ -16,7 +17,7 @@ namespace StudentManagement_System_API.Service
             _repository = repository;
         }
 
-        public async Task<TimetableResponseDto> CreateTimetableAsync(TimetableRequestDto timetableRequestDto)
+        public async Task<TimetableResponceDTO> CreateTimetableAsync(TimetableRequestDTO timetableRequestDto)
         {
             var timetable = new Timetable
             {
@@ -28,7 +29,7 @@ namespace StudentManagement_System_API.Service
             };
             var data = await _repository.CreateAsync(timetable);
 
-            var response = new TimetableResponseDto
+            var response = new TimetableResponceDTO
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
@@ -36,7 +37,7 @@ namespace StudentManagement_System_API.Service
                 StartTime = data.StartTime,
                 EndTime = data.EndTime,
                 Location = data.Location,
-                CourseName = data.Course?.CourseName
+             //   CourseName = data.Course?.CourseName
             };
 
             return response;
@@ -44,14 +45,14 @@ namespace StudentManagement_System_API.Service
             
         }
 
-        public async Task<IEnumerable<TimetableResponseDto>> GetAllTimetablesAsync()
+        public async Task<IEnumerable<TimetableResponceDTO>> GetAllTimetablesAsync()
         {
             var timetables = await _repository.GetAllAsync();
-            var timetableDtos = new List<TimetableResponseDto>();
+            var timetableDtos = new List<TimetableResponceDTO>();
 
             foreach (var timetable in timetables)
             {
-                timetableDtos.Add(new TimetableResponseDto
+                timetableDtos.Add(new TimetableResponceDTO
                 {
                     Id = timetable.Id,
                     CourseId = timetable.CourseId,
@@ -59,20 +60,20 @@ namespace StudentManagement_System_API.Service
                     StartTime = timetable.StartTime,
                     EndTime = timetable.EndTime,
                     Location = timetable.Location,
-                    CourseName = timetable.Course?.CourseName
+                 //   CourseName = timetable.Course?.CourseName
                 });
             }
 
             return timetableDtos;
         }
 
-        public async Task<TimetableResponseDto> GetTimetableByIdAsync(int id)
+        public async Task<TimetableResponceDTO> GetTimetableByIdAsync(int id)
         {
             var timetable = await _repository.GetByIdAsync(id);
             if (timetable == null)
                 return null;
 
-            return new TimetableResponseDto
+            return new TimetableResponceDTO
             {
                 Id = timetable.Id,
                 CourseId = timetable.CourseId,
@@ -80,11 +81,11 @@ namespace StudentManagement_System_API.Service
                 StartTime = timetable.StartTime,
                 EndTime = timetable.EndTime,
                 Location = timetable.Location,
-                CourseName = timetable.Course?.CourseName
+              //  CourseName = timetable.Course?.CourseName
             };
         }
 
-        public async Task UpdateTimetableAsync(int id, TimetableRequestDto timetableRequestDto)
+        public async Task UpdateTimetableAsync(int id, TimetableRequestDTO timetableRequestDto)
         {
             var existingTimetable = await _repository.GetByIdAsync(id);
             if (existingTimetable != null)

@@ -6,7 +6,10 @@ namespace StudentManagement_System_API.IRepository
 {
     public interface ILoginRepository
     {
-        Task<User> AddUser(User user);
-        Task<User> GetUserByUserId(string userId);
+        Task<Timetable> CreateTimetableAsync(Timetable timetable);
+        Task<List<Timetable>> GetTimetablesAsync();
+        Task<Timetable> GetTimetableById(DateTime Date);
+        Task<Timetable> UpdateTimetable(Timetable timetable);
+        Task DeleteTimetable(DateTime Date);
     }
 }

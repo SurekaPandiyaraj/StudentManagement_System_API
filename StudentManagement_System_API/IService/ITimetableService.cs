@@ -7,10 +7,10 @@ namespace StudentManagement_System_API.IService
 {
     public interface ITimetableService
     {
-        Task<TimetableResponceDTO> CreateTimetableAsync(TimetableRequestDTO timetableRequestDto);
-        Task<IEnumerable<TimetableResponceDTO>> GetAllTimetablesAsync();
-        Task<TimetableResponceDTO> GetTimetableByIdAsync(int id);
-        Task UpdateTimetableAsync(int id, TimetableRequestDTO timetableRequestDto);
-        Task DeleteTimetableAsync(int id);
+        Task<TimetableResponceDTO> CreateTable(TimetableRequestDTO timetableRequestDTO)
+         Task<TimetableResponceDTO> GetTimetableById(DateTime Date);
+        Task<TimetableResponceDTO> UpdateTimetable(DateTime Date, TimetableRequestDTO timetableRequestDTO);
+        Task DeleteTable(DateTime Date);
+       
     }
 }

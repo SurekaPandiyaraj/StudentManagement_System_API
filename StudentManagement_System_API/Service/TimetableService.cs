@@ -83,5 +83,10 @@ namespace StudentManagement_System_API.Service
             };
             return req;
         }
+
+        public async Task DeleteTable(DateTime Date)
+        {
+            await _repository.DeleteTimetable(Date);
+        }
     }
 }

@@ -50,7 +50,18 @@ namespace StudentManagement_System_API.Repository
 
             await _context.SaveChangesAsync();
             return data;
+        }
 
+        public async Task DeleteTimetable(DateTime Date)
+        {
+            var data = await GetTimetableById(Date);
+            if (data != null)
+            {
+                data.IsDelete = true;
+                _context.Timetables.Update(data);
+                await _context.SaveChangesAsync();
+
+            }
         }
 
     }

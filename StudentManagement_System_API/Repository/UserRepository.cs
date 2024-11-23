@@ -16,35 +16,59 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<User> CreateUserAsync(User user)
         {
-            _context.Set<User>().Add(user);
+            var data = await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
-            return user;
+            return data.Entity;
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return await _context.Set<User>().ToListAsync();
+            var data = await _context.Users.Where(a => !a.IsDelete).ToListAsync();
+            return data;
         }
 
-        public async Task<User> GetUserByIdAsync(string id)
+        public async Task<User> GetUserByIdAsync(Guid Id)
         {
-            return await _context.Set<User>().FindAsync(id);
+            var data = await _context.Users.FirstOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+            return data;
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task<User> GetUserByUserId (string UserId)
         {
-            _context.Set<User>().Update(user);
+            var data = await _context.Users.FirstOrDefaultAsync(x => x.UserId == UserId && !x.IsDelete);
+            return data;
+        }
+
+        public async Task<User> UpdateUserAsync(User user)
+        {
+            var data = await GetUserByIdAsync(user.Id);
+
+            if (data == null) return null;
+            
+            data.UserId = user.UserId;
+            data.Name = user.Name;
+            data.Email = user.Email;
+            data.PasswordHash = user.PasswordHash;
+            data.UserRole = user.UserRole;
+
             await _context.SaveChangesAsync();
+
+            return data;
+
+
         }
 
-        public async Task DeleteUserAsync(string id)
+        public async Task DeleteUserAsync(Guid Id)
         {
-            var user = await _context.Set<User>().FindAsync(id);
-            if (user != null)
+            var data = await GetUserByIdAsync(Id);
+            if (data != null)
             {
-                _context.Set<User>().Remove(user);
+                data.IsDelete = true;
+                _context.Users.Update(data);
                 await _context.SaveChangesAsync();
+
             }
+
         }
     }
 }

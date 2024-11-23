@@ -14,78 +14,118 @@ namespace StudentManagement_System_API.Service
         {
             _repository = repository;
         }
-        public async Task<UserResponseDTOs> CreateUserAsync(UserRequestDTOs userRequestDTO)
+
+        public async Task<UserResponseDTOs> CreateUser(UserRequestDTOs userRequestDTOs)
         {
-            // Manually map UserRequestDTO to User entity
             var user = new User
             {
-                Id = Guid.NewGuid().ToString(),  // Assuming GUID as ID generator for the user
-                Name = userRequestDTO.Name,
-                Email = userRequestDTO.Email,
-                PasswordHash = userRequestDTO.Password,
-                UserRole = userRequestDTO.UserRole
+                Id = Guid.NewGuid(),
+                UserId = userRequestDTOs.UserId,
+                Name = userRequestDTOs.Name,
+                Email = userRequestDTOs.Email,
+                PasswordHash = userRequestDTOs.Password,
+                UserRole = userRequestDTOs.UserRole,
+
+
             };
 
-            var createdUser = await _repository.CreateUserAsync(user);
+            var data = await _repository.CreateUserAsync(user);
 
-            // Return the response DTO after creation
-            return new UserResponseDTOs
+            var resuser = new UserResponseDTOs
             {
-                Id = createdUser.Id,
-                Name = createdUser.Name,
-                Email = createdUser.Email,
-                UserRole = createdUser.UserRole
+                Id = data.Id,
+                UserId = data.UserId,
+                Name = data.Name,
+                Email = data.Email,
+                Password = data.PasswordHash,
+                UserRole = data.UserRole,
+                IsDeleted = data.IsDelete,
             };
+            return resuser;
         }
 
-        public async Task<IEnumerable<UserResponseDTOs>> GetAllUsersAsync()
+        public async Task<UserResponseDTOs> GetUserById (Guid id) 
         {
-            var users = await _repository.GetUsersAsync();
-
-            // Manually map User to UserResponseDTO for each user
-            var userDtos = users.Select(user => new UserResponseDTOs
+            var data = await _repository.GetUserByIdAsync(id);
+            var resuser = new UserResponseDTOs
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                UserRole = user.UserRole
-            });
-
-            return userDtos;
-        }
-
-        public async Task<UserResponseDTOs> GetUserAsync(string id)
-        {
-            var user = await _repository.GetUserByIdAsync(id);
-            if (user == null) return null;
-
-            // Manually map User to UserResponseDTO
-            return new UserResponseDTOs
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                UserRole = user.UserRole
+                Id = data.Id,
+                UserId = data.UserId,
+                Name = data.Name,
+                Email = data.Email,
+                Password = data.PasswordHash,
+                UserRole = data.UserRole,
+                IsDeleted = data.IsDelete,
             };
+            return resuser;
         }
 
-        public async Task UpdateUserAsync(string id, UserRequestDTOs userRequestDTO)
+        public async Task<List<UserResponseDTOs>> GetAllUsers()
         {
-            var user = await _repository.GetUserByIdAsync(id);
-            if (user == null) return;
+            var data = await _repository.GetUsersAsync();
 
-            // Manually update User entity from UserRequestDTO
-            user.Name = userRequestDTO.Name;
-            user.Email = userRequestDTO.Email;
-            user.PasswordHash = userRequestDTO.Password;
-            user.UserRole = userRequestDTO.UserRole;
-
-            await _repository.UpdateUserAsync(user);
+            var resusers = data.Select(x => new UserResponseDTOs
+            {
+                Id = x.Id,
+                UserId = x.UserId,
+                Name = x.Name,
+                Email = x.Email,
+                Password = x.PasswordHash,
+                UserRole = x.UserRole,
+                IsDeleted = x.IsDelete,
+            }).ToList(); ;
+            return resusers;
         }
 
-        public async Task DeleteUserAsync(string id)
+        public async Task<UserResponseDTOs> GetUserByUserId(string userId)
         {
-            await _repository.DeleteUserAsync(id);
+            var data = await _repository.GetUserByUserId(userId);
+
+            var resusers = new UserResponseDTOs
+            {
+                Id = data.Id,
+                UserId = data.UserId,
+                Name = data.Name,
+                Email = data.Email,
+                Password = data.PasswordHash,
+                UserRole = data.UserRole,
+                IsDeleted = data.IsDelete,
+            };
+            return resusers;
+        }
+
+        public async Task<UserResponseDTOs> UpdateUser(Guid UserId, UserRequestDTOs userrequest)
+        {
+            var user = new User
+            {
+                Id = UserId,
+                UserId = userrequest.UserId,
+                Name = userrequest.Name,
+                Email = userrequest.Email,
+                PasswordHash = userrequest.Password,
+                UserRole = userrequest.UserRole
+
+            };
+            var data = await _repository.UpdateUserAsync(user);
+
+            var resUser = new UserResponseDTOs
+            {
+                Id = data.Id,
+                UserId = data.UserId,
+                Name = data.Name,
+                Email = data.Email,
+                Password = data.PasswordHash,
+                UserRole = data.UserRole,
+                IsDeleted = data.IsDelete
+
+            };
+            return resUser;
+        }
+
+        public async Task Deleteuser (Guid Id)
+        {
+            await _repository.DeleteUserAsync(Id);
         }
     }
 }
+     

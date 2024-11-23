@@ -32,27 +32,27 @@ namespace StudentManagement_System_API
 
             builder.Services.AddDbContext<StudentManagementContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("StudentDBConnection")));
 
-            var jwtSettings = builder.Configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+            //var jwtSettings = builder.Configuration.GetSection("Jwt");
+            //var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
-            builder.Services.AddAuthentication()
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = jwtSettings["Issuer"],
-                      ValidAudience = jwtSettings["Audience"],
-                      IssuerSigningKey = new SymmetricSecurityKey(key)
-                  };
-              });
+            //builder.Services.AddAuthentication()
+            //  .AddJwtBearer(options =>
+            //  {
+            //      options.TokenValidationParameters = new TokenValidationParameters
+            //      {
+            //          ValidateIssuer = true,
+            //          ValidateAudience = true,
+            //          ValidateIssuerSigningKey = true,
+            //          ValidIssuer = jwtSettings["Issuer"],
+            //          ValidAudience = jwtSettings["Audience"],
+            //          IssuerSigningKey = new SymmetricSecurityKey(key)
+            //      };
+            //  });
 
             
 
-            builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
-            builder.Services.AddScoped<ITimetableService, TimetableService>();
+            //builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
+            //builder.Services.AddScoped<ITimetableService, TimetableService>();
 
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();
@@ -71,19 +71,19 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IUserService, UserService>();
 
 
-            builder.Services.AddAuthentication()
-              .AddJwtBearer(options =>
-        {
-         options.TokenValidationParameters = new TokenValidationParameters
-          { 
-             ValidateIssuer = true,
-             ValidateAudience = true,
-             ValidateIssuerSigningKey = true,
-             ValidIssuer = jwtSettings["Issuer"],
-             ValidAudience = jwtSettings["Audience"],
-             IssuerSigningKey = new SymmetricSecurityKey(key)
-         };
-        });
+        //    builder.Services.AddAuthentication()
+        //      .AddJwtBearer(options =>
+        //{
+        // options.TokenValidationParameters = new TokenValidationParameters
+        //  { 
+        //     ValidateIssuer = true,
+        //     ValidateAudience = true,
+        //     ValidateIssuerSigningKey = true,
+        //     ValidIssuer = jwtSettings["Issuer"],
+        //     ValidAudience = jwtSettings["Audience"],
+        //     IssuerSigningKey = new SymmetricSecurityKey(key)
+        // };
+        //});
 
 
             var app = builder.Build();

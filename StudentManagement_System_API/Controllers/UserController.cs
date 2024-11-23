@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement_System_API.DTOs.RequestDTOs;
-using StudentManagement_System_API.DTOs.ResponseDTOs;
+using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.IService;
 
 namespace StudentManagement_System_API.Controllers
@@ -17,45 +16,45 @@ namespace StudentManagement_System_API.Controllers
             _userService = userService;
         }
 
-        // Create user
         [HttpPost]
-        public async Task<ActionResult<UserResponseDTO>> CreateUser([FromBody] UserRequestDTO userRequestDTO)
+        public async Task<IActionResult> CreateUser(UserRequestDTOs userRequestDTOs)
         {
-            var createdUser = await _userService.CreateUserAsync(userRequestDTO);
-            return Ok(createdUser);
+            var data = await _userService.CreateUser(userRequestDTOs);
+            return Ok(data);
         }
 
-        // Get all users
+        [HttpGet("Get_user")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var data = await _userService.GetAllUsers();
+            return Ok(data);
+        }
+        [HttpGet("{Id}")]
+
+        public async Task<IActionResult> GetUserId(Guid Id)
+        {
+            var data = await _userService.GetUserById(Id);
+            return Ok(data);
+        }
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetAllUsers()
+        public async Task<IActionResult> GetUserUserId(string UserId)
         {
-            var users = await _userService.GetAllUsersAsync();
-            return Ok(users);
+            var data = await _userService.GetUserByUserId(UserId);
+            return Ok(data);
         }
 
-        // Get user by ID
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserResponseDTO>> GetUser(string id)
+        [HttpPut]
+        public async Task<IActionResult> Updateuser(Guid Id, UserRequestDTOs userRequestDTOs)
         {
-            var user = await _userService.GetUserAsync(id);
-            if (user == null) return NotFound();
-
-            return Ok(user);
+            var data = await _userService.UpdateUser(Id, userRequestDTOs);
+            return Ok(data);
         }
 
-        // Update user
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserRequestDTO userRequestDTO)
+        [HttpDelete]
+        public async Task<IActionResult> Deleteuser(Guid Id)
         {
-            await _userService.UpdateUserAsync(id, userRequestDTO);
-            return NoContent();
-        }
-
-        // Delete user
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
-        {
-            await _userService.DeleteUserAsync(id);
+            await _userService.Deleteuser(Id);
             return NoContent();
         }
     }

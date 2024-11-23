@@ -12,11 +12,10 @@ namespace StudentManagement_System_API.Controllers
     {
         private readonly ExamService _examService;
 
-        public ExamControllers(ExamService examService)
+        public ExamControllers(IExamService examService)
         {
             _examService = examService;
         }
-
 
         // GET: api/exams
         [HttpGet]

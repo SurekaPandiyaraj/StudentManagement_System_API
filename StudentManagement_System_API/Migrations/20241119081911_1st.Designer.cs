@@ -12,15 +12,20 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
+<<<<<<<< HEAD:StudentManagement_System_API/Migrations/20241119081911_1st.Designer.cs
     [Migration("20241119081911_1st")]
     partial class _1st
+========
+    [Migration("20241120111347_asd")]
+    partial class asd
+>>>>>>>> b61b71b96fef75be048c259fd380787f88eb1a9d:StudentManagement_System_API/Migrations/20241120111347_asd.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -74,6 +79,9 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -84,8 +92,11 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Enrollment", b =>
                 {
-                    b.Property<string>("UTNumber")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -93,12 +104,14 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<DateTime>("EnrolledDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentUTNumber")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UTNumber", "CourseId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentUTNumber");
 
                     b.ToTable("Enrollments");
                 });
@@ -259,21 +272,17 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Enrollment", b =>
                 {
-                    b.HasOne("StudentManagement_System_API.Entity.Course", "Course")
+                    b.HasOne("StudentManagement_System_API.Entity.Course", "course")
                         .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentManagement_System_API.Entity.Student", "Student")
+                    b.HasOne("StudentManagement_System_API.Entity.Student", null)
                         .WithMany("Enrollments")
-                        .HasForeignKey("UTNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentUTNumber");
 
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
+                    b.Navigation("course");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Exam", b =>

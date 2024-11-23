@@ -9,6 +9,5 @@ namespace StudentManagement_System_API.IRepository
         Task AddAsync(Exam exam);
         Task UpdateAsync(Exam exam);
         Task DeleteAsync(int id);
-
     }
 }

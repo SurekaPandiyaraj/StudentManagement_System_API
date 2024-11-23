@@ -20,7 +20,7 @@ namespace StudentManagement_System_API
 
             // Add services to the container.
 
-          
+            
             builder.Services.AddControllers()
              .AddJsonOptions(options =>
              {
@@ -32,8 +32,24 @@ namespace StudentManagement_System_API
 
             builder.Services.AddDbContext<StudentManagementContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("StudentDBConnection")));
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
+            builder.Services.AddAuthentication()
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = jwtSettings["Issuer"],
+                      ValidAudience = jwtSettings["Audience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(key)
+                  };
+              });
+
+            
 
             builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
             builder.Services.AddScoped<ITimetableService, TimetableService>();
@@ -41,26 +57,19 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
-            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-            builder.Services.AddScoped<ICourseService, CourseService>();
-
             builder.Services.AddScoped<IExamRepository, ExamRepository>();
             builder.Services.AddScoped<IExamService, ExamService>();
 
-            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-            builder.Services.AddScoped<IStudentService, StudentService>();
 
-            builder.Services.AddScoped<IMarksRepository, MarksRepository>();
-            builder.Services.AddScoped<IMarksService, MarksService>();
+            builder.Services.AddScoped <ICourseRepository,CourseRepository>();
+            builder.Services.AddScoped<ICourseService,CourseService>();
 
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-            builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+            builder.Services.AddScoped<IEntrollementService, EnrollmentService>();
 
-            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-            builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
-            var jwtSettings = builder.Configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
             builder.Services.AddAuthentication()
               .AddJwtBearer(options =>

@@ -6,7 +6,6 @@ namespace StudentManagement_System_API.Service
 {
     public class ExamService : IExamService
     {
-        
         private readonly IExamRepository _examRepository;
 
         public ExamService(IExamRepository examRepository)
@@ -40,4 +39,3 @@ namespace StudentManagement_System_API.Service
         }
     }
 }
-    

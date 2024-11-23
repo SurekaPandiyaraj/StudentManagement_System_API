@@ -9,6 +9,5 @@ namespace StudentManagement_System_API.IService
         Task CreateAttendanceAsync(Attendance attendance);
         Task UpdateAttendanceAsync(Attendance attendance);
         Task DeleteAttendanceAsync(int id);
-        Task<List<Student>> GetStudentsForAttendance(int courseId);
     }
 }

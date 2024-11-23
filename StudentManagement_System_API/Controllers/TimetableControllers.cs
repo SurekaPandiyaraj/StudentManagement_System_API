@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentManagement_System_API.DTOs.RequestDTOs;
-using StudentManagement_System_API.DTOs.ResponseDTOs;
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
 
@@ -37,7 +36,7 @@ namespace StudentManagement_System_API.Controllers
 
         // GET: api/timetable
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TimetableResponseDto>>> GetTimetables()
+        public async Task<ActionResult<IEnumerable<TimetableResponceDTO>>> GetTimetables()
         {
             var timetables = await _timetableService.GetAllTimetablesAsync();
             return Ok(timetables);
@@ -45,7 +44,7 @@ namespace StudentManagement_System_API.Controllers
 
         // GET: api/timetable/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TimetableResponseDto>> GetTimetable(int id)
+        public async Task<ActionResult<TimetableResponceDTO>> GetTimetable(int id)
         {
             var timetable = await _timetableService.GetTimetableByIdAsync(id);
             if (timetable == null)

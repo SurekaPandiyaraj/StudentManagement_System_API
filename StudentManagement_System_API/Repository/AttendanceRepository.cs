@@ -52,6 +52,15 @@ namespace StudentManagement_System_API.Repository
             }
         }
 
+        Task<IEnumerable<Attendance>> IAttendanceRepository.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Attendance> IAttendanceRepository.GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

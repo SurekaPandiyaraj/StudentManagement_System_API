@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents;
-using Microsoft.Identity.Client;
-using StudentManagement_System_API.DTOs.RequestDTOs;
-using StudentManagement_System_API.Entity;
+using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.IService;
 
 namespace StudentManagement_System_API.Controllers
@@ -21,7 +18,7 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserRequestDTO user)
+        public async Task<IActionResult> Register(UserRequestDTOs user)
         {
             try
             {
@@ -35,7 +32,7 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string userId,string password)
+        public async Task<IActionResult> Login(string userId, string password)
         {
             try
             {
@@ -64,3 +61,4 @@ namespace StudentManagement_System_API.Controllers
         }
     }
 }
+

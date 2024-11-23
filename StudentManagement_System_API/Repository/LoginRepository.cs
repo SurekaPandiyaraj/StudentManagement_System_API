@@ -6,9 +6,10 @@ using StudentManagement_System_API.IRepository;
 
 namespace StudentManagement_System_API.Repository
 {
-    public class LoginRepository: ILoginRepository
+    public class LoginRepository : ILoginRepository
+
     {
-        private readonly  StudentManagementContext _context;
+        private readonly StudentManagementContext _context;
         public LoginRepository(StudentManagementContext context)
         {
             _context = context;

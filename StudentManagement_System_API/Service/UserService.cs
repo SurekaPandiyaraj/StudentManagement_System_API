@@ -1,9 +1,8 @@
-﻿using StudentManagement_System_API.DTOs.RequestDTOs;
-using StudentManagement_System_API.DTOs.ResponseDTOs;
+﻿using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
-using StudentManagement_System_API.Repository;
 
 namespace StudentManagement_System_API.Service
 {
@@ -15,7 +14,7 @@ namespace StudentManagement_System_API.Service
         {
             _repository = repository;
         }
-        public async Task<UserResponseDTO> CreateUserAsync(UserRequestDTO userRequestDTO)
+        public async Task<UserResponseDTOs> CreateUserAsync(UserRequestDTOs userRequestDTO)
         {
             // Manually map UserRequestDTO to User entity
             var user = new User
@@ -30,7 +29,7 @@ namespace StudentManagement_System_API.Service
             var createdUser = await _repository.CreateUserAsync(user);
 
             // Return the response DTO after creation
-            return new UserResponseDTO
+            return new UserResponseDTOs
             {
                 Id = createdUser.Id,
                 Name = createdUser.Name,
@@ -39,12 +38,12 @@ namespace StudentManagement_System_API.Service
             };
         }
 
-        public async Task<IEnumerable<UserResponseDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserResponseDTOs>> GetAllUsersAsync()
         {
             var users = await _repository.GetUsersAsync();
 
             // Manually map User to UserResponseDTO for each user
-            var userDtos = users.Select(user => new UserResponseDTO
+            var userDtos = users.Select(user => new UserResponseDTOs
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -55,13 +54,13 @@ namespace StudentManagement_System_API.Service
             return userDtos;
         }
 
-        public async Task<UserResponseDTO> GetUserAsync(string id)
+        public async Task<UserResponseDTOs> GetUserAsync(string id)
         {
             var user = await _repository.GetUserByIdAsync(id);
             if (user == null) return null;
 
             // Manually map User to UserResponseDTO
-            return new UserResponseDTO
+            return new UserResponseDTOs
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -70,7 +69,7 @@ namespace StudentManagement_System_API.Service
             };
         }
 
-        public async Task UpdateUserAsync(string id, UserRequestDTO userRequestDTO)
+        public async Task UpdateUserAsync(string id, UserRequestDTOs userRequestDTO)
         {
             var user = await _repository.GetUserByIdAsync(id);
             if (user == null) return;

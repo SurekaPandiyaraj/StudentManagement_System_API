@@ -1,9 +1,10 @@
 ﻿
 using Microsoft.IdentityModel.Tokens;
-using StudentManagement_System_API.DTOs.RequestDTOs;
+using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
+using StudentManagement_System_API.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +13,7 @@ namespace StudentManagement_System_API.Service
 {
     public class LoginService : ILoginService
     {
+
         private readonly ILoginRepository _loginRepository;
         private readonly IConfiguration _configuration;
         public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
@@ -20,7 +22,7 @@ namespace StudentManagement_System_API.Service
             _configuration = configuration;
         }
 
-        public async Task<string> Register(UserRequestDTO userRequest)
+        public async Task<string> Register(UserRequestDTOs userRequest)
         {
             var req = new User
             {
@@ -43,7 +45,7 @@ namespace StudentManagement_System_API.Service
             {
                 throw new Exception("User Not Found!");
             }
-            if(!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
                 throw new Exception("Wrong Password!");
             }
@@ -69,3 +71,4 @@ namespace StudentManagement_System_API.Service
         }
     }
 }
+

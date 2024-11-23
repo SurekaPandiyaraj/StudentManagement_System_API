@@ -71,22 +71,23 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IUserService, UserService>();
 
 
-            builder.Services.AddCors(opt =>
-            {
-                opt.AddPolicy(
-                   name: "CORSPolicy",
-                   builder =>
-                   {
-                       builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+            builder.Services.AddAuthentication()
+              .AddJwtBearer(options =>
+        {
+         options.TokenValidationParameters = new TokenValidationParameters
+          { 
+             ValidateIssuer = true,
+             ValidateAudience = true,
+             ValidateIssuerSigningKey = true,
+             ValidIssuer = jwtSettings["Issuer"],
+             ValidAudience = jwtSettings["Audience"],
+             IssuerSigningKey = new SymmetricSecurityKey(key)
+         };
+        });
 
-                   }
-                   );
-            });
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment()) // This condition is important for Swagger UI in Dev environment
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

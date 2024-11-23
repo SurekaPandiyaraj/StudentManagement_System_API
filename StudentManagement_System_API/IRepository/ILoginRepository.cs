@@ -1,4 +1,6 @@
-﻿using StudentManagement_System_API.Entity;
+﻿
+
+using StudentManagement_System_API.Entity;
 
 namespace StudentManagement_System_API.IRepository
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using StudentManagement_System_API.Database;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
@@ -25,5 +26,6 @@ namespace StudentManagement_System_API.Repository
             var data = await _context.Users.SingleOrDefaultAsync(s => s.Id == userId);
             return data;
         }
+
     }
 }

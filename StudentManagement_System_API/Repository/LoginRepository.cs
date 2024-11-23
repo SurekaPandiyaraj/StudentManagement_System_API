@@ -31,5 +31,11 @@ namespace StudentManagement_System_API.Repository
 
        }
 
+        public async Task<Timetable> GetTimetableById(DateTime Date)
+        {
+            var data = await _context.Timetables.FirstOrDefaultAsync(t => t.Date == Date & !t.IsDelete);
+            return data;
+        }
+
     }
 }

@@ -24,7 +24,12 @@ namespace StudentManagement_System_API.Repository
             return data.Entity;
       }
 
-       
+       public async Task<List<Timetable>> GetTimetablesAsync()
+       {
+            var data = await _context.Timetables.Where(t => !t.IsDelete).ToListAsync();
+            return data;
+
+       }
 
     }
 }

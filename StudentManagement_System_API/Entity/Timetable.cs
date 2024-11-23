@@ -9,6 +9,8 @@
         public DateTime EndTime { get; set; }
         public string? Location { get; set; }
 
+        public bool IsDelete { get; set; } = false;
+
         // Navigation properties
         public Course? Course { get; set; }  // One-to-many with Course
         public ICollection<Attendance>? Attendances { get; set; }  // One-to-many with Attendance

@@ -27,10 +27,10 @@ namespace StudentManagement_System_API.Service
                 Date = timetableRequestDTO.Date,
                 StartTime = timetableRequestDTO.StartTime,
                 EndTime = timetableRequestDTO.EndTime,
-                Location = timetableRequestDTO.Location
+               
 
             };
-             var data = await _repository.CreateAsync(timetable);
+             var data = await _repository.CreateTimetableAsync(timetable);
 
             var req = new TimetableResponceDTO
             {
@@ -39,13 +39,49 @@ namespace StudentManagement_System_API.Service
                 Date = data.Date,
                 StartTime = data.StartTime,
                 EndTime = data.EndTime,
-                Location = data.Location
+                
 
             };
 
             return req;
         }
 
-       
+       public async Task<TimetableResponceDTO> GetTimetableById(DateTime Date)
+        {
+            var data = await _repository.GetTimetableById(Date);
+            var req = new TimetableResponceDTO
+            {
+               
+                CourseId = data.CourseId,
+                Date = data.Date,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+              
+            };
+            return req;
+       }
+
+        public async Task<TimetableResponceDTO> UpdateTimetable(DateTime Date, TimetableRequestDTO timetableRequestDTO)
+        {
+            var timeTable = new Timetable
+            {
+                CourseId = timetableRequestDTO.CourseId,
+                Date = timetableRequestDTO.Date,
+                StartTime = timetableRequestDTO.StartTime,
+                EndTime = timetableRequestDTO.EndTime
+            };
+
+            var data = await _repository.UpdateTimetable(timeTable);
+
+            var req = new TimetableResponceDTO
+            {
+
+                CourseId = data.CourseId,
+                Date = data.Date,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime
+            };
+            return req;
+        }
     }
 }

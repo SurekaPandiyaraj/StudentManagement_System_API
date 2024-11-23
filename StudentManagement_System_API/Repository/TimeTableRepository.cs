@@ -13,36 +13,50 @@ namespace StudentManagement_System_API.Repository
         {
             _context = context;
         }
-        public async Task<Timetable> CreateAsync(Timetable timetable)
+        public async Task<Timetable> CreateTimetableAsync(Timetable timetable)
         {
             var data = await _context.Timetables.AddAsync(timetable);
             await _context.SaveChangesAsync();
             return data.Entity;
         }
 
-        public async Task<IEnumerable<Timetable>> GetAllAsync()
+        public async Task<List<Timetable>> GetTimetablesAsync()
         {
-            return await _context.Timetables.Include(t => t.Course).ToListAsync();
+            var data = await _context.Timetables.Where(t => !t.IsDelete).ToListAsync();
+            return data;
+
         }
 
-        public async Task<Timetable> GetByIdAsync(int id)
+        public async Task<Timetable> GetTimetableById(DateTime Date)
         {
-            return await _context.Timetables.Include(t => t.Course).FirstOrDefaultAsync(t => t.Id == id);
+            var data = await _context.Timetables.FirstOrDefaultAsync(t => t.Date == Date & !t.IsDelete);
+            return data;
         }
 
-        public async Task UpdateAsync(Timetable timetable)
+        public async Task<Timetable> UpdateTimetable(Timetable timetable)
         {
-            _context.Timetables.Update(timetable);
+            var data = await GetTimetableById(timetable.Date);
+
+            if (data != null) return null;
+
+            data.CourseId = timetable.CourseId;
+            data.StartTime = timetable.StartTime;
+            data.EndTime = timetable.EndTime;
+            
+
             await _context.SaveChangesAsync();
+            return data;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteTimetable(DateTime Date)
         {
-            var timetable = await _context.Timetables.FindAsync(id);
-            if (timetable != null)
+            var data = await GetTimetableById(Date);
+            if (data != null)
             {
-                _context.Timetables.Remove(timetable);
+                data.IsDelete = true;
+                _context.Timetables.Update(data);
                 await _context.SaveChangesAsync();
+
             }
         }
     }

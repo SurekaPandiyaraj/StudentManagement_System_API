@@ -4,10 +4,11 @@ namespace StudentManagement_System_API.IRepository
 {
     public interface ITimetableRepository
     {
-        Task<Timetable> CreateAsync(Timetable timetable);
-        Task<IEnumerable<Timetable>> GetAllAsync();
-        Task<Timetable> GetByIdAsync(int id);
-        Task UpdateAsync(Timetable timetable);
-        Task DeleteAsync(int id);
+        Task<Timetable> CreateTimetableAsync(Timetable timetable);
+        Task<List<Timetable>> GetTimetablesAsync();
+        Task<Timetable> GetTimetableById(DateTime Date);
+        Task<Timetable> UpdateTimetable(Timetable timetable);
+        Task DeleteTimetable(DateTime Date);
+
     }
 }

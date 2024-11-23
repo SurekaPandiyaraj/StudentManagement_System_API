@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement_System_API.DTOs.RequestDTOs;
 using StudentManagement_System_API.DTOs.ResponseDTOs;
+using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
 
@@ -20,7 +21,7 @@ namespace StudentManagement_System_API.Controllers
 
         // POST: api/timetable
         [HttpPost]
-        public async Task<ActionResult> CreateTimetable(TimetableRequestDto timetableRequestDto)
+        public async Task<ActionResult> CreateTimetable(TimetableRequestDTO timetableRequestDto)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace StudentManagement_System_API.Controllers
 
         // PUT: api/timetable/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTimetable(int id, TimetableRequestDto timetableRequestDto)
+        public async Task<ActionResult> UpdateTimetable(int id, TimetableRequestDTO timetableRequestDto)
         {
             await _timetableService.UpdateTimetableAsync(id, timetableRequestDto);
             return NoContent();

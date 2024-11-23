@@ -11,6 +11,4 @@
         public Timetable? Timetable { get; set; }
         public Student? Student { get; set; }
     }
-    
-
-}
+ }

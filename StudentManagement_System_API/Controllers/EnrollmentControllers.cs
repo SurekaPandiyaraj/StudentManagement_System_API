@@ -9,9 +9,9 @@ namespace StudentManagement_System_API.Controllers
     [ApiController]
     public class EnrollmentControllers : ControllerBase
     {
-        private readonly IEnrollmentService _enrollmentService;
+        private readonly IEntrollementService _enrollmentService;
 
-        public EnrollmentControllers(IEnrollmentService enrollmentService)
+        public EnrollmentControllers(IEntrollementService enrollmentService)
         {
             _enrollmentService = enrollmentService;
         }

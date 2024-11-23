@@ -1,7 +1,8 @@
-﻿namespace StudentManagement_System_API.DTOS.RequestDtos
+﻿namespace StudentManagement_System_API.DTOS.ResponseDtos
 {
-    public class TimetableRequestDTO
+    public class TimetableResponceDTO
     {
+        public int Id { get; set; }
         public int CourseId { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan StartTime { get; set; }

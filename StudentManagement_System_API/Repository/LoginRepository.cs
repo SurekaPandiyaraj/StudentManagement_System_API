@@ -37,5 +37,21 @@ namespace StudentManagement_System_API.Repository
             return data;
         }
 
+        public async Task<Timetable> UpdateTimetable(Timetable timetable)
+        {
+            var data = await GetTimetableById(timetable.Date);
+
+            if (data != null) return null;
+             
+            data.CourseId = timetable.CourseId;
+            data.StartTime = timetable.StartTime;
+            data.EndTime = timetable.EndTime;
+            data.Location = timetable.Location;
+
+            await _context.SaveChangesAsync();
+            return data;
+
+        }
+
     }
 }

@@ -4,5 +4,6 @@
     {
         public string UTNumber { get; set; }
         public string Batch { get; set; }
+        public int UserId { get; set; }
     }
 }

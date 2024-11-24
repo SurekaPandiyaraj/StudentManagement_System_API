@@ -1,4 +1,5 @@
-﻿using StudentManagement_System_API.Entity;
+﻿using StudentManagement_System_API.DTOS.ResponseDTOs;
+using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
 
@@ -25,5 +26,23 @@ namespace StudentManagement_System_API.Service
         //    }
         //    return AttendanceList;
         //}
+
+
+        public async Task<StudentResponceDTO> GetStudentById(string utNumber)
+        {
+            var student = await _studentrepository.GetStudentById(utNumber);
+            if (student == null)
+            {
+                return null;  // Handle not found case
+            }
+            return new StudentResponceDTO
+            {
+                UTNumber = student.UTNumber,
+                Batch = student.Batch,
+                UserId = student.UserId
+            };
+        }
+
+
     }
 }

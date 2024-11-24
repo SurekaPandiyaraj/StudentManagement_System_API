@@ -14,7 +14,19 @@ namespace StudentManagement_System_API.Controllers
         {
             _studentService = studentService;
         }
+
+
+
+        [HttpGet("GetStudentById")]
+        public async Task<IActionResult> GetStudentById(string utNumber)
+        {
+            var student = await _studentService.GetStudentById(utNumber);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
+        }
+
     }
-
-
 }

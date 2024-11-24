@@ -1,4 +1,6 @@
-﻿using StudentManagement_System_API.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentManagement_System_API.Database;
+using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 
 namespace StudentManagement_System_API.Repository
@@ -11,5 +13,17 @@ namespace StudentManagement_System_API.Repository
         {
             _context = context;
         }
+
+
+        public async Task<Student> GetStudentById(string utNumber)
+        {
+            return await _context.Students
+                .Include(s => s.User)
+                .Include(s => s.Enrollments)
+                .Include(s => s.Marks)
+                .Include(s => s.Attendances)
+                .FirstOrDefaultAsync(s => s.UTNumber == utNumber);
+        }
+
     }
 }

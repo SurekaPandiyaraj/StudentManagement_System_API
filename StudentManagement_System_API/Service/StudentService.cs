@@ -1,4 +1,5 @@
-﻿using StudentManagement_System_API.DTOS.ResponseDTOs;
+﻿using StudentManagement_System_API.DTOS.RequestDTOs;
+using StudentManagement_System_API.DTOS.ResponseDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
@@ -56,6 +57,23 @@ namespace StudentManagement_System_API.Service
         }
 
 
+        public async Task<StudentResponceDTO> AddStudent(StudentRequestDTO studentRequestDto)
+        {
+            var student = new Student
+            {
+                UTNumber = studentRequestDto.UTNumber,
+                Batch = studentRequestDto.Batch,
+                UserId = studentRequestDto.UserId
+            };
 
+            var createdStudent = await _studentrepository.AddStudent(student);
+
+            return new StudentResponceDTO
+            {
+                UTNumber = createdStudent.UTNumber,
+                Batch = createdStudent.Batch,
+                UserId = createdStudent.UserId
+            };
+        }
     }
 }

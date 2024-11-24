@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.IService;
 
 namespace StudentManagement_System_API.Controllers
@@ -34,6 +35,15 @@ namespace StudentManagement_System_API.Controllers
         {
             var students = await _studentService.GetAllStudent();
             return Ok(students);
+        }
+
+
+        [HttpPost("AddStudent")]
+        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDTO studentRequestDto)
+        {
+            var student = await _studentService.AddStudent(studentRequestDto);
+            return CreatedAtAction(nameof(GetStudentById), 
+                new { utNumber = student.UTNumber }, student);
         }
     }
 }

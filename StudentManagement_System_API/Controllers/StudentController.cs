@@ -55,5 +55,15 @@ namespace StudentManagement_System_API.Controllers
             return Ok(student);
         }
 
+        [HttpDelete("DeleteStudent")]
+        public async Task<IActionResult> DeleteStudent(string utNumber)
+        {
+            var result = await _studentService.DeleteStudent(utNumber);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }

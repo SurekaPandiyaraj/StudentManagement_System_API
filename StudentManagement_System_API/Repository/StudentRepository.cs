@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentManagement_System_API.Database;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
@@ -45,6 +46,19 @@ namespace StudentManagement_System_API.Repository
             _context.Students.Update(student);
             await _context.SaveChangesAsync();
             return student;
+        }
+
+
+        public async Task<bool> DeleteStudent(string utNumber)
+        {
+            var student = await _context.Students.FindAsync(utNumber);
+            if (student != null)
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

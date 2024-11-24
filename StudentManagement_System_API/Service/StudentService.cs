@@ -95,5 +95,10 @@ namespace StudentManagement_System_API.Service
             };
         }
 
+        public async Task<bool> DeleteStudent(string utNumber)
+        {
+            return await _studentrepository.DeleteStudent(utNumber);
+        }
+
     }
 }

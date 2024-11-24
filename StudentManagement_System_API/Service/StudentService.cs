@@ -11,19 +11,19 @@ namespace StudentManagement_System_API.Service
             _studentrepository = studentrepository;
         }
 
-        public async Task<List<Student>> GetStudentsForAttendance(int courseId)
-        {
-            var AttendanceList = new List<Student>();   
-            var data = await _studentrepository.GetStudentsWithEnrollments();
-            foreach (var student in data) {
-                var enrollments = student.Enrollments.ToList();
-                foreach (var enrollment in enrollments) {
-                    if (enrollment.CourseId == courseId) {
-                        AttendanceList.Add(student);
-                    }
-                }
-            }
-            return AttendanceList;
-        }
+        //public async Task<List<Student>> GetStudentsForAttendance(int courseId)
+        //{
+        //    var AttendanceList = new List<Student>();   
+        //    var data = await _studentrepository.GetStudentsWithEnrollments();
+        //    foreach (var student in data) {
+        //        var enrollments = student.Enrollments.ToList();
+        //        foreach (var enrollment in enrollments) {
+        //            if (enrollment.CourseId == courseId) {
+        //                AttendanceList.Add(student);
+        //            }
+        //        }
+        //    }
+        //    return AttendanceList;
+        //}
     }
 }

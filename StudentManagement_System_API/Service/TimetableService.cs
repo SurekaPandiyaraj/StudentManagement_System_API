@@ -46,9 +46,9 @@ namespace StudentManagement_System_API.Service
             return req;
         }
 
-       public async Task<TimetableResponceDTO> GetTimetableById(DateTime Date)
+       public async Task<TimetableResponceDTO> GetTimetableById(Guid Id)
         {
-            var data = await _repository.GetTimetableById(Date);
+            var data = await _repository.GetTimetableById(Id);
             var req = new TimetableResponceDTO
             {
                
@@ -61,7 +61,7 @@ namespace StudentManagement_System_API.Service
             return req;
        }
 
-        public async Task<TimetableResponceDTO> UpdateTimetable(DateTime Date, TimetableRequestDTO timetableRequestDTO)
+        public async Task<TimetableResponceDTO> UpdateTimetable(Guid Id, TimetableRequestDTO timetableRequestDTO)
         {
             var timeTable = new Timetable
             {
@@ -84,9 +84,9 @@ namespace StudentManagement_System_API.Service
             return req;
         }
 
-        public async Task DeleteTable(DateTime Date)
+        public async Task DeleteTable(Guid Id)
         {
-            await _repository.DeleteTimetable(Date);
+            await _repository.DeleteTimetable(Id);
         }
     }
 }

@@ -27,15 +27,15 @@ namespace StudentManagement_System_API.Repository
 
         }
 
-        public async Task<Timetable> GetTimetableById(DateTime Date)
+        public async Task<Timetable> GetTimetableById(Guid Id)
         {
-            var data = await _context.Timetables.FirstOrDefaultAsync(t => t.Date == Date & !t.IsDelete);
+            var data = await _context.Timetables.FirstOrDefaultAsync(t => t.Id == Id & !t.IsDelete);
             return data;
         }
 
         public async Task<Timetable> UpdateTimetable(Timetable timetable)
         {
-            var data = await GetTimetableById(timetable.Date);
+            var data = await GetTimetableById(timetable.Id);
 
             if (data != null) return null;
 
@@ -48,9 +48,9 @@ namespace StudentManagement_System_API.Repository
             return data;
         }
 
-        public async Task DeleteTimetable(DateTime Date)
+        public async Task DeleteTimetable(Guid Id)
         {
-            var data = await GetTimetableById(Date);
+            var data = await GetTimetableById(Id);
             if (data != null)
             {
                 data.IsDelete = true;

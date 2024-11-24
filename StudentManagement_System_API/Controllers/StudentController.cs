@@ -45,5 +45,15 @@ namespace StudentManagement_System_API.Controllers
             return CreatedAtAction(nameof(GetStudentById), 
                 new { utNumber = student.UTNumber }, student);
         }
+
+
+
+        [HttpPut("UpdateStudent")]
+        public async Task<IActionResult> UpdateStudent([FromBody] StudentRequestDTO studentRequestDto)
+        {
+            var student = await _studentService.UpdateStudent(studentRequestDto);
+            return Ok(student);
+        }
+
     }
 }

@@ -10,6 +10,7 @@ namespace StudentManagement_System_API.IService
         Task<StudentResponceDTO> GetStudentById(string utNumber);
         Task<List<StudentResponceDTO>> GetAllStudent();
         Task<StudentResponceDTO> AddStudent(StudentRequestDTO studentRequestDto);
+        Task<StudentResponceDTO> UpdateStudent(StudentRequestDTO studentRequestDto);
 
 
     }

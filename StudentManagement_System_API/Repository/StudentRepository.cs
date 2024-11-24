@@ -38,5 +38,13 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return student;
         }
+
+
+        public async Task<Student> UpdateStudent(Student student)
+        {
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+            return student;
+        }
     }
 }

@@ -75,5 +75,25 @@ namespace StudentManagement_System_API.Service
                 UserId = createdStudent.UserId
             };
         }
+
+        public async Task<StudentResponceDTO> UpdateStudent(StudentRequestDTO studentRequestDto)
+        {
+            var student = new Student
+            {
+                UTNumber = studentRequestDto.UTNumber,
+                Batch = studentRequestDto.Batch,
+                UserId = studentRequestDto.UserId
+            };
+
+            var updatedStudent = await _studentrepository.UpdateStudent(student);
+
+            return new StudentResponceDTO
+            {
+                UTNumber = updatedStudent.UTNumber,
+                Batch = updatedStudent.Batch,
+                UserId = updatedStudent.UserId
+            };
+        }
+
     }
 }

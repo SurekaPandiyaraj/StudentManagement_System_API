@@ -28,5 +28,12 @@ namespace StudentManagement_System_API.Controllers
             return Ok(student);
         }
 
+
+        [HttpGet("GetAllStudents")]
+        public async Task<IActionResult> GetAllStudent()
+        {
+            var students = await _studentService.GetAllStudent();
+            return Ok(students);
+        }
     }
 }

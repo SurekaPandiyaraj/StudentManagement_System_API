@@ -8,7 +8,7 @@ namespace StudentManagement_System_API.IService
     {
         //Task<List<Student>> GetStudentsForAttendance(int courseId);
         Task<StudentResponceDTO> GetStudentById(string utNumber);
-        
+        Task<List<StudentResponceDTO>> GetAllStudent();
 
     }
 }

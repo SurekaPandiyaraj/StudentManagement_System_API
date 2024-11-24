@@ -7,5 +7,6 @@ namespace StudentManagement_System_API.IRepository
         //Task<List<Student>> GetStudentsWithEnrollments();
 
         Task<Student> GetStudentById(string utNumber);
-        
+        Task<List<Student>> GetAllStudent();
+    }
 }

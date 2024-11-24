@@ -44,5 +44,18 @@ namespace StudentManagement_System_API.Service
         }
 
 
+        public async Task<List<StudentResponceDTO>> GetAllStudent()
+        {
+            var students = await _studentrepository.GetAllStudent();
+            return students.Select(student => new StudentResponceDTO
+            {
+                UTNumber = student.UTNumber,
+                Batch = student.Batch,
+                UserId = student.UserId
+            }).ToList();
+        }
+
+
+
     }
 }

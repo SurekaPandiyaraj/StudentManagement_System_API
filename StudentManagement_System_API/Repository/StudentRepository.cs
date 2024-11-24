@@ -25,5 +25,11 @@ namespace StudentManagement_System_API.Repository
                 .FirstOrDefaultAsync(s => s.UTNumber == utNumber);
         }
 
+
+
+        public async Task<List<Student>> GetAllStudent()
+        {
+            return await _context.Students.ToListAsync();
+        }
     }
 }

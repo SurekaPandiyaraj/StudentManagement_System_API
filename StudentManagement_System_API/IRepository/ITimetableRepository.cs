@@ -5,10 +5,10 @@ namespace StudentManagement_System_API.IRepository
     public interface ITimetableRepository
     {
         Task<Timetable> CreateTimetableAsync(Timetable timetable);
-        Task<List<Timetable>> GetTimetablesAsync();
-        Task<Timetable> GetTimetableById(DateTime Date);
-        Task<Timetable> UpdateTimetable(Timetable timetable);
-        Task DeleteTimetable(DateTime Date);
+        Task<Timetable> GetTimetableByDate(DateTime date);
+        Task<Timetable> UpdateTimetableByDate(Timetable timetable);
+        Task DeleteTimetableByDate(DateTime date);
+        
 
     }
 }

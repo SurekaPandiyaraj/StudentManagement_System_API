@@ -1,6 +1,8 @@
 ﻿
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDtos;
+using StudentManagement_System_API.DTOS.ResponseDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
@@ -18,75 +20,110 @@ namespace StudentManagement_System_API.Service
             _repository = repository;
         }
 
-        public async Task<TimetableResponceDTO> CreateTable(TimetableRequestDTO timetableRequestDTO)
+        public async Task<TimetableResponceDTO> CreateTable(int courseId, TimetableRequestDtos timetableRequestDTO)
         {
             var timetable = new Timetable
             {
                 Id = Guid.NewGuid(),
-                CourseId = timetableRequestDTO.CourseId,
-                Date = timetableRequestDTO.Date,
-                StartTime = timetableRequestDTO.StartTime,
-                EndTime = timetableRequestDTO.EndTime,
-               
-
+                CourseId = courseId,
+                // Set the Date to current date without time (DateTime.Now.Date)
+                Date = DateTime.Now.Date, // This will set the date as today's date with time = 00:00:00
+                TimetableSubjects = timetableRequestDTO.Subjects?.Select(x => new TimetableSubject
+                {
+                    Name = x.SubjectName,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                }).ToList()
             };
-             var data = await _repository.CreateTimetableAsync(timetable);
+
+            var data = await _repository.CreateTimetableAsync(timetable);
 
             var req = new TimetableResponceDTO
             {
-
+                Id = data.Id,
                 CourseId = data.CourseId,
-                Date = data.Date,
-                StartTime = data.StartTime,
-                EndTime = data.EndTime,
-                
-
+                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
+                {
+                    Id = x.Id,
+                    SubjectName = x.Name,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                }).ToList()
             };
 
-            return req;
+            return req; // Return the created timetable response
         }
 
-       public async Task<TimetableResponceDTO> GetTimetableById(DateTime Date)
-        {
-            var data = await _repository.GetTimetableById(Date);
-            var req = new TimetableResponceDTO
-            {
-               
-                CourseId = data.CourseId,
-                Date = data.Date,
-                StartTime = data.StartTime,
-                EndTime = data.EndTime,
-              
-            };
-            return req;
-       }
+         
+        
 
-        public async Task<TimetableResponceDTO> UpdateTimetable(DateTime Date, TimetableRequestDTO timetableRequestDTO)
+        public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
+        {
+            // Use the Date property to remove the time and compare only the date part.
+            var trimmedDate = date.Date;  // This ensures the date is in 'yyyy-MM-dd' format with time as 00:00:00
+
+            // Pass the DateTime object (trimmedDate) to your repository method
+            var data = await _repository.GetTimetableByDate(trimmedDate);
+
+            if (data == null)
+            {
+                return null;  // Return null if no timetable data is found
+            }
+
+            // Map the data to the response DTO
+            var res = new TimetableResponceDTO
+            {
+                Id = data.Id,
+                CourseId = data.CourseId,
+                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
+                {
+                    Id = x.Id,
+                    SubjectName = x.Name,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                }).ToList()
+            };
+
+            return res;  // Return the mapped response
+        }
+
+
+
+        public async Task<TimetableResponceDTO> UpdateTimetable(DateTime date, TimetableRequestDtos timetableRequestDTO)
         {
             var timeTable = new Timetable
             {
-                CourseId = timetableRequestDTO.CourseId,
-                Date = timetableRequestDTO.Date,
-                StartTime = timetableRequestDTO.StartTime,
-                EndTime = timetableRequestDTO.EndTime
+                Id = Guid.NewGuid(),
+                Date = DateTime.Now,
+                TimetableSubjects = timetableRequestDTO.Subjects?.Select(x => new TimetableSubject
+
+                {
+                    Name = x.SubjectName,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                }).ToList()
             };
 
-            var data = await _repository.UpdateTimetable(timeTable);
+            var data = await _repository.GetTimetableByDate(date);
 
-            var req = new TimetableResponceDTO
+            var resTable = new TimetableResponceDTO
             {
-
+                Id = data.Id,
                 CourseId = data.CourseId,
-                Date = data.Date,
-                StartTime = data.StartTime,
-                EndTime = data.EndTime
+                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
+                {
+                    SubjectName = x.Name,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                }).ToList()
             };
-            return req;
+            return resTable;
         }
 
-        public async Task DeleteTable(DateTime Date)
+        public async Task DeleteTable (DateTime date)
         {
-            await _repository.DeleteTimetable(Date);
+            await _repository.DeleteTimetableByDate(date);
         }
+        
     }
 }

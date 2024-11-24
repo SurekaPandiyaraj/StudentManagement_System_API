@@ -16,6 +16,7 @@ namespace StudentManagement_System_API.Database
         public DbSet<Marks> Marks { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
+        public DbSet<TimetableSubject> TimetableSubjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,10 +68,10 @@ namespace StudentManagement_System_API.Database
                 .HasForeignKey(t => t.CourseId);
 
             // One-to-many relationship between Attendance and Timetable
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Timetable)
-                .WithMany(t => t.Attendances)
-                .HasForeignKey(a => a.TimetableId);
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Timetable)
+            //    .WithMany(t => t.Attendances)
+            //    .HasForeignKey(a => a.TimetableId);
 
             // One-to-many relationship between Attendance and Student
             modelBuilder.Entity<Attendance>()

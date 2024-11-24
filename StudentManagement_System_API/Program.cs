@@ -49,10 +49,10 @@ namespace StudentManagement_System_API
             //      };
             //  });
 
-            
 
-            //builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
-            //builder.Services.AddScoped<ITimetableService, TimetableService>();
+
+            builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
+            builder.Services.AddScoped<ITimetableService, TimetableService>();
 
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();

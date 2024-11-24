@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
@@ -18,55 +19,38 @@ namespace StudentManagement_System_API.Controllers
             _timetableService = timetableService;
         }
 
-        // POST: api/timetable
         [HttpPost]
-        public async Task<ActionResult> CreateTimetable(TimetableRequestDTO timetableRequestDto)
+
+        public async Task<IActionResult> CreateTimetable(int CourseId, TimetableRequestDtos timetableRequestDTO)
         {
-            try
-            {
-                var data = await _timetableService.CreateTimetableAsync(timetableRequestDto);
-                return Ok(data);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
+            var createdTable = await _timetableService.CreateTable(CourseId ,timetableRequestDTO);
+            return Ok(createdTable);
         }
 
-        // GET: api/timetable
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<TimetableResponceDTO>>> GetTimetables()
+
+        [HttpGet("{Date}")]
+
+        public async Task<IActionResult> GetTable(DateTime date)
         {
-            var timetables = await _timetableService.GetAllTimetablesAsync();
-            return Ok(timetables);
+            var table = await _timetableService.GetTimetableByDate(date);
+            if (table == null) return NotFound();
+
+            return Ok(table);
         }
 
-        // GET: api/timetable/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TimetableResponceDTO>> GetTimetable(int id)
-        {
-            var timetable = await _timetableService.GetTimetableByIdAsync(id);
-            if (timetable == null)
-            {
-                return NotFound();
-            }
-            return Ok(timetable);
-        }
+        [HttpPut("{Date}")]
 
-        // PUT: api/timetable/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateTimetable(int id, TimetableRequestDTO timetableRequestDto)
+        public async Task<IActionResult> UpdateTable(DateTime date, TimetableRequestDtos TimetableRequestDTO)
         {
-            await _timetableService.UpdateTimetableAsync(id, timetableRequestDto);
+            await _timetableService.UpdateTimetable(date, TimetableRequestDTO);
             return NoContent();
         }
 
-        // DELETE: api/timetable/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTimetable(int id)
+        [HttpDelete("{Date}")]
+
+        public async Task<IActionResult> DeleteTable(DateTime date)
         {
-            await _timetableService.DeleteTimetableAsync(id);
+            await _timetableService.DeleteTable(date);
             return NoContent();
         }
     }

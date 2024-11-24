@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
@@ -20,25 +21,18 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateTimetable(TimetableRequestDTO timetableRequestDTO)
+        public async Task<IActionResult> CreateTimetable(int CourseId, TimetableRequestDtos timetableRequestDTO)
         {
-            var createdTable = await _timetableService.CreateTable(timetableRequestDTO);
+            var createdTable = await _timetableService.CreateTable(CourseId ,timetableRequestDTO);
             return Ok(createdTable);
         }
 
-        //[HttpGet]
 
-        //public async Task<IActionResult> GetAllTimetable()
-        //{
-        //    var table = await _timetableService.GetTables();
-        //    return Ok(table);
-        //}
+        [HttpGet("{Date}")]
 
-        [HttpGet("{Id}")]
-
-        public async Task<IActionResult> GetTable(Guid Id)
+        public async Task<IActionResult> GetTable(DateTime date)
         {
-            var table = await _timetableService.GetTimetableById(Id);
+            var table = await _timetableService.GetTimetableByDate(date);
             if (table == null) return NotFound();
 
             return Ok(table);
@@ -46,17 +40,17 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpPut("{Date}")]
 
-        public async Task<IActionResult> UpdateTable(Guid Id, TimetableRequestDTO TimetableRequestDTO)
+        public async Task<IActionResult> UpdateTable(DateTime date, TimetableRequestDtos TimetableRequestDTO)
         {
-            await _timetableService.UpdateTimetable(Id, TimetableRequestDTO);
+            await _timetableService.UpdateTimetable(date, TimetableRequestDTO);
             return NoContent();
         }
 
         [HttpDelete("{Date}")]
 
-        public async Task<IActionResult> DeleteTable(Guid Id)
+        public async Task<IActionResult> DeleteTable(DateTime date)
         {
-            await _timetableService.DeleteTable(Id);
+            await _timetableService.DeleteTable(date);
             return NoContent();
         }
     }

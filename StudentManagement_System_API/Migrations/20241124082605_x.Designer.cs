@@ -12,8 +12,8 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    [Migration("20241123124939_wee")]
-    partial class wee
+    [Migration("20241124082605_x")]
+    partial class x
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,8 +39,8 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<bool>("IsPresent")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TimetableId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TimetableId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UTNumber")
                         .IsRequired()
@@ -192,32 +192,50 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("TimetableSubjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.ToTable("Timetables");
+                });
+
+            modelBuilder.Entity("StudentManagement_System_API.Entity.TimetableSubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("TimetableId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TimetableId");
+
+                    b.ToTable("TimetableSubjects");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.User", b =>
@@ -257,7 +275,7 @@ namespace StudentManagement_System_API.Migrations
             modelBuilder.Entity("StudentManagement_System_API.Entity.Attendance", b =>
                 {
                     b.HasOne("StudentManagement_System_API.Entity.Timetable", "Timetable")
-                        .WithMany("Attendances")
+                        .WithMany()
                         .HasForeignKey("TimetableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -338,6 +356,13 @@ namespace StudentManagement_System_API.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("StudentManagement_System_API.Entity.TimetableSubject", b =>
+                {
+                    b.HasOne("StudentManagement_System_API.Entity.Timetable", null)
+                        .WithMany("TimetableSubjects")
+                        .HasForeignKey("TimetableId");
+                });
+
             modelBuilder.Entity("StudentManagement_System_API.Entity.Course", b =>
                 {
                     b.Navigation("Enrollments");
@@ -363,7 +388,7 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
-                    b.Navigation("Attendances");
+                    b.Navigation("TimetableSubjects");
                 });
 #pragma warning restore 612, 618
         }

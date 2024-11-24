@@ -5,7 +5,7 @@
 namespace StudentManagement_System_API.Migrations
 {
     /// <inheritdoc />
-    public partial class sgd : Migration
+    public partial class sgsy : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

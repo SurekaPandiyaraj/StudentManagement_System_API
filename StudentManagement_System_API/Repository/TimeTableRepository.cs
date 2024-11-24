@@ -19,45 +19,37 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return data.Entity;
         }
-
-        public async Task<List<Timetable>> GetTimetablesAsync()
+        public async Task<Timetable> GetTimetableByDate(DateTime date)
         {
-            var data = await _context.Timetables.Where(t => !t.IsDelete).ToListAsync();
-            return data;
-
-        }
-
-        public async Task<Timetable> GetTimetableById(Guid Id)
-        {
-            var data = await _context.Timetables.FirstOrDefaultAsync(t => t.Id == Id & !t.IsDelete);
+            var data = await _context.Timetables
+                                      .FirstOrDefaultAsync(d => d.Date.Date == date.Date);  
             return data;
         }
 
-        public async Task<Timetable> UpdateTimetable(Timetable timetable)
-        {
-            var data = await GetTimetableById(timetable.Id);
 
+
+        public async Task<Timetable> UpdateTimetableByDate(Timetable timetable)
+        {
+            var data = await GetTimetableByDate(timetable.Date);
             if (data != null) return null;
 
             data.CourseId = timetable.CourseId;
-            data.StartTime = timetable.StartTime;
-            data.EndTime = timetable.EndTime;
-            
+            data.TimetableSubjects = timetable.TimetableSubjects;
 
             await _context.SaveChangesAsync();
             return data;
         }
 
-        public async Task DeleteTimetable(Guid Id)
+        public async Task DeleteTimetableByDate(DateTime date)
         {
-            var data = await GetTimetableById(Id);
-            if (data != null)
+            var data= await GetTimetableByDate(date);
+            if(data != null)
             {
-                data.IsDelete = true;
-                _context.Timetables.Update(data);
+                _context.Timetables.Remove(data);
                 await _context.SaveChangesAsync();
-
             }
         }
+
+        
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagement_System_API.Migrations
 {
     /// <inheritdoc />
-    public partial class wee : Migration
+    public partial class x : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,13 +71,10 @@ namespace StudentManagement_System_API.Migrations
                 name: "Timetables",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TimetableSubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,12 +107,32 @@ namespace StudentManagement_System_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TimetableSubjects",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimetableId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimetableSubjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimetableSubjects_Timetables_TimetableId",
+                        column: x => x.TimetableId,
+                        principalTable: "Timetables",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Attendances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TimetableId = table.Column<int>(type: "int", nullable: false),
+                    TimetableId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UTNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPresent = table.Column<bool>(type: "bit", nullable: false)
@@ -235,6 +252,11 @@ namespace StudentManagement_System_API.Migrations
                 name: "IX_Timetables_CourseId",
                 table: "Timetables",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimetableSubjects_TimetableId",
+                table: "TimetableSubjects",
+                column: "TimetableId");
         }
 
         /// <inheritdoc />
@@ -250,7 +272,7 @@ namespace StudentManagement_System_API.Migrations
                 name: "Marks");
 
             migrationBuilder.DropTable(
-                name: "Timetables");
+                name: "TimetableSubjects");
 
             migrationBuilder.DropTable(
                 name: "Exams");
@@ -259,10 +281,13 @@ namespace StudentManagement_System_API.Migrations
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Timetables");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
         }
     }
 }

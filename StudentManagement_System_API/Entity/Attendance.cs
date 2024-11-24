@@ -3,7 +3,7 @@
     public class Attendance
     {
         public int Id { get; set; }  // Primary Key
-        public int TimetableId { get; set; }  // Foreign Key from Timetable
+        public Guid TimetableId { get; set; }  // Foreign Key from Timetable
         public string UTNumber { get; set; }  // Foreign Key from Student
         public DateTime Date { get; set; }
         public bool IsPresent { get; set; }  // Present or Absent

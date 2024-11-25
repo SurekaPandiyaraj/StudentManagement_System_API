@@ -1,76 +1,83 @@
-﻿
-//using Microsoft.IdentityModel.Tokens;
-//using StudentManagement_System_API.DTOS.RequestDtos;
-//using StudentManagement_System_API.Entity;
-//using StudentManagement_System_API.IRepository;
-//using StudentManagement_System_API.IService;
-//using StudentManagement_System_API.Repository;
-//using System.IdentityModel.Tokens.Jwt;
-//using System.Security.Claims;
-//using System.Text;
+﻿using Microsoft.IdentityModel.Tokens;
+using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.Entity;
+using StudentManagement_System_API.IRepository;
+using StudentManagement_System_API.IService;
+using StudentManagement_System_API.Repository;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
-//namespace StudentManagement_System_API.Service
-//{
-//    public class LoginService : ILoginService
-//    {
+namespace StudentManagement_System_API.Service
+{
+    public class LoginService : ILoginService
+    {
 
-//        private readonly ILoginRepository _loginRepository;
-//        private readonly IConfiguration _configuration;
-//        public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
-//        {
-//            _loginRepository = loginRepository;
-//            _configuration = configuration;
-//        }
+        private readonly ILoginRepository _loginRepository;
+        private readonly IConfiguration _configuration;
+        public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
+        {
+            _loginRepository = loginRepository;
+            _configuration = configuration;
+        }
 
-//        public async Task<string> Register(UserRequestDTOs userRequest)
-//        {
-//            var req = new User
-//            {
-//                Name = userRequest.Name,
-//                Email = userRequest.Email,
-//                UserRole = userRequest.UserRole,
-//                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userRequest.Password)
-//            };
+        public async Task<TokenModel> Register(UserRequestDTOs users)
+        {
+            var req = new User
+            {
+                Name = users.Name,
+                Email = users.Email,
+                NICNumber = users.NICNumber,
+                UserRole = users.UserRole,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(users.Password)
+            };
+            var user = await _loginRepository.AddUser(req);
+            var token = CreateToken(user);
+            return token;
 
-//            var user = await _loginRepository.AddUser(req);
-//            var token = CreateToken(user);
-//            return token;
+        }
 
-//        }
+        public async Task<TokenModel> Login(string UserId, string password)
+        {
+            var user = await _loginRepository.GetUserById(UserId);
+            if (user == null)
+            {
+                throw new Exception("User Not Found!");
+            }
+            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            {
+                throw new Exception("Wrong Password!");
+            }
+            return CreateToken(user);
+        }
 
-//        public async Task<string> Login(string UserId, string password)
-//        {
-//            var user = await _loginRepository.GetUserByUserId(UserId);
-//            if (user == null)
-//            {
-//                throw new Exception("User Not Found!");
-//            }
-//            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-//            {
-//                throw new Exception("Wrong Password!");
-//            }
-//            return CreateToken(user);
-//        }
+        private TokenModel CreateToken(User user)
+        {
+            var claimsList = new List<Claim>();
+            
+               claimsList.Add(new Claim("Id",user.Id.ToString()));
+               claimsList.Add(new Claim("Name", user.Name));
+               claimsList.Add(new Claim("Email", user.Email));
+               claimsList.Add(new Claim("NICNumber", user.NICNumber));
+               claimsList.Add(new Claim("UserRole", user.Id.ToString()));
+            
 
-//        //private string CreateToken(User user)
-//        //{
-//        //    var claimsList = new List<Claim>
-//        //    {
-//        //        new Claim("Id", user.Id.ToString()),
-//        //        new Claim("Name", user.Id),
-//        //        new Claim("Email", user.Id),
-//        //        new Claim("UserRole", user.Id.ToString())
-//        //    };
-
-//        //    var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-//        //    var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
-//        //    var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"],
-//        //        claims: claimsList,
-//        //        expires: DateTime.Now.AddDays(30),
-//        //        signingCredentials: credintials
-//        //        );
-//        //    return new JwtSecurityTokenHandler().WriteToken(token);
-//        //}
-//    }
-//}
+            var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+           
+            var token = new JwtSecurityToken(
+                issuer:_configuration["Jwt:Issuer"], 
+                audience:_configuration["Jwt:Audience"],
+                claims: claimsList,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: credintials
+                );
+            var responce = new TokenModel
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+            return responce;
+        }
+    }
+}
 

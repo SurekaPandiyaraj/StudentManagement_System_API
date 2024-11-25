@@ -56,7 +56,7 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<bool> DeleteStudent(string utNumber)
         {
-            var student = await _context.Students.FindAsync(utNumber);
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UTNumber == utNumber);
             if (student != null)
             {
                 _context.Students.Remove(student);

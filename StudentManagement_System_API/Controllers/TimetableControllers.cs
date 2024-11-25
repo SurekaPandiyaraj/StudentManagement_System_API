@@ -23,12 +23,12 @@ namespace StudentManagement_System_API.Controllers
 
         public async Task<IActionResult> CreateTimetable(int CourseId, TimetableRequestDtos timetableRequestDTO)
         {
-            var createdTable = await _timetableService.CreateTable(CourseId ,timetableRequestDTO);
+            var createdTable = await _timetableService.CreateTable(CourseId, timetableRequestDTO);
             return Ok(createdTable);
         }
 
 
-        [HttpGet("{Date}")]
+        [HttpGet("{date}")]
 
         public async Task<IActionResult> GetTable(DateTime date)
         {
@@ -38,7 +38,7 @@ namespace StudentManagement_System_API.Controllers
             return Ok(table);
         }
 
-        [HttpPut("{Date}")]
+        [HttpPut("{date}")]
 
         public async Task<IActionResult> UpdateTable(DateTime date, TimetableRequestDtos TimetableRequestDTO)
         {
@@ -46,7 +46,7 @@ namespace StudentManagement_System_API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{Date}")]
+        [HttpDelete("{date}")]
 
         public async Task<IActionResult> DeleteTable(DateTime date)
         {

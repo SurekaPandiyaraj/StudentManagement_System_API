@@ -1,10 +1,11 @@
 ﻿using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.Entity;
 
 namespace StudentManagement_System_API.IService
 {
     public interface ILoginService
     {
-        Task<string> Register(UserRequestDTOs userRequest);
-        Task<string> Login(string UserId, string password);
+        Task<TokenModel> Register(UserRequestDTOs userRequest);
+        Task<TokenModel> Login(string UserId, string password);
     }
 }

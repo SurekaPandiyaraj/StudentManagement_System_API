@@ -3,6 +3,7 @@ using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
+using System.Numerics;
 
 namespace StudentManagement_System_API.Service
 {
@@ -23,6 +24,7 @@ namespace StudentManagement_System_API.Service
                 UserId = userRequestDTOs.UserId,
                 Name = userRequestDTOs.Name,
                 Email = userRequestDTOs.Email,
+                NICNumber = userRequestDTOs.NICNumber,
                 PasswordHash = userRequestDTOs.Password,
                 UserRole = userRequestDTOs.UserRole,
 
@@ -37,6 +39,7 @@ namespace StudentManagement_System_API.Service
                 UserId = data.UserId,
                 Name = data.Name,
                 Email = data.Email,
+                NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole,
                 IsDeleted = data.IsDelete,
@@ -53,6 +56,7 @@ namespace StudentManagement_System_API.Service
                 UserId = data.UserId,
                 Name = data.Name,
                 Email = data.Email,
+                NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole,
                 IsDeleted = data.IsDelete,
@@ -70,6 +74,7 @@ namespace StudentManagement_System_API.Service
                 UserId = x.UserId,
                 Name = x.Name,
                 Email = x.Email,
+                NICNumber = x.NICNumber,
                 Password = x.PasswordHash,
                 UserRole = x.UserRole,
                 IsDeleted = x.IsDelete,
@@ -87,6 +92,7 @@ namespace StudentManagement_System_API.Service
                 UserId = data.UserId,
                 Name = data.Name,
                 Email = data.Email,
+                NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole,
                 IsDeleted = data.IsDelete,
@@ -102,6 +108,7 @@ namespace StudentManagement_System_API.Service
                 UserId = userrequest.UserId,
                 Name = userrequest.Name,
                 Email = userrequest.Email,
+                NICNumber = userrequest.NICNumber,
                 PasswordHash = userrequest.Password,
                 UserRole = userrequest.UserRole
 
@@ -114,6 +121,7 @@ namespace StudentManagement_System_API.Service
                 UserId = data.UserId,
                 Name = data.Name,
                 Email = data.Email,
+                NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole,
                 IsDeleted = data.IsDelete

@@ -18,10 +18,10 @@ namespace StudentManagement_System_API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            //Add services to the container.
 
-            
-            builder.Services.AddControllers()
+
+           builder.Services.AddControllers()
              .AddJsonOptions(options =>
              {
                  options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -32,8 +32,8 @@ namespace StudentManagement_System_API
 
             builder.Services.AddDbContext<StudentManagementContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("StudentDBConnection")));
 
-            //var jwtSettings = builder.Configuration.GetSection("Jwt");
-            //var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
             //builder.Services.AddAuthentication()
             //  .AddJwtBearer(options =>
@@ -69,24 +69,26 @@ namespace StudentManagement_System_API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IStudentService, StudentService>();
 
 
-        //    builder.Services.AddAuthentication()
-        //      .AddJwtBearer(options =>
-        //{
-        // options.TokenValidationParameters = new TokenValidationParameters
-        //  { 
-        //     ValidateIssuer = true,
-        //     ValidateAudience = true,
-        //     ValidateIssuerSigningKey = true,
-        //     ValidIssuer = jwtSettings["Issuer"],
-        //     ValidAudience = jwtSettings["Audience"],
-        //     IssuerSigningKey = new SymmetricSecurityKey(key)
-        // };
-        //});
+            builder.Services.AddAuthentication()
+              .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
+        });
 
 
             var app = builder.Build();

@@ -48,6 +48,7 @@ namespace StudentManagement_System_API.Repository
             data.UserId = user.UserId;
             data.Name = user.Name;
             data.Email = user.Email;
+            data.NICNumber = user.NICNumber;
             data.PasswordHash = user.PasswordHash;
             data.UserRole = user.UserRole;
 

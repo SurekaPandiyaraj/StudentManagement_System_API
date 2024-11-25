@@ -23,7 +23,6 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return data.Entity;
         }
-
         public async Task<User> GetUserById(string userId)
         {
             var data = await _context.Users.SingleOrDefaultAsync(x => x.UserId == userId);

@@ -199,11 +199,14 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("TimetableSubjectId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -275,7 +278,7 @@ namespace StudentManagement_System_API.Migrations
             modelBuilder.Entity("StudentManagement_System_API.Entity.Attendance", b =>
                 {
                     b.HasOne("StudentManagement_System_API.Entity.Timetable", "Timetable")
-                        .WithMany()
+                        .WithMany("Attendances")
                         .HasForeignKey("TimetableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -388,6 +391,8 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("TimetableSubjects");
                 });
 #pragma warning restore 612, 618

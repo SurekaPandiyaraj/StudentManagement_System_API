@@ -1,5 +1,4 @@
-﻿
-using StudentManagement_System_API.DTOS.RequestDtos;
+﻿using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDtos;
 using StudentManagement_System_API.DTOS.ResponseDTOs;
@@ -54,13 +53,10 @@ namespace StudentManagement_System_API.Service
             return req; // Return the created timetable response
         }
 
-         
-        
-
-        public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
+          public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
         {
             // Use the Date property to remove the time and compare only the date part.
-            var trimmedDate = date.Date;  // This ensures the date is in 'yyyy-MM-dd' format with time as 00:00:00
+            var trimmedDate = date.Date;  
 
             // Pass the DateTime object (trimmedDate) to your repository method
             var data = await _repository.GetTimetableByDate(trimmedDate);

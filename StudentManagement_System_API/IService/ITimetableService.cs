@@ -1,6 +1,4 @@
-﻿
-
-using StudentManagement_System_API.DTOS.RequestDtos;
+﻿using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDtos;
 

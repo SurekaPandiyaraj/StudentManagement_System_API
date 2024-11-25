@@ -9,8 +9,8 @@ namespace StudentManagement_System_API.IService
         //Task<List<Student>> GetStudentsForAttendance(int courseId);
         Task<StudentResponceDTO> GetStudentById(string utNumber);
         Task<List<StudentResponceDTO>> GetAllStudent();
-        Task<StudentResponceDTO> AddStudent(StudentRequestDTO studentRequestDto);
-        Task<StudentResponceDTO> UpdateStudent(StudentRequestDTO studentRequestDto);
+        Task<StudentResponceDTO> CreateStudent(StudentRequestDTO studentRequestDto);
+        Task<StudentResponceDTO> UpdateStudent(string utnumber, StudentRequestDTO studentRequestDto);
         Task<bool> DeleteStudent(string utNumber);
 
     }

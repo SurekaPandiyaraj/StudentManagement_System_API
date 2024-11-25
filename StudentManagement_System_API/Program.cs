@@ -70,6 +70,9 @@ namespace StudentManagement_System_API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+
 
         //    builder.Services.AddAuthentication()
         //      .AddJwtBearer(options =>

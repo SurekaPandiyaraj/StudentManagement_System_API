@@ -18,7 +18,7 @@ namespace StudentManagement_System_API.Controllers
             _loginService = loginService;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("Register/Staff")]
         public async Task<IActionResult> UserRegister(UserRequestDTOs userRequest)
         {
        
@@ -26,6 +26,7 @@ namespace StudentManagement_System_API.Controllers
                 return Ok(result);
         
         }
+
 
         [HttpPost("Login")]
         public async Task<IActionResult> UserLogin(string userId, string password)

@@ -35,22 +35,7 @@ namespace StudentManagement_System_API
             var jwtSettings = builder.Configuration.GetSection("Jwt");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
-            //builder.Services.AddAuthentication()
-            //  .AddJwtBearer(options =>
-            //  {
-            //      options.TokenValidationParameters = new TokenValidationParameters
-            //      {
-            //          ValidateIssuer = true,
-            //          ValidateAudience = true,
-            //          ValidateIssuerSigningKey = true,
-            //          ValidIssuer = jwtSettings["Issuer"],
-            //          ValidAudience = jwtSettings["Audience"],
-            //          IssuerSigningKey = new SymmetricSecurityKey(key)
-            //      };
-            //  });
-
-
-
+         
             builder.Services.AddScoped<ITimetableRepository, TimeTableRepository>();
             builder.Services.AddScoped<ITimetableService, TimetableService>();
 

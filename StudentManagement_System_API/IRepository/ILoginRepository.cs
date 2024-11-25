@@ -8,5 +8,6 @@ namespace StudentManagement_System_API.IRepository
     {
         Task<User> AddUser(User user);
         Task<User> GetUserById(string userId);
+        
     }
 }

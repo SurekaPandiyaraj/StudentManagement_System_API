@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
@@ -37,6 +38,20 @@ namespace StudentManagement_System_API.Service
 
         }
 
+        public async Task<TokenModel> AddStudent(StudentRegisterRequest studentRequest)
+        {
+            var req = new User
+            {
+                UserId = studentRequest.UTNumber,
+                PasswordHash = studentRequest.Password,
+
+
+            };
+            var student = await _loginRepository.AddUser(req);
+            var token = CreateToken(student);
+            return token;
+        }
+
         public async Task<TokenModel> Login(string UserId, string password)
         {
             var user = await _loginRepository.GetUserById(UserId);
@@ -68,6 +83,32 @@ namespace StudentManagement_System_API.Service
             var token = new JwtSecurityToken(
                 issuer:_configuration["Jwt:Issuer"], 
                 audience:_configuration["Jwt:Audience"],
+                claims: claimsList,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: credintials
+                );
+            var responce = new TokenModel
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+            return responce;
+        }
+
+        private TokenModel CreateToken(Student student)
+        {
+            var claimsList = new List<Claim>();
+
+            claimsList.Add(new Claim("UTNumber", student.UTNumber.ToString()));
+            claimsList.Add(new Claim("Batch", student.Batch));
+            
+
+
+            var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 claims: claimsList,
                 expires: DateTime.Now.AddDays(30),
                 signingCredentials: credintials

@@ -39,19 +39,18 @@ namespace StudentManagement_System_API.Controllers
 
 
         [HttpPost("AddStudent")]
-        public async Task<IActionResult> AddStudent([FromBody] StudentRequestDTO studentRequestDto)
+        public async Task<IActionResult> CreateStudent(StudentRequestDTO studentRequestDto)
         {
-            var student = await _studentService.AddStudent(studentRequestDto);
-            return CreatedAtAction(nameof(GetStudentById), 
-                new { utNumber = student.UTNumber }, student);
+            var data = await _studentService.CreateStudent(studentRequestDto); 
+            return Ok(data);
         }
 
 
 
         [HttpPut("UpdateStudent")]
-        public async Task<IActionResult> UpdateStudent([FromBody] StudentRequestDTO studentRequestDto)
+        public async Task<IActionResult> UpdateStudent(string utnumber,StudentRequestDTO studentRequestDto)
         {
-            var student = await _studentService.UpdateStudent(studentRequestDto);
+            var student = await _studentService.UpdateStudent(utnumber,studentRequestDto);
             return Ok(student);
         }
 

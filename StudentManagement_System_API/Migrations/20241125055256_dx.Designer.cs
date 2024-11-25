@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagement_System_API.Database;
 
@@ -11,9 +12,11 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    partial class StudentManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20241125055256_dx")]
+    partial class dx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,25 +174,6 @@ namespace StudentManagement_System_API.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Batch")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NICNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

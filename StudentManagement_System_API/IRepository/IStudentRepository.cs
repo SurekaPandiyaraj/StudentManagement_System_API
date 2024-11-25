@@ -8,8 +8,8 @@ namespace StudentManagement_System_API.IRepository
 
         Task<Student> GetStudentById(string utNumber);
         Task<List<Student>> GetAllStudent();
-        Task<Student> AddStudent(Student student);
-        Task<Student> UpdateStudent(Student student);
+        Task<Student> CreateStudent(Student student);
+        Task<Student> UpdateStudent(string utnumber);
         Task<bool> DeleteStudent(string utNumber);
     }
 }

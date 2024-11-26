@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.Entity;
@@ -15,11 +16,13 @@ namespace StudentManagement_System_API.Service
     {
 
         private readonly ILoginRepository _loginRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IConfiguration _configuration;
-        public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
+        public LoginService(ILoginRepository loginRepository, IConfiguration configuration, IStudentRepository studentRepository)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
+            _studentRepository = studentRepository;
         }
 
         public async Task<TokenModel> Register(UserRequestDTOs users)
@@ -33,23 +36,29 @@ namespace StudentManagement_System_API.Service
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(users.Password)
             };
 
-            var user = await _loginRepository.AddUser(req);
-            var token = CreateToken(user);
-            return token;
-
-        }
-
-        public async Task<TokenModel> AddStudent(StudentRegisterRequest studentRequest)
-        {
-            var req = new User
+            if (users.UserRole != Role.Student)
             {
-                UserId = studentRequest.UTNumber,
-                PasswordHash = studentRequest.Password,
+                req.UserId = users.UserId;
+                if (users.UserRole == Role.Manager)
+                {
+                    req.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@2024"); // Default password for Manager
+                }
+                var user = await _loginRepository.AddUser(req);
+            }
+            else
+            {
+                req.UserId = users.UTNumber;
+                var studentUser = await _loginRepository.AddUser(req);
+                var student = new Student
+                {
+                    User = studentUser,
+                    Batch = users.Batch,
+                    UTNumber = users.UTNumber
+                };
+                var getStudent = await _studentRepository.AddStudent(student);
+            }
 
-
-            };
-            var student = await _loginRepository.AddUser(req);
-            var token = CreateToken(student);
+            var token = CreateToken(req);
             return token;
         }
 
@@ -67,59 +76,59 @@ namespace StudentManagement_System_API.Service
             return CreateToken(user);
         }
 
+        // Create token for User
         private TokenModel CreateToken(User user)
         {
             var claimsList = new List<Claim>();
-            
-               claimsList.Add(new Claim("Id",user.Id.ToString()));
-               claimsList.Add(new Claim("Name", user.Name));
-               claimsList.Add(new Claim("Email", user.Email));
-               claimsList.Add(new Claim("NICNumber", user.NICNumber));
-               claimsList.Add(new Claim("UserRole", user.Id.ToString()));
-            
+
+            claimsList.Add(new Claim("Id", user.Id.ToString()));
+            claimsList.Add(new Claim("Name", user.Name));
+            claimsList.Add(new Claim("Email", user.Email));
+            claimsList.Add(new Claim("NICNumber", user.NICNumber));
+            claimsList.Add(new Claim("UserRole", user.UserRole.ToString()));
 
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-            var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
-           
-            var token = new JwtSecurityToken(
-                issuer:_configuration["Jwt:Issuer"], 
-                audience:_configuration["Jwt:Audience"],
-                claims: claimsList,
-                expires: DateTime.Now.AddDays(30),
-                signingCredentials: credintials
-                );
-            var responce = new TokenModel
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
-            };
-            return responce;
-        }
-
-        private TokenModel CreateToken(Student student)
-        {
-            var claimsList = new List<Claim>();
-
-            claimsList.Add(new Claim("UTNumber", student.UTNumber.ToString()));
-            claimsList.Add(new Claim("Batch", student.Batch));
-            
-
-
-            var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-            var credintials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claimsList,
                 expires: DateTime.Now.AddDays(30),
-                signingCredentials: credintials
-                );
-            var responce = new TokenModel
+                signingCredentials: credentials
+            );
+            var response = new TokenModel
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
-            return responce;
+            return response;
+        }
+
+        // Create token for Student
+        private TokenModel CreateToken(Student student)
+        {
+            var claimsList = new List<Claim>();
+
+            claimsList.Add(new Claim("UTNumber", student.UTNumber.ToString()));
+            claimsList.Add(new Claim("Batch", student.Batch));
+
+            var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claimsList,
+                expires: DateTime.Now.AddDays(30),
+                signingCredentials: credentials
+            );
+            var response = new TokenModel
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+            return response;
         }
     }
 }
+
 

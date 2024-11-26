@@ -44,7 +44,8 @@ namespace StudentManagement_System_API
 
             builder.Services.AddScoped<IExamRepository, ExamRepository>();
             builder.Services.AddScoped<IExamService, ExamService>();
-
+            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+            builder.Services.AddScoped<ILoginService, LoginService>();
 
             builder.Services.AddScoped <ICourseRepository,CourseRepository>();
             builder.Services.AddScoped<ICourseService,CourseService>();
@@ -54,8 +55,8 @@ namespace StudentManagement_System_API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ILoginRepository, LoginRepository>();
-            builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IStudentService, StudentService>();

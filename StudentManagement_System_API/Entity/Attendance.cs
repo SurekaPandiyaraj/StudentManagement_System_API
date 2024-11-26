@@ -2,7 +2,7 @@
 {
     public class Attendance
     {
-        public int Id { get; set; }  // Primary Key
+        public Guid Id { get; set; }  // Primary Key
         public Guid TimetableId { get; set; }  // Foreign Key from Timetable
         public string UTNumber { get; set; }  // Foreign Key from Student
         public DateTime Date { get; set; }

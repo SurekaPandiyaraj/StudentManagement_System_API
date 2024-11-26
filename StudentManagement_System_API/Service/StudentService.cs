@@ -9,8 +9,11 @@ namespace StudentManagement_System_API.Service
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentrepository;
-        public StudentService(IStudentRepository studentrepository) { 
+        private readonly IUserRepository _userrepository;
+        public StudentService(IStudentRepository studentrepository, IUserRepository userrepository)
+        {
             _studentrepository = studentrepository;
+            _userrepository = userrepository;
         }
 
         //public async Task<List<Student>> GetStudentsForAttendance(int courseId)
@@ -78,6 +81,10 @@ namespace StudentManagement_System_API.Service
                 NICNumber = studentRequestDto.NICNumber,
                 Batch = studentRequestDto.Batch,
                 UserId = studentRequestDto.UserId
+            };
+            var user = new User
+            {
+
             };
 
             var createdStudent = await _studentrepository.CreateStudent(student);

@@ -7,10 +7,12 @@ namespace StudentManagement_System_API.Service
     public class AttendanceService : IAttendanceService
     {
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly IEnrollmentRepository _enrollmentRepository;
 
-        public AttendanceService(IAttendanceRepository attendanceRepository)
+        public AttendanceService(IAttendanceRepository attendanceRepository , IEnrollmentRepository enrollmentRepository)
         {
             _attendanceRepository = attendanceRepository;
+            _enrollmentRepository = enrollmentRepository;
         }
 
         public async Task<IEnumerable<Attendance>> GetAllAttendancesAsync()
@@ -18,24 +20,36 @@ namespace StudentManagement_System_API.Service
             return await _attendanceRepository.GetAllAsync();
         }
 
-        public async Task<Attendance> GetAttendanceByIdAsync(int id)
+        public async Task<Attendance> GetAttendanceByIdAsync(Guid id)
         {
-            return await _attendanceRepository.GetByIdAsync(id);
+            return await _attendanceRepository.GetByAttendancesById(id);
         }
 
+        public async Task<List<Student>> GetStudentsByCourseId(int CourseId)
+        {
+            var enrollments = await _enrollmentRepository.GetEnrollmentsByCourseId(CourseId);
+            var students = new List<Student>();
+            foreach (var enrollment in enrollments)
+            {
+                var student = enrollment.Student;
+                students.Add(student);
+            }
+
+            return students;
+        }
         public async Task CreateAttendanceAsync(Attendance attendance)
         {
-            await _attendanceRepository.AddAsync(attendance);
+            await _attendanceRepository.AddStudentAttendence(attendance);
         }
 
-        public async Task UpdateAttendanceAsync(Attendance attendance)
-        {
-            await _attendanceRepository.UpdateAsync(attendance);
-        }
+        //public async Task UpdateAttendanceAsync(Attendance attendance)
+        //{
+        //    await _attendanceRepository.UpdateAsync(attendance);
+        //}
 
-        public async Task DeleteAttendanceAsync(int id)
-        {
-            await _attendanceRepository.DeleteAsync(id);
-        }
+        //public async Task DeleteAttendanceAsync(int id)
+        //{
+        //    await _attendanceRepository.DeleteAsync(id);
+        //}
     }
 }

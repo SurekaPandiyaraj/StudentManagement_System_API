@@ -26,6 +26,12 @@ namespace StudentManagement_System_API.Repository
             return data;
 
         }
+        public async Task<List<Enrollment>> GetEnrollmentsByCourseId(int CourseId)
+        {
+            var data = await _context.Enrollments.Where(a => a.CourseId == CourseId).Include(a => a.Student).ToListAsync();
+            return data;
+
+        }
         public async Task DeleteEntrollment(int Id)
         {
             var data =await _context.Enrollments.FindAsync(Id);

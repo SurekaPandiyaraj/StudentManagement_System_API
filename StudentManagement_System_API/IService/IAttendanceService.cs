@@ -5,9 +5,10 @@ namespace StudentManagement_System_API.IService
     public interface IAttendanceService
     {
         Task<IEnumerable<Attendance>> GetAllAttendancesAsync();
-        Task<Attendance> GetAttendanceByIdAsync(int id);
+        Task<Attendance> GetAttendanceByIdAsync(Guid id);
+        Task<List<Student>> GetStudentsByCourseId(int CourseId);
         Task CreateAttendanceAsync(Attendance attendance);
-        Task UpdateAttendanceAsync(Attendance attendance);
-        Task DeleteAttendanceAsync(int id);
+        //Task UpdateAttendanceAsync(Attendance attendance);
+        //Task DeleteAttendanceAsync(Guid id);
     }
 }

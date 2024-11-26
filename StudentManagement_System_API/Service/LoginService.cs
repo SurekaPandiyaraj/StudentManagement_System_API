@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using StudentManagement_System_API.DTOS.RequestDtos;
 using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.Entity;
@@ -15,11 +16,13 @@ namespace StudentManagement_System_API.Service
     {
 
         private readonly ILoginRepository _loginRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IConfiguration _configuration;
-        public LoginService(ILoginRepository loginRepository, IConfiguration configuration)
+        public LoginService(ILoginRepository loginRepository, IConfiguration configuration, IStudentRepository studentRepository)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
+            _studentRepository = studentRepository;
         }
 
         public async Task<TokenModel> Register(UserRequestDTOs users)
@@ -32,25 +35,53 @@ namespace StudentManagement_System_API.Service
                 UserRole = users.UserRole,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(users.Password)
             };
-            var user = await _loginRepository.AddUser(req);
-            var token = CreateToken(user);
-            return token;
-
-        }
-
-        public async Task<TokenModel> AddStudent(StudentRegisterRequest studentRequest)
-        {
-            var req = new User
+           
+            if(users.UserRole != Role.Student)
             {
-                UserId = studentRequest.UTNumber,
-                PasswordHash = studentRequest.Password,
-
-
-            };
-            var student = await _loginRepository.AddUser(req);
-            var token = CreateToken(student);
+                req.UserId = users.UserId;
+                if(users.UserRole == Role.Manager)
+                {
+                    req.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@2024");
+                }
+                var user = await _loginRepository.AddUser(req);
+            }
+            else
+            {
+                req.UserId =users.UTNumber;  
+                var studentUser = await _loginRepository.AddUser(req);
+                var student = new Student
+                {
+                    User = studentUser,
+                    Batch = users.Batch,
+                    UTNumber = users.UTNumber
+                };
+                var getStudent = await _studentRepository.AddStudent(student);
+                  
+            }
+            var token = CreateToken(req);
             return token;
+
         }
+
+        //public async Task<TokenModel> AddStudent(StudentRegisterRequest studentRequest)
+        //{
+            
+
+        //    var student = await _studentRepository.GetStudentById(studentRequest.UTNumber);
+        //    if(student == null)
+        //    {
+        //        throw new Exception("Student Not Found");
+        //    }
+        //    else
+        //    {   var getUser = await _loginRepository.GetUserById(studentRequest.UTNumber);
+        //        getUser.UserId = studentRequest.UTNumber;
+        //        getUser.PasswordHash = studentRequest.Password;
+        //        var user = await _loginRepository.UpdateUser(getUser);
+        //        var token = CreateToken(user);
+        //        return token;
+        //    }
+          
+        //}
 
         public async Task<TokenModel> Login(string UserId, string password)
         {
@@ -66,6 +97,8 @@ namespace StudentManagement_System_API.Service
             return CreateToken(user);
         }
 
+        // Register For User
+
         private TokenModel CreateToken(User user)
         {
             var claimsList = new List<Claim>();
@@ -74,7 +107,7 @@ namespace StudentManagement_System_API.Service
                claimsList.Add(new Claim("Name", user.Name));
                claimsList.Add(new Claim("Email", user.Email));
                claimsList.Add(new Claim("NICNumber", user.NICNumber));
-               claimsList.Add(new Claim("UserRole", user.Id.ToString()));
+               claimsList.Add(new Claim("UserRole", user.UserRole.ToString()));
             
 
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
@@ -93,6 +126,8 @@ namespace StudentManagement_System_API.Service
             };
             return responce;
         }
+
+        // Register For Student
 
         private TokenModel CreateToken(Student student)
         {

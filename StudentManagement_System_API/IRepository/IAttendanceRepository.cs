@@ -4,10 +4,10 @@ namespace StudentManagement_System_API.IRepository
 {
     public interface IAttendanceRepository
     {
-        Task<IEnumerable<Attendance>> GetAllAsync();
-        Task<Attendance> GetByIdAsync(int id);
-        Task AddAsync(Attendance attendance);
-        Task UpdateAsync(Attendance attendance);
-        Task DeleteAsync(int id);
+        Task<List<Attendance>> GetAllAsync();
+        Task<Attendance> GetByAttendancesById(Guid id);
+        Task<Attendance> AddStudentAttendence(Attendance attendance);
+      //  Task<Attendance> UpdateAsync(Attendance attendance);
+     //   Task DeleteAsync(int id);
     }
 }

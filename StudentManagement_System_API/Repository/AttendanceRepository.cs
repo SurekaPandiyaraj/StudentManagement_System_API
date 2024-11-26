@@ -2,6 +2,7 @@
 using StudentManagement_System_API.Database;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StudentManagement_System_API.Repository
 {
@@ -14,53 +15,62 @@ namespace StudentManagement_System_API.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Attendance>> GetAllAsync()
+        public async Task<Attendance> AddStudentAttendence(Attendance attendance)
         {
-            return await _context.Attendances
-                .Include(a => a.Student)
-                .Include(a => a.Timetable)
-                .ToListAsync();
-        }
-
-        public async Task<Attendance> GetByIdAsync(int id)
-        {
-            return await _context.Attendances
-                .Include(a => a.Student)
-                .Include(a => a.Timetable)
-                .FirstOrDefaultAsync(a => a.Id == id);
-        }
-
-        public async Task AddAsync(Attendance attendance)
-        {
-            await _context.Attendances.AddAsync(attendance);
+            var data = await _context.Attendances.AddAsync(attendance);
             await _context.SaveChangesAsync();
+            return data.Entity;
         }
 
-        public async Task UpdateAsync(Attendance attendance)
+        public async Task<List<Attendance>> GetAllAsync()
         {
-            _context.Attendances.Update(attendance);
-            await _context.SaveChangesAsync();
+            var data = await _context.Attendances.Where(a => !a.IsPresent).ToListAsync();
+            return data;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<Attendance> GetByAttendancesById(Guid id)
         {
-            var attendance = await _context.Attendances.FindAsync(id);
-            if (attendance != null)
-            {
-                _context.Attendances.Remove(attendance);
-                await _context.SaveChangesAsync();
-            }
+            var data = await _context.Attendances.FirstOrDefaultAsync(a => a.Id == id && !a.IsPresent);
+            return data;
         }
 
-        Task<IEnumerable<Attendance>> IAttendanceRepository.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<Attendance> GetByStudentUTNumber(string UTNumber)
+        //{
+        //    var data = await _context.Attendances.FirstOrDefaultAsync(f => f.UTNumber == UTNumber && !f.IsPresent);
+        //    return data;
+        //}
 
-        Task<Attendance> IAttendanceRepository.GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
+        //public async Task<Attendance> UpdateAttendance(Attendance attendance)
+        //{
+
+        //    var data = await GetByAttendancesById(attendance.Id);
+
+        //    if (data == null) return null;
+
+        //    data.IsPresent = attendance.IsPresent;
+        //    data.Date = attendance.Date;
+
+        //    await _context.SaveChangesAsync();
+        //    return data;
+
+
+        //}
+
+        //public async Task DeleteAttendence(Guid Id)
+        //{
+
+        //    var data = await GetByAttendancesById(Id); ;
+
+
+        //    if (data != null)
+
+        //    data.IsPresent = true;
+        //    data.Date = DateTime.Now;
+        //    _context.Attendances.Update(data);
+        //    await _context.SaveChangesAsync();
+
+
+        //}
     }
 }

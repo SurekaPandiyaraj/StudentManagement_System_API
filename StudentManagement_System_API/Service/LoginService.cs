@@ -32,6 +32,7 @@ namespace StudentManagement_System_API.Service
                 UserRole = users.UserRole,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(users.Password)
             };
+
             var user = await _loginRepository.AddUser(req);
             var token = CreateToken(user);
             return token;

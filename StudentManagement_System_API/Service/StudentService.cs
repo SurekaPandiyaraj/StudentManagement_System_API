@@ -42,6 +42,11 @@ namespace StudentManagement_System_API.Service
             return new StudentResponceDTO
             {
                 UTNumber = student.UTNumber,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                NICNumber = student.NICNumber,
+                IsActive = student.IsActive,
                 Batch = student.Batch,
                 UserId = student.UserId
             };
@@ -54,17 +59,26 @@ namespace StudentManagement_System_API.Service
             return students.Select(student => new StudentResponceDTO
             {
                 UTNumber = student.UTNumber,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                NICNumber = student.NICNumber,
+                IsActive=student.IsActive,
                 Batch = student.Batch,
                 UserId = student.UserId
             }).ToList();
         }
 
 
-        public async Task<StudentResponceDTO> AddStudent(StudentRequestDTO studentRequestDto)
+        public async Task<StudentResponceDTO> CreateStudent(StudentRequestDTO studentRequestDto)
         {
             var student = new Student
             {
                 UTNumber = studentRequestDto.UTNumber,
+                FirstName = studentRequestDto.FirstName,
+                LastName = studentRequestDto.LastName,
+                Email = studentRequestDto.Email,
+                NICNumber = studentRequestDto.NICNumber,
                 Batch = studentRequestDto.Batch,
                 UserId = studentRequestDto.UserId
             };
@@ -73,30 +87,44 @@ namespace StudentManagement_System_API.Service
 
             };
 
-            var createdStudent = await _studentrepository.AddStudent(student);
+            var createdStudent = await _studentrepository.CreateStudent(student);
 
             return new StudentResponceDTO
             {
                 UTNumber = createdStudent.UTNumber,
+                FirstName= createdStudent.FirstName,
+                LastName = createdStudent.LastName,
+                Email = createdStudent.Email,
+                NICNumber = createdStudent.NICNumber,
                 Batch = createdStudent.Batch,
+                IsActive = createdStudent.IsActive,
                 UserId = createdStudent.UserId
             };
         }
 
-        public async Task<StudentResponceDTO> UpdateStudent(StudentRequestDTO studentRequestDto)
+        public async Task<StudentResponceDTO> UpdateStudent(string utnumber,StudentRequestDTO studentRequestDto)
         {
             var student = new Student
             {
                 UTNumber = studentRequestDto.UTNumber,
                 Batch = studentRequestDto.Batch,
+                FirstName= studentRequestDto.FirstName,
+                LastName = studentRequestDto.LastName,
+                Email = studentRequestDto.Email,
+                NICNumber = studentRequestDto.NICNumber,
                 UserId = studentRequestDto.UserId
             };
 
-            var updatedStudent = await _studentrepository.UpdateStudent(student);
+            var updatedStudent = await _studentrepository.UpdateStudent(utnumber);
 
             return new StudentResponceDTO
             {
                 UTNumber = updatedStudent.UTNumber,
+                FirstName = updatedStudent.FirstName,
+                LastName = updatedStudent.LastName,
+                Email = updatedStudent.Email,
+                NICNumber = updatedStudent.NICNumber,
+                IsActive= updatedStudent.IsActive,
                 Batch = updatedStudent.Batch,
                 UserId = updatedStudent.UserId
             };

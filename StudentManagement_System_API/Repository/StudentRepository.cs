@@ -33,18 +33,23 @@ namespace StudentManagement_System_API.Repository
             return await _context.Students.ToListAsync();
         }
 
-        public async Task<Student> AddStudent(Student student)
+        public async Task<Student> CreateStudent(Student student)
         {
-            _context.Students.Add(student);
+             var data =await _context.Students.AddAsync(student);
             await _context.SaveChangesAsync();
-            return student;
+            return data.Entity;
         }
 
 
-        public async Task<Student> UpdateStudent(Student student)
+        public async Task<Student> UpdateStudent(string utnumber)
         {
-            _context.Students.Update(student);
-            await _context.SaveChangesAsync();
+            var student = await _context.Students.FindAsync(utnumber);
+
+            if (student != null)
+            {
+                _context.Students.Update(student);
+                await _context.SaveChangesAsync();
+            }
             return student;
         }
 

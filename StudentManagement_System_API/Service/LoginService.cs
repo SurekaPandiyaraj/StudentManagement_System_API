@@ -53,9 +53,10 @@ namespace StudentManagement_System_API.Service
                 {
                     User = studentUser,
                     Batch = users.Batch,
-                    UTNumber = users.UTNumber
+                    UTNumber = users.UTNumber,
+                   
                 };
-                var getStudent = await _studentRepository.AddStudent(student);
+                var getStudent = await _studentRepository.CreateStudent(student);
             }
 
             var token = CreateToken(req);

@@ -2,9 +2,9 @@
 {
     public class Enrollment
     {
-        public int Id { get; set; }  // Primary Key
+        public Guid Id { get; set; }  // Primary Key
 
-        public int CourseId { get; set; }  // Foreign Key from Course
+        public Guid CourseId { get; set; }  // Foreign Key from Course
         public DateTime EnrolledDate { get; set; }
         public Student Student { get; set; }
         public string StudentId { get; set; }

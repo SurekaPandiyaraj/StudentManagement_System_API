@@ -59,7 +59,7 @@ namespace StudentManagement_System_API.Service
             return rescoures;
           
         }
-        public async Task<CourseResponceDTO> GetCourseById(int id)
+        public async Task<CourseResponceDTO> GetCourseById(Guid id)
         {
             var data = await _courseRepository.GetCourseById(id);
             var resCourse = new CourseResponceDTO
@@ -79,7 +79,7 @@ namespace StudentManagement_System_API.Service
             return resCourse;
         }
 
-        public async Task<CourseResponceDTO?> UpdateCoures(int id, CourseRequestDTO courseRequest)
+        public async Task<CourseResponceDTO?> UpdateCoures(Guid id, CourseRequestDTO courseRequest)
         {
             // Retrieve the existing course
             var existingCourse = await _courseRepository.GetCourseById(id);
@@ -112,7 +112,7 @@ namespace StudentManagement_System_API.Service
         }
 
 
-        public async Task DeleteCourse(int Id)
+        public async Task DeleteCourse(Guid Id)
         {
             await _courseRepository.DeleteCourse(Id);
         }

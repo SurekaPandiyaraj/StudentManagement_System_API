@@ -8,8 +8,8 @@ namespace StudentManagement_System_API.IService
     {
         Task<CourseResponceDTO> AddCourse(CourseRequestDTO courseRequestDTO);
         Task<List<CourseResponceDTO>> GetAllCourses();
-        Task<CourseResponceDTO> GetCourseById(int id);
-        Task<CourseResponceDTO> UpdateCoures(int Id, CourseRequestDTO course);
-        Task DeleteCourse(int Id);
+        Task<CourseResponceDTO> GetCourseById(Guid id);
+        Task<CourseResponceDTO> UpdateCoures(Guid Id, CourseRequestDTO course);
+        Task DeleteCourse(Guid Id);
     }
 }

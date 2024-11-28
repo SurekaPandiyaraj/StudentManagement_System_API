@@ -9,5 +9,7 @@
         public string NICNumber { get; set; }
         public string Batch { get; set; }
         public int UserId { get; set; }
+        public DateTime DateOfBirth {  get; set; }
+  
     }
 }

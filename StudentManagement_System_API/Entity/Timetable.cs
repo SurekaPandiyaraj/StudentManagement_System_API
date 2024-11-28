@@ -4,8 +4,11 @@ namespace StudentManagement_System_API.Entity
     public class Timetable
     {
         public Guid Id { get; set; }  // Primary Key
-        public int CourseId { get; set; }  // Foreign Key from Course
-        public DateTime Date { get; set; }  
+        public Guid CourseId { get; set; } 
+        
+        public string CourseName { get; set; }
+        // Foreign Key from Course
+        public DateOnly Date { get; set; }  
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         
@@ -15,7 +18,9 @@ namespace StudentManagement_System_API.Entity
         // Navigation properties
         public Course? Course { get; set; }  // One-to-many with Course
         public ICollection<Attendance>? Attendances { get; set; }  // One-to-many with Attendance
-        public List<TimetableSubject>? TimetableSubjects { get; internal set; }
+        public List<Subject>? Subjects { get; internal set; }
+
+        public User? UserRole  { get; set; }
     }
 
 }

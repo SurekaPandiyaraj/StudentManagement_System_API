@@ -14,36 +14,45 @@ namespace StudentManagement_System_API.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Exam>> GetAllAsync()
+        public async Task<List<Exam>> GetAllExam()
         {
-            return await _context.Set<Exam>().ToListAsync();
+            var data = await _context.Exams.ToListAsync();
+            return data;
         }
 
-        public async Task<Exam> GetByIdAsync(int id)
+        public async Task<Exam> GetByExamById(Guid id)
         {
-            return await _context.Set<Exam>().FindAsync(id);
+            var data = await _context.Exams.FirstOrDefaultAsync(x => x.Id == id);
+            return data;
+
         }
 
-        public async Task AddAsync(Exam exam)
+        public async Task<Exam> AddExam(Exam exam)
         {
-            await _context.Set<Exam>().AddAsync(exam);
+            var data = await _context.AddAsync(exam);
             await _context.SaveChangesAsync();
+            return data.Entity;
         }
 
-        public async Task UpdateAsync(Exam exam)
+        public async Task<Exam> UpdateAsync(Exam exam)
         {
-            _context.Set<Exam>().Update(exam);
-            await _context.SaveChangesAsync();
-        }
+           var data = await GetByExamById(exam.Id);
 
-        public async Task DeleteAsync(int id)
-        {
-            var exam = await _context.Set<Exam>().FindAsync(id);
-            if (exam != null)
+            if (data == null) return null;
             {
-                _context.Set<Exam>().Remove(exam);
+                data.Id = exam.Id;
+                data.CourseId = exam.CourseId;
+                data.Course = exam.Course;
+                data.CutOffMarks = exam.CutOffMarks;
+
+
                 await _context.SaveChangesAsync();
+
+                return exam;
+
             }
         }
+
+      
     }
 }

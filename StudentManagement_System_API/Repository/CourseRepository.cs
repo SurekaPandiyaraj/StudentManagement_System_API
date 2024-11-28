@@ -29,7 +29,7 @@ namespace StudentManagement_System_API.Repository
             return data;
         }
 
-        public async Task<Course> GetCourseById(int id)
+        public async Task<Course> GetCourseById(Guid id)
         {
             var data = await _studentManagementContext.Courses.Include(e => e.Enrollments).FirstOrDefaultAsync (c => c.Id == id && !c.IsDeleted);
             return data;
@@ -42,7 +42,7 @@ namespace StudentManagement_System_API.Repository
             return course;
         }
 
-        public async Task DeleteCourse(int id)
+        public async Task DeleteCourse(Guid id)
         {
             var data = await GetCourseById(id);
             if (data != null)

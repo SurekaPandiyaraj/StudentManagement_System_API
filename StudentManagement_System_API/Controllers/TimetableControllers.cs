@@ -21,7 +21,7 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateTimetable(int CourseId, TimetableRequestDtos timetableRequestDTO)
+        public async Task<IActionResult> CreateTimetable(Guid CourseId, TimetableRequestDtos timetableRequestDTO)
         {
             var createdTable = await _timetableService.CreateTable(CourseId, timetableRequestDTO);
             return Ok(createdTable);
@@ -30,7 +30,7 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpGet("{date}")]
 
-        public async Task<IActionResult> GetTable(DateTime date)
+        public async Task<IActionResult> GetTable(DateOnly date)
         {
             var table = await _timetableService.GetTimetableByDate(date);
             if (table == null) return NotFound();
@@ -38,20 +38,20 @@ namespace StudentManagement_System_API.Controllers
             return Ok(table);
         }
 
-        [HttpPut("{date}")]
+        //[HttpPut("{date}")]
 
-        public async Task<IActionResult> UpdateTable(DateTime date, TimetableRequestDtos TimetableRequestDTO)
-        {
-            await _timetableService.UpdateTimetable(date, TimetableRequestDTO);
-            return NoContent();
-        }
+        //public async Task<IActionResult> UpdateTable(DateTime date, TimetableRequestDtos TimetableRequestDTO)
+        //{
+        //    await _timetableService.UpdateTimetable(date, TimetableRequestDTO);
+        //    return NoContent();
+        //}
 
-        [HttpDelete("{date}")]
+        //[HttpDelete("{date}")]
 
-        public async Task<IActionResult> DeleteTable(DateTime date)
-        {
-            await _timetableService.DeleteTable(date);
-            return NoContent();
-        }
+        //public async Task<IActionResult> DeleteTable(DateTime date)
+        //{
+        //    await _timetableService.DeleteTable(date);
+        //    return NoContent();
+        //}
     }
 }

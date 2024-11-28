@@ -6,8 +6,8 @@ namespace StudentManagement_System_API.IRepository
     {
         Task<Course> AddCourses(Course course);
         Task<List<Course>> GetallCourses();
-        Task<Course> GetCourseById(int id);
+        Task<Course> GetCourseById(Guid id);
         Task<Course> UpadteCourse(Course course);
-        Task DeleteCourse(int id);
+        Task DeleteCourse(Guid id);
     }
 }

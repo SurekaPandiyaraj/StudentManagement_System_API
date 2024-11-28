@@ -13,53 +13,55 @@ namespace StudentManagement_System_API.Service
     public class TimetableService : ITimetableService
     {
         private readonly ITimetableRepository _repository;
+        private readonly ICourseRepository _courseRepository;
 
-        public TimetableService(ITimetableRepository repository)
+        public TimetableService(ITimetableRepository repository, ICourseRepository courseRepository)
         {
             _repository = repository;
+            _courseRepository = courseRepository;
         }
 
-        public async Task<TimetableResponceDTO> CreateTable(int courseId, TimetableRequestDtos timetableRequestDTO)
+
+
+        public async Task<TimetableResponceDTO> CreateTable(Guid courseId, TimetableRequestDtos timetableRequestDTO)
         {
+            // Get the course details by courseId
+            var course = await _courseRepository.GetCourseById(courseId);
+
+                 // e.g., "11:00" -> TimeSpan
+
+            // Create a new Timetable Entity
             var timetable = new Timetable
             {
                 Id = Guid.NewGuid(),
                 CourseId = courseId,
-                // Set the Date to current date without time (DateTime.Now.Date)
-                Date = DateTime.Now.Date, // This will set the date as today's date with time = 00:00:00
-                TimetableSubjects = timetableRequestDTO.Subjects?.Select(x => new TimetableSubject
-                {
-                    Name = x.SubjectName,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime
-                }).ToList()
+                CourseName = course.CourseName,
+                Date = timetableRequestDTO.Date,
+                StartTime = timetableRequestDTO.StartTime,
+                EndTime = timetableRequestDTO.EndTime,
             };
 
+            // Create the timetable in the repository/database
             var data = await _repository.CreateTimetableAsync(timetable);
 
-            var req = new TimetableResponceDTO
+            // Mapping the entity to the response DTO
+            var response = new TimetableResponceDTO
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
-                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
-                {
-                    Id = x.Id,
-                    SubjectName = x.Name,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime
-                }).ToList()
+                CourseName = data.CourseName,
+                Date = data.Date,  // Format the Date as string (yyyy-MM-dd)
+                StartTime = data.StartTime, // Convert TimeSpan to formatted string "hh:mm"
+                EndTime = data.EndTime   // Convert TimeSpan to formatted string "hh:mm"
             };
 
-            return req; // Return the created timetable response
+            return response;
         }
-
-          public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
+        public async Task<TimetableResponceDTO> GetTimetableByDate(DateOnly date)
         {
-            // Use the Date property to remove the time and compare only the date part.
-            var trimmedDate = date.Date;  
 
-            // Pass the DateTime object (trimmedDate) to your repository method
-            var data = await _repository.GetTimetableByDate(trimmedDate);
+          
+            var data = await _repository.GetTimetableByDate(date);
 
             if (data == null)
             {
@@ -71,13 +73,11 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
-                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
-                {
-                    Id = x.Id,
-                    SubjectName = x.Name,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime
-                }).ToList()
+                CourseName= data.CourseName,
+                Date = data.Date,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+             
             };
 
             return res;  // Return the mapped response
@@ -85,41 +85,46 @@ namespace StudentManagement_System_API.Service
 
 
 
-        public async Task<TimetableResponceDTO> UpdateTimetable(DateTime date, TimetableRequestDtos timetableRequestDTO)
-        {
-            var timeTable = new Timetable
-            {
-                Id = Guid.NewGuid(),
-                Date = DateTime.Now,
-                TimetableSubjects = timetableRequestDTO.Subjects?.Select(x => new TimetableSubject
+        //public async Task<TimetableResponceDTO> UpdateTimetable(DateTime date, TimetableRequestDtos timetableRequestDTO)
+        //{
+        //    var timeTable = new Timetable
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Date = DateTime.Now,
+        //        TimetableSubjects = timetableRequestDTO.Subject?.Select(x => new Subject
 
-                {
-                    Name = x.SubjectName,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime
-                }).ToList()
-            };
+        //        {
+        //            Name = x.SubjectName,
+        //            StartTime = x.StartTime,
+        //            EndTime = x.EndTime
+        //        }).ToList()
+        //    };
 
-            var data = await _repository.GetTimetableByDate(date);
+        //    var data = await _repository.GetTimetableByDate(date);
 
-            var resTable = new TimetableResponceDTO
-            {
-                Id = data.Id,
-                CourseId = data.CourseId,
-                timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
-                {
-                    SubjectName = x.Name,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime
-                }).ToList()
-            };
-            return resTable;
-        }
+        //    var resTable = new TimetableResponceDTO
+        //    {
+        //        Id = data.Id,
+        //        CourseId = data.CourseId,
+        //        timetablesubjectresponses = data.TimetableSubjects?.Select(x => new Timetablesubjectresponse
+        //        {
+        //            SubjectName = x.Name,
+        //            StartTime = x.StartTime,
+        //            EndTime = x.EndTime
+        //        }).ToList()
+        //    };
+        //    return resTable;
+        //}
 
-        public async Task DeleteTable (DateTime date)
-        {
-            await _repository.DeleteTimetableByDate(date);
-        }
-        
     }
+
+    
+
+    //public async Task DeleteTable(DateTime date)
+    //{
+    //    await _repository.DeleteTimetableByDate(date);
+        
+    //}
+
 }
+

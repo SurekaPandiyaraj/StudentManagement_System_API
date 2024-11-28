@@ -10,7 +10,7 @@ namespace StudentManagement_System_API.Entity
         public string LastName { get; set; }
         public string Email { get; set; }
         public string NICNumber { get; set; }
-        public string Batch { get; set; }     
+        public string Batch { get; set; }   
         public bool IsActive { get; set; }
         public int UserId { get; set; }  // Foreign Key from User
         // Navigation properties

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
 
@@ -15,5 +16,11 @@ namespace StudentManagement_System_API.Controllers
         {
             _marksService = marksService;
         }
+
+        //[HttpPost] 
+        //public async Task<IActionResult> AddMarkes(MarksRequestDTO marksRequestDTO)
+        //{
+
+        //}
     }
 }

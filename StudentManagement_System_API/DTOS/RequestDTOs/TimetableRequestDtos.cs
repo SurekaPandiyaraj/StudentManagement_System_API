@@ -2,7 +2,11 @@
 {
     public class TimetableRequestDtos
     {
-        public DateTime Date { get; set; }
-        public List<TimetableSubjectRequestDtos> Subjects { get; set; }
+        public DateOnly Date { get; set; }
+
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+       
     }
 }

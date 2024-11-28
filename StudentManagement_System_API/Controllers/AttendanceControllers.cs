@@ -70,7 +70,7 @@ namespace StudentManagement_System_API.Controllers
     //}
 
     [HttpGet("Get-students{courseId}")]
-        public async Task<IActionResult> GetStudentsByCourseId(int courseId)
+        public async Task<IActionResult> GetStudentsByCourseId(Guid courseId)
         {
             var data = await _attendanceService.GetStudentsByCourseId(courseId);
             return Ok(data);

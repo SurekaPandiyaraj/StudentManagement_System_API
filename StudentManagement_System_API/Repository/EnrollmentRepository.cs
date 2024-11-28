@@ -20,19 +20,19 @@ namespace StudentManagement_System_API.Repository
 
             return enrollment;
         }
-        public async Task<List<Enrollment>> GetEnrollmentById(int Id)
+        public async Task<List<Enrollment>> GetEnrollmentById(Guid Id)
         {
             var data = await _context.Enrollments.Where(a => a.Id == Id).ToListAsync();
             return data;
 
         }
-        public async Task<List<Enrollment>> GetEnrollmentsByCourseId(int CourseId)
+        public async Task<List<Enrollment>> GetEnrollmentsByCourseId(Guid CourseId)
         {
             var data = await _context.Enrollments.Where(a => a.CourseId == CourseId).Include(a => a.Student).ToListAsync();
             return data;
 
         }
-        public async Task DeleteEntrollment(int Id)
+        public async Task DeleteEntrollment(Guid Id)
         {
             var data =await _context.Enrollments.FindAsync(Id);
             if (data != null)

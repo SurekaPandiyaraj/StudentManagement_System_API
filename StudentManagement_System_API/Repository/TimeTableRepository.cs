@@ -19,10 +19,10 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return data.Entity;
         }
-        public async Task<Timetable> GetTimetableByDate(DateTime date)
+        public async Task<Timetable> GetTimetableByDate(DateOnly date)
         {
             var data = await _context.Timetables
-                                      .FirstOrDefaultAsync(d => d.Date.Date == date.Date);  
+                                      .FirstOrDefaultAsync(d => d.Date == date);  
             return data;
         }
 
@@ -34,22 +34,22 @@ namespace StudentManagement_System_API.Repository
             if (data != null) return null;
 
             data.CourseId = timetable.CourseId;
-            data.TimetableSubjects = timetable.TimetableSubjects;
+            data.Subjects = timetable.Subjects;
 
             await _context.SaveChangesAsync();
             return data;
         }
 
-        public async Task DeleteTimetableByDate(DateTime date)
-        {
-            var data= await GetTimetableByDate(date);
-            if(data != null)
-            {
-                _context.Timetables.Remove(data);
-                await _context.SaveChangesAsync();
-            }
-        }
+        //public async Task DeleteTimetableByDate(DateTime date)
+        //{
+        //    var data= await GetTimetableByDate(date);
+        //    if(data != null)
+        //    {
+        //        _context.Timetables.Remove(data);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
 
-        
+
     }
 }

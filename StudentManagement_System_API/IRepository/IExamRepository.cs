@@ -4,10 +4,9 @@ namespace StudentManagement_System_API.IRepository
 {
     public interface IExamRepository
     {
-        Task<IEnumerable<Exam>> GetAllAsync();
-        Task<Exam> GetByIdAsync(int id);
-        Task AddAsync(Exam exam);
-        Task UpdateAsync(Exam exam);
-        Task DeleteAsync(int id);
+        Task<Exam> UpdateAsync(Exam exam);
+        Task<Exam> AddExam(Exam exam);
+        Task<Exam> GetByExamById(Guid id);
+        Task<List<Exam>> GetAllExam();
     }
 }

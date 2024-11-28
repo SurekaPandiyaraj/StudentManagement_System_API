@@ -2,10 +2,10 @@
 {
     public class Exam
     {
-        public int Id { get; set; }  // Primary Key
-        public int CourseId { get; set; }  // Foreign Key from Course
+        public Guid Id { get; set; }  // Primary Key
+        public Guid CourseId { get; set; }  // Foreign Key from Course
         public DateTime ExamDate { get; set; }
-        public int? MaximumMarks { get; set; }
+        
         public int? CutOffMarks { get; set; }
 
 

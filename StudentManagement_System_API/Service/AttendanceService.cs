@@ -25,7 +25,7 @@ namespace StudentManagement_System_API.Service
             return await _attendanceRepository.GetByAttendancesById(id);
         }
 
-        public async Task<List<Student>> GetStudentsByCourseId(int CourseId)
+        public async Task<List<Student>> GetStudentsByCourseId(Guid CourseId)
         {
             var enrollments = await _enrollmentRepository.GetEnrollmentsByCourseId(CourseId);
             var students = new List<Student>();

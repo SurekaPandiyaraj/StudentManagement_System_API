@@ -10,7 +10,7 @@ namespace StudentManagement_System_API.DTOS.ResponseDtos
         public string Email { get; set; }
         public string Password { get; set; }
         public string NICNumber { get; set; }
-        public Role UserRole { get; set; }
+        public string UserRole { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }

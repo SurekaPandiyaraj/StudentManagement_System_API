@@ -27,8 +27,6 @@ namespace StudentManagement_System_API.Service
                 NICNumber = userRequestDTOs.NICNumber,
                 PasswordHash = userRequestDTOs.Password,
                 UserRole = userRequestDTOs.UserRole,
-
-
             };
 
             var data = await _repository.CreateUserAsync(user);
@@ -41,7 +39,7 @@ namespace StudentManagement_System_API.Service
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
-                UserRole = data.UserRole,
+                UserRole = data.UserRole.ToString(),
                 IsDeleted = data.IsDelete,
             };
             return resuser;
@@ -58,7 +56,7 @@ namespace StudentManagement_System_API.Service
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
-                UserRole = data.UserRole,
+                UserRole = data.UserRole.ToString(),
                 IsDeleted = data.IsDelete,
             };
             return resuser;
@@ -76,9 +74,9 @@ namespace StudentManagement_System_API.Service
                 Email = x.Email,
                 NICNumber = x.NICNumber,
                 Password = x.PasswordHash,
-                UserRole = x.UserRole,
+                UserRole = x.UserRole.ToString(),
                 IsDeleted = x.IsDelete,
-            }).ToList(); ;
+            }).ToList(); 
             return resusers;
         }
 
@@ -94,7 +92,7 @@ namespace StudentManagement_System_API.Service
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
-                UserRole = data.UserRole,
+                UserRole = data.UserRole.ToString(),
                 IsDeleted = data.IsDelete,
             };
             return resusers;
@@ -123,7 +121,7 @@ namespace StudentManagement_System_API.Service
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
-                UserRole = data.UserRole,
+                UserRole = data.UserRole.ToString(),
                 IsDeleted = data.IsDelete
 
             };

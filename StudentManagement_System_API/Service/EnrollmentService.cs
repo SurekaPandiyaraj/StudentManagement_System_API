@@ -15,7 +15,7 @@ namespace StudentManagement_System_API.Service
             _enrollement = enrollement;
         }
 
-        public async Task<EntrollementResponceDTO> AddEntrollement(int CourseId,EntrollementRequestDTO requestDTO)
+        public async Task<EntrollementResponceDTO> AddEntrollement(Guid CourseId,EntrollementRequestDTO requestDTO)
         {
             var enroll = new Enrollment
             {
@@ -32,7 +32,7 @@ namespace StudentManagement_System_API.Service
             return resentroll;
         }
 
-        public async Task<List<EntrollementResponceDTO>> GetEnrollmentById( int CourseId)
+        public async Task<List<EntrollementResponceDTO>> GetEnrollmentById(Guid CourseId)
         {
            var ent = await _enrollement.GetEnrollmentById(CourseId);
 
@@ -44,7 +44,7 @@ namespace StudentManagement_System_API.Service
             return resEnt;
 
         }
-        public async Task Delete(int CourseId)
+        public async Task Delete(Guid CourseId)
         {
             await _enrollement.DeleteEntrollment(CourseId);
         }

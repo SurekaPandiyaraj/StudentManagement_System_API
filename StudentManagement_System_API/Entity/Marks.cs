@@ -2,8 +2,8 @@
 {
     public class Marks
     {
-        public int Id { get; set; }
-        public int ExamId { get; set; }
+        public Guid Id { get; set; }
+        public Guid ExamId { get; set; }
         public string UTNumber { get; set; }
         public int? MarksObtained { get; set; }
         public bool IsApproved { get; set; } // Pending or Approved

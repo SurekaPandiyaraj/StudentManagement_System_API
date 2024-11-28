@@ -48,7 +48,8 @@ namespace StudentManagement_System_API.Service
                 NICNumber = student.NICNumber,
                 IsActive = student.IsActive,
                 Batch = student.Batch,
-                UserId = student.UserId
+                UserId = student.UserId,
+                DateOfBirth = student.User.DateOfBirth
             };
         }
 
@@ -65,7 +66,8 @@ namespace StudentManagement_System_API.Service
                 NICNumber = student.NICNumber,
                 IsActive=student.IsActive,
                 Batch = student.Batch,
-                UserId = student.UserId
+                UserId = student.UserId,
+                DateOfBirth = student.User.DateOfBirth
             }).ToList();
         }
 
@@ -80,7 +82,8 @@ namespace StudentManagement_System_API.Service
                 Email = studentRequestDto.Email,
                 NICNumber = studentRequestDto.NICNumber,
                 Batch = studentRequestDto.Batch,
-                UserId = studentRequestDto.UserId
+                UserId = studentRequestDto.UserId,
+               
             };
             var user = new User
             {
@@ -98,7 +101,8 @@ namespace StudentManagement_System_API.Service
                 NICNumber = createdStudent.NICNumber,
                 Batch = createdStudent.Batch,
                 IsActive = createdStudent.IsActive,
-                UserId = createdStudent.UserId
+                UserId = createdStudent.UserId,
+               
             };
         }
 
@@ -112,7 +116,8 @@ namespace StudentManagement_System_API.Service
                 LastName = studentRequestDto.LastName,
                 Email = studentRequestDto.Email,
                 NICNumber = studentRequestDto.NICNumber,
-                UserId = studentRequestDto.UserId
+                UserId = studentRequestDto.UserId,
+               
             };
 
             var updatedStudent = await _studentrepository.UpdateStudent(utnumber);
@@ -126,7 +131,8 @@ namespace StudentManagement_System_API.Service
                 NICNumber = updatedStudent.NICNumber,
                 IsActive= updatedStudent.IsActive,
                 Batch = updatedStudent.Batch,
-                UserId = updatedStudent.UserId
+                UserId = updatedStudent.UserId,
+              
             };
         }
 

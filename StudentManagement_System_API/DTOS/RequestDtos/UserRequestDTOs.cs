@@ -13,5 +13,7 @@ namespace StudentManagement_System_API.DTOS.RequestDtos
         public string NICNumber { get; set; }
         public string Password { get; set; }
         public Role UserRole { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
     }
 }

@@ -18,21 +18,21 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEntrollement (int id, EntrollementRequestDTO entrollementRequestDTO)
+        public async Task<IActionResult> AddEntrollement (Guid id, EntrollementRequestDTO entrollementRequestDTO)
         {
             var data = await _entrollment.AddEntrollement(id, entrollementRequestDTO);
             return Ok(data);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEntrollmentById (int Id)
+        public async Task<IActionResult> GetEntrollmentById (Guid Id)
         {
             var data = await _entrollment.GetEnrollmentById(Id);
             return Ok(data);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteEntrollement(int Id)
+        public async Task<IActionResult> DeleteEntrollement(Guid Id)
         {
             await _entrollment.Delete(Id);
             return NoContent();

@@ -36,21 +36,21 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetCourseById(int Id)
+        public async Task<IActionResult> GetCourseById(Guid Id)
         {
             var data = await _courseService.GetCourseById(Id);
             return Ok(data);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCoures(int Id, CourseRequestDTO courseRequestDTO)
+        public async Task<IActionResult> UpdateCoures(Guid Id, CourseRequestDTO courseRequestDTO)
         {
             var data = await _courseService.UpdateCoures(Id, courseRequestDTO);
             return Ok(data);
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteCourse(int Id)
+        public async Task<IActionResult> DeleteCourse(Guid Id)
         {
             await _courseService.DeleteCourse(Id);
             return NoContent();

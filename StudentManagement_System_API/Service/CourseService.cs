@@ -94,10 +94,9 @@ namespace StudentManagement_System_API.Service
             existingCourse.StartDate = courseRequest.StartDate;
             existingCourse.EndDate = courseRequest.EndDate;
 
-            // Save the updated course to the database
+           
             var updatedCourse = await _courseRepository.UpadteCourse(existingCourse);
 
-            // Map the updated entity to the response DTO
             var responseCourse = new CourseResponceDTO
             {
                 Id = updatedCourse.Id,

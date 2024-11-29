@@ -6,7 +6,7 @@
         public Guid ExamId { get; set; }
         public string UTNumber { get; set; }
         public int? MarksObtained { get; set; }
-        public bool IsApproved { get; set; } // Pending or Approved
+        public bool IsApproved { get; set; }                
 
         // Navigation properties for relationships
         public Exam? Exam { get; set; }

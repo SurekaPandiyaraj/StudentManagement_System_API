@@ -15,11 +15,10 @@ namespace StudentManagement_System_API.Service
             _enrollement = enrollement;
         }
 
-        public async Task<EntrollementResponceDTO> AddEntrollement(Guid CourseId,EntrollementRequestDTO requestDTO)
+        public async Task<EntrollementResponceDTO> AddEntrollement(EntrollementRequestDTO requestDTO)
         {
             var enroll = new Enrollment
             {
-                CourseId = CourseId,
                 EnrolledDate = requestDTO.EnrolledDate,
             };
             var data = await _enrollement.AddEnrollment(enroll);

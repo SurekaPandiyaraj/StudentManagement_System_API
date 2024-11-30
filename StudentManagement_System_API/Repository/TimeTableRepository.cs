@@ -34,7 +34,7 @@ namespace StudentManagement_System_API.Repository
             if (data != null) return null;
 
             data.CourseId = timetable.CourseId;
-            data.Subjects = timetable.Subjects;
+
 
             await _context.SaveChangesAsync();
             return data;

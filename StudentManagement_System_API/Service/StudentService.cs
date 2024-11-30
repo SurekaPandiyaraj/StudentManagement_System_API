@@ -57,18 +57,20 @@ namespace StudentManagement_System_API.Service
         public async Task<List<StudentResponceDTO>> GetAllStudent()
         {
             var students = await _studentrepository.GetAllStudent();
-            return students.Select(student => new StudentResponceDTO
+         var responseList = new List<StudentResponceDTO>();
+            foreach (var student in students)
             {
-                UTNumber = student.UTNumber,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Email = student.Email,
-                NICNumber = student.NICNumber,
-                IsActive=student.IsActive,
-                Batch = student.Batch,
-                UserId = student.UserId,
-                DateOfBirth = student.User.DateOfBirth
-            }).ToList();
+                var response = new StudentResponceDTO();
+                response.UTNumber = student.UTNumber;
+                response.FirstName = student.FirstName;
+               response.LastName = student.LastName;
+                response.Email = student.Email;
+                response.NICNumber = student.NICNumber;
+                response.Batch = student.Batch;
+                responseList.Add(response);
+               // responseList.Add(response);
+            }
+            return responseList;
         }
 
 

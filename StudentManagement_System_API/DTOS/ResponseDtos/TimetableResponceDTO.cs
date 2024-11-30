@@ -4,14 +4,13 @@ namespace StudentManagement_System_API.DTOS.ResponseDtos
 {
     public class TimetableResponceDTO
     {
-      
+        internal List<Timetablesubjectresponse>? timetablesubjectresponses;
 
         public Guid Id { get; set; }
-        public Guid CourseId { get; set; }
-        public string CourseName {  get; set; }
-        public DateOnly Date { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int CourseId { get; set; }
+        public DateTime Date { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
        
     }
 }

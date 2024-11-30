@@ -2,7 +2,7 @@
 {
     public class EntrollementResponceDTO
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public DateTime EnrolledDate { get; set; }
        
     }

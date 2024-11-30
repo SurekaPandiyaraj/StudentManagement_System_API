@@ -12,6 +12,7 @@ namespace StudentManagement_System_API.IService
         Task<StudentResponceDTO> CreateStudent(StudentRequestDTO studentRequestDto);
         Task<StudentResponceDTO> UpdateStudent(string utnumber, StudentRequestDTO studentRequestDto);
         Task<bool> DeleteStudent(string utNumber);
+        Task<StudentResponceDTO> softDelete(string utNumber);
 
     }
 }

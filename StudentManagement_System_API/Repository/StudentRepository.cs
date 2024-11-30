@@ -65,5 +65,13 @@ namespace StudentManagement_System_API.Repository
             }
             return false;
         }
+
+
+        public async Task<Student>softDelete(Student student)
+        {
+            student.IsActive = false;
+            await _context.SaveChangesAsync();
+            return student;
+        }
     }
 }

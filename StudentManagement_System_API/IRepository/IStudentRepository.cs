@@ -11,5 +11,6 @@ namespace StudentManagement_System_API.IRepository
         Task<Student> CreateStudent(Student student);
         Task<Student> UpdateStudent(string utnumber);
         Task<bool> DeleteStudent(string utNumber);
+        Task<Student> softDelete(Student student);
     }
 }

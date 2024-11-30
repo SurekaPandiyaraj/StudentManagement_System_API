@@ -5,5 +5,6 @@
         public DateTime ExamDate { get; set; }
         public int? MaximumMarks { get; set; }
         public int? CutOffMarks { get; set; }
+        public Guid CourseId { get; set; }
     }
 }

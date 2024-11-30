@@ -16,7 +16,6 @@ namespace StudentManagement_System_API.Database
         public DbSet<Marks> Marks { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -18,9 +18,9 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEntrollement (Guid id, EntrollementRequestDTO entrollementRequestDTO)
+        public async Task<IActionResult> AddEntrollement ( EntrollementRequestDTO entrollementRequestDTO)
         {
-            var data = await _entrollment.AddEntrollement(id, entrollementRequestDTO);
+            var data = await _entrollment.AddEntrollement( entrollementRequestDTO);
             return Ok(data);
         }
 

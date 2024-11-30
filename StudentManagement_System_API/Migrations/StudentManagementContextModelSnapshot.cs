@@ -118,9 +118,6 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<DateTime>("ExamDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MaximumMarks")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
@@ -197,26 +194,6 @@ namespace StudentManagement_System_API.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("StudentManagement_System_API.Entity.Subject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TimetableId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TimetableId");
-
-                    b.ToTable("Subjects");
-                });
-
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
                     b.Property<Guid>("Id")
@@ -242,14 +219,9 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserRoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Timetables");
                 });
@@ -371,13 +343,6 @@ namespace StudentManagement_System_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("StudentManagement_System_API.Entity.Subject", b =>
-                {
-                    b.HasOne("StudentManagement_System_API.Entity.Timetable", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("TimetableId");
-                });
-
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
                     b.HasOne("StudentManagement_System_API.Entity.Course", "Course")
@@ -386,13 +351,7 @@ namespace StudentManagement_System_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StudentManagement_System_API.Entity.User", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId");
-
                     b.Navigation("Course");
-
-                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Course", b =>
@@ -421,8 +380,6 @@ namespace StudentManagement_System_API.Migrations
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
                     b.Navigation("Attendances");
-
-                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }

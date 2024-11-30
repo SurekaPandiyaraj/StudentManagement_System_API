@@ -27,7 +27,7 @@ namespace StudentManagement_System_API.Controllers
             }
 
             await _examService.AddExam(exam);
-            return CreatedAtAction(nameof(GetById), new { id = exam.Id }, exam);
+            return CreatedAtAction(nameof(GetById), new { id = exam.CourseId }, exam);
         }
 
         // GET: api/exams
@@ -56,7 +56,7 @@ namespace StudentManagement_System_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateExams(Guid id,  ExamRequestDTO exam)
         {
-            if (exam == null || exam.Id != id)
+            if (exam == null || exam.CourseId != id)
             {
                 return BadRequest();
             }

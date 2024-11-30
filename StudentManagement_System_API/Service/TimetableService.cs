@@ -28,7 +28,7 @@ namespace StudentManagement_System_API.Service
             // Get the course details by courseId
             var course = await _courseRepository.GetCourseById(courseId);
 
-                 // e.g., "11:00" -> TimeSpan
+               
 
             // Create a new Timetable Entity
             var timetable = new Timetable
@@ -49,10 +49,11 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
-                CourseName = data.CourseName,
-                Date = data.Date,  // Format the Date as string (yyyy-MM-dd)
-                StartTime = data.StartTime, // Convert TimeSpan to formatted string "hh:mm"
-                EndTime = data.EndTime   // Convert TimeSpan to formatted string "hh:mm"
+               
+                Date = data.Date,  
+                StartTime = data.StartTime, 
+                EndTime = data.EndTime   
+
             };
 
             return response;
@@ -73,7 +74,7 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
-                CourseName= data.CourseName,
+               
                 Date = data.Date,
                 StartTime = data.StartTime,
                 EndTime = data.EndTime,

@@ -11,6 +11,7 @@ namespace StudentManagement_System_API.DTOS.ResponseDtos
         public string Password { get; set; }
         public string NICNumber { get; set; }
         public string UserRole { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }

@@ -12,8 +12,8 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    [Migration("20241128100341_Addnew")]
-    partial class Addnew
+    [Migration("20241130072519_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,9 +120,6 @@ namespace StudentManagement_System_API.Migrations
 
                     b.Property<DateTime>("ExamDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("MaximumMarks")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

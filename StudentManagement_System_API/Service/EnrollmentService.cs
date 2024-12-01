@@ -19,14 +19,18 @@ namespace StudentManagement_System_API.Service
         {
             var enroll = new Enrollment
             {
-                EnrolledDate = requestDTO.EnrolledDate,
+                EnrolledDate = DateTime.Now,
+                StudentId = requestDTO.StudentId,
+                CourseId = requestDTO.CourseId
             };
             var data = await _enrollement.AddEnrollment(enroll);
 
             var resentroll = new EntrollementResponceDTO
             {
-                Id = data.Id,
-                EnrolledDate = data.EnrolledDate,
+                EnrolledDate = DateTime.Now,
+                StudentId = requestDTO.StudentId,
+                CourseId = requestDTO.CourseId
+
             };
             return resentroll;
         }
@@ -37,8 +41,9 @@ namespace StudentManagement_System_API.Service
 
             var resEnt = ent.Select(a => new EntrollementResponceDTO
             {
-                Id=a.Id,
-                EnrolledDate = a.EnrolledDate
+                EnrolledDate = DateTime.Now,
+                StudentId = a.StudentId,
+                CourseId = a.CourseId
             }).ToList();
             return resEnt;
 

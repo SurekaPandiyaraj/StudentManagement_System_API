@@ -143,5 +143,22 @@ namespace StudentManagement_System_API.Service
             return await _studentrepository.DeleteStudent(utNumber);
         }
 
+
+        public async Task<StudentResponceDTO>softDelete(string utNumber)
+        {
+            var getId = await _studentrepository.GetStudentById(utNumber);
+            var softDelete = await _studentrepository.softDelete(getId);
+
+            var studentDTO = new StudentResponceDTO();
+            studentDTO.UTNumber = utNumber;
+            studentDTO.FirstName = softDelete.FirstName;
+            studentDTO.LastName = softDelete.LastName;
+            studentDTO.Email = softDelete.Email;
+            studentDTO.NICNumber = softDelete.NICNumber;
+            studentDTO.IsActive = softDelete.IsActive;
+            studentDTO.Batch = softDelete.Batch;
+            return studentDTO;
+        }
+
     }
 }

@@ -63,6 +63,17 @@ namespace StudentManagement_System_API.Controllers
                 return NotFound();
             }
             return NoContent();
+
         }
+
+
+        [HttpPut("SoftDelete")]
+        public async Task<IActionResult> softDelete(string utNumber)
+        {
+            var data = await _studentService.softDelete(utNumber);
+            return Ok("Successfully Deleted....");
+        }
+
+
     }
 }

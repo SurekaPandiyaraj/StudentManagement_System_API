@@ -42,15 +42,13 @@ namespace StudentManagement_System_API.Repository
         }
 
 
-        public async Task<Student> UpdateStudent(string utnumber)
+        public async Task<Student> UpdateStudent(Student student)
         {
-            var student = await _context.Students.FindAsync(utnumber);
+          //  var student = await _context.Students.FindAsync(utnumber);
 
-            if (student != null)
-            {
                 _context.Students.Update(student);
                 await _context.SaveChangesAsync();
-            }
+          
             return student;
         }
 
@@ -65,6 +63,13 @@ namespace StudentManagement_System_API.Repository
                 return true;
             }
             return false;
+        }
+
+        public async Task<Student> softDelete(Student student)
+        {
+            student.IsActive = false;
+            await _context.SaveChangesAsync();
+            return student;
         }
     }
 }

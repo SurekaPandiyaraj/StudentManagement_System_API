@@ -122,7 +122,7 @@ namespace StudentManagement_System_API.Service
                
             };
 
-            var updatedStudent = await _studentrepository.UpdateStudent(utnumber);
+            var updatedStudent = await _studentrepository.UpdateStudent(student);
 
             return new StudentResponceDTO
             {
@@ -142,6 +142,27 @@ namespace StudentManagement_System_API.Service
         {
             return await _studentrepository.DeleteStudent(utNumber);
         }
+
+        public async Task<StudentResponceDTO> softDelete(string utNumber)
+        {
+            var getstudent = await _studentrepository.GetStudentById(utNumber);
+            if(getstudent == null)
+            {
+                throw new Exception("Student not found!");
+            }
+            var softDelete = await _studentrepository.UpdateStudent(getstudent);
+
+            var studentDTO = new StudentResponceDTO();
+            studentDTO.UTNumber = utNumber;
+            studentDTO.FirstName = softDelete.FirstName;
+            studentDTO.LastName = softDelete.LastName;
+            studentDTO.Email = softDelete.Email;
+            studentDTO.NICNumber = softDelete.NICNumber;
+            studentDTO.IsActive = softDelete.IsActive;
+            studentDTO.Batch = softDelete.Batch;
+            return studentDTO;
+        }
+
 
     }
 }

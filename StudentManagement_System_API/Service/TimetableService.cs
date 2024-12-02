@@ -28,8 +28,6 @@ namespace StudentManagement_System_API.Service
             // Get the course details by courseId
             var course = await _courseRepository.GetCourseById(courseId);
 
-               
-
             // Create a new Timetable Entity
             var timetable = new Timetable
             {
@@ -58,7 +56,7 @@ namespace StudentManagement_System_API.Service
 
             return response;
         }
-        public async Task<TimetableResponceDTO> GetTimetableByDate(DateOnly date)
+        public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
         {
 
           

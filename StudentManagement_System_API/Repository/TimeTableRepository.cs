@@ -19,7 +19,7 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return data.Entity;
         }
-        public async Task<Timetable> GetTimetableByDate(DateOnly date)
+        public async Task<Timetable> GetTimetableByDate(DateTime date)
         {
             var data = await _context.Timetables
                                       .FirstOrDefaultAsync(d => d.Date == date);  

@@ -13,7 +13,7 @@ namespace StudentManagement_System_API.DTOS.ResponseDTOs
         public string Batch { get; set; }
         public bool IsActive { get; set; }
         public int UserId { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
     }
 }

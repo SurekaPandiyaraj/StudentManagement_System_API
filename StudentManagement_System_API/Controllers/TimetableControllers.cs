@@ -30,7 +30,7 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpGet("{date}")]
 
-        public async Task<IActionResult> GetTable(DateOnly date)
+        public async Task<IActionResult> GetTable(DateTime date)
         {
             var table = await _timetableService.GetTimetableByDate(date);
             if (table == null) return NotFound();

@@ -14,7 +14,7 @@ namespace StudentManagement_System_API.Entity
         public string PasswordHash { get; set; }
         // Role as an enum (Admin, Staff, Lecturer, Student)
         public Role UserRole { get; set; }  // Single role per user
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
         public bool IsDelete { get; set; } = false;
     }
 

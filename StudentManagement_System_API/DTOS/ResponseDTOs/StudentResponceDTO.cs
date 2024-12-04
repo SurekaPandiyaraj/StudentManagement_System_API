@@ -12,8 +12,8 @@ namespace StudentManagement_System_API.DTOS.ResponseDTOs
         public string NICNumber { get; set; }
         public string Batch { get; set; }
         public bool IsActive { get; set; }
-        public int UserId { get; set; }
-        public DateOnly DateOfBirth { get; set; }
+        public string UserId { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
     }
 }

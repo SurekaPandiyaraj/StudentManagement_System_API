@@ -8,7 +8,7 @@ namespace StudentManagement_System_API.DTOS.ResponseDtos
 
         public Guid Id { get; set; }
         public Guid CourseId { get; set; }
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
        

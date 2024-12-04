@@ -16,12 +16,12 @@ namespace StudentManagement_System_API.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(UserRequestDTOs userRequestDTOs)
-        {
-            var data = await _userService.CreateUser(userRequestDTOs);
-            return Ok(data);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateUser(UserRequestDTOs userRequestDTOs)
+        //{
+        //    var data = await _userService.CreateUser(userRequestDTOs);
+        //    return Ok(data);
+        //}
 
         [HttpGet("Get_user")]
         public async Task<IActionResult> GetAllUsers()
@@ -31,9 +31,9 @@ namespace StudentManagement_System_API.Controllers
         }
         [HttpGet("{Id}")]
 
-        public async Task<IActionResult> GetUserId(Guid Id)
+        public async Task<IActionResult> GetUserId(string userID)
         {
-            var data = await _userService.GetUserById(Id);
+            var data = await _userService.GetUserById(userID);
             return Ok(data);
         }
 
@@ -52,9 +52,9 @@ namespace StudentManagement_System_API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Deleteuser(Guid Id)
+        public async Task<IActionResult> Deleteuser(string userId)
         {
-            await _userService.Deleteuser(Id);
+            await _userService.Deleteuser(userId);
             return NoContent();
         }
     }

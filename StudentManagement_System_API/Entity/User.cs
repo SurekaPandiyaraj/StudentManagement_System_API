@@ -6,15 +6,16 @@ namespace StudentManagement_System_API.Entity
 {
     public class User
     {
-       public Guid Id { get; set; }
+        [Key]
         public string? UserId { get; set; }  
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string NICNumber { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         // Role as an enum (Admin, Staff, Lecturer, Student)
         public Role UserRole { get; set; }  // Single role per user
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public bool IsDelete { get; set; } = false;
     }
 

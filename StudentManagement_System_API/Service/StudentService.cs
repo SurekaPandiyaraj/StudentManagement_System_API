@@ -42,14 +42,9 @@ namespace StudentManagement_System_API.Service
             return new StudentResponceDTO
             {
                 UTNumber = student.UTNumber,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Email = student.Email,
-                NICNumber = student.NICNumber,
                 IsActive = student.IsActive,
                 Batch = student.Batch,
-                UserId = student.UserId,
-                DateOfBirth = student.User.DateOfBirth
+             
             };
         }
 
@@ -62,10 +57,6 @@ namespace StudentManagement_System_API.Service
             {
                 var response = new StudentResponceDTO();
                 response.UTNumber = student.UTNumber;
-                response.FirstName = student.FirstName;
-               response.LastName = student.LastName;
-                response.Email = student.Email;
-                response.NICNumber = student.NICNumber;
                 response.Batch = student.Batch;
                 responseList.Add(response);
                // responseList.Add(response);
@@ -79,10 +70,7 @@ namespace StudentManagement_System_API.Service
             var student = new Student
             {
                 UTNumber = studentRequestDto.UTNumber,
-                FirstName = studentRequestDto.FirstName,
-                LastName = studentRequestDto.LastName,
-                Email = studentRequestDto.Email,
-                NICNumber = studentRequestDto.NICNumber,
+             
                 Batch = studentRequestDto.Batch,
                 UserId = studentRequestDto.UserId,
                
@@ -97,10 +85,6 @@ namespace StudentManagement_System_API.Service
             return new StudentResponceDTO
             {
                 UTNumber = createdStudent.UTNumber,
-                FirstName= createdStudent.FirstName,
-                LastName = createdStudent.LastName,
-                Email = createdStudent.Email,
-                NICNumber = createdStudent.NICNumber,
                 Batch = createdStudent.Batch,
                 IsActive = createdStudent.IsActive,
                 UserId = createdStudent.UserId,
@@ -114,10 +98,6 @@ namespace StudentManagement_System_API.Service
             {
                 UTNumber = studentRequestDto.UTNumber,
                 Batch = studentRequestDto.Batch,
-                FirstName= studentRequestDto.FirstName,
-                LastName = studentRequestDto.LastName,
-                Email = studentRequestDto.Email,
-                NICNumber = studentRequestDto.NICNumber,
                 UserId = studentRequestDto.UserId,
                
             };
@@ -127,10 +107,6 @@ namespace StudentManagement_System_API.Service
             return new StudentResponceDTO
             {
                 UTNumber = updatedStudent.UTNumber,
-                FirstName = updatedStudent.FirstName,
-                LastName = updatedStudent.LastName,
-                Email = updatedStudent.Email,
-                NICNumber = updatedStudent.NICNumber,
                 IsActive= updatedStudent.IsActive,
                 Batch = updatedStudent.Batch,
                 UserId = updatedStudent.UserId,
@@ -154,10 +130,6 @@ namespace StudentManagement_System_API.Service
 
             var studentDTO = new StudentResponceDTO();
             studentDTO.UTNumber = utNumber;
-            studentDTO.FirstName = softDelete.FirstName;
-            studentDTO.LastName = softDelete.LastName;
-            studentDTO.Email = softDelete.Email;
-            studentDTO.NICNumber = softDelete.NICNumber;
             studentDTO.IsActive = softDelete.IsActive;
             studentDTO.Batch = softDelete.Batch;
             return studentDTO;

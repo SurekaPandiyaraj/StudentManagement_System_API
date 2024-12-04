@@ -27,11 +27,11 @@ namespace StudentManagement_System_API.Repository
             return data;
         }
 
-        public async Task<User> GetUserByIdAsync(Guid Id)
-        {
-            var data = await _context.Users.FirstOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
-            return data;
-        }
+        //public async Task<User> GetUserByIdAsync(Guid Id)
+        //{
+        //    var data = await _context.Users.FirstOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+        //    return data;
+        //}
 
         public async Task<User> GetUserByUserId (string UserId)
         {
@@ -41,27 +41,19 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<User> UpdateUserAsync(User user)
         {
-            var data = await GetUserByIdAsync(user.Id);
-
-            if (data == null) return null;
-            
-            data.UserId = user.UserId;
-            data.Name = user.Name;
-            data.Email = user.Email;
-            data.NICNumber = user.NICNumber;
-            data.PasswordHash = user.PasswordHash;
-            data.UserRole = user.UserRole;
+           
+         var data =  _context.Users.Update(user);
 
             await _context.SaveChangesAsync();
 
-            return data;
+            return data.Entity;
 
 
         }
 
-        public async Task DeleteUserAsync(Guid Id)
+        public async Task DeleteUserAsync(string Id)
         {
-            var data = await GetUserByIdAsync(Id);
+            var data = await GetUserByUserId(Id);
             if (data != null)
             {
                 data.IsDelete = true;

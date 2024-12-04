@@ -6,13 +6,9 @@ namespace StudentManagement_System_API.Entity
     {
         [Key]
         public string UTNumber { get; set; } 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string NICNumber { get; set; }
         public string Batch { get; set; }   
         public bool IsActive { get; set; }
-        public int UserId { get; set; }  // Foreign Key from User
+        public string UserId { get; set; }  // Foreign Key from User
         // Navigation properties
         public User? User { get; set; }  // One-to-one relationship with User
         public ICollection<Enrollment>? Enrollments { get; set; }  // Many-to-many with Course via Enrollment

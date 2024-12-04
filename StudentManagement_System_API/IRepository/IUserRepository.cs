@@ -6,9 +6,9 @@ namespace StudentManagement_System_API.IRepository
     {
         Task<User> CreateUserAsync(User user);
         Task<List<User>> GetUsersAsync();
-        Task<User> GetUserByIdAsync(Guid Id);
+      //  Task<User> GetUserByIdAsync(Guid Id);
         Task<User> GetUserByUserId(string UserId);
         Task<User> UpdateUserAsync(User user);
-        Task DeleteUserAsync(Guid Id);
+        Task DeleteUserAsync(string userId);
     }
 }

@@ -38,12 +38,12 @@ namespace StudentManagement_System_API.Controllers
         }
 
 
-        [HttpPost("AddStudent")]
-        public async Task<IActionResult> CreateStudent(StudentRequestDTO studentRequestDto)
-        {
-            var data = await _studentService.CreateStudent(studentRequestDto); 
-            return Ok(data);
-        }
+        //[HttpPost("AddStudent")]
+        //public async Task<IActionResult> CreateStudent(StudentRequestDTO studentRequestDto)
+        //{
+        //    var data = await _studentService.CreateStudent(studentRequestDto); 
+        //    return Ok(data);
+        //}
 
 
 

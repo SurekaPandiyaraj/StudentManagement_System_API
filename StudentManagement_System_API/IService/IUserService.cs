@@ -6,10 +6,10 @@ namespace StudentManagement_System_API.IService
     public interface IUserService
     {
         Task<UserResponseDTOs> CreateUser(UserRequestDTOs userRequestDTOs);
-        Task<UserResponseDTOs> GetUserById(Guid id);
+        Task<UserResponseDTOs> GetUserById(string userId);
         Task<List<UserResponseDTOs>> GetAllUsers();
         Task<UserResponseDTOs> GetUserByUserId(string userId);
         Task<UserResponseDTOs> UpdateUser(Guid UserId, UserRequestDTOs userrequest);
-        Task Deleteuser(Guid Id);
+        Task Deleteuser(string userId);
     }
 }

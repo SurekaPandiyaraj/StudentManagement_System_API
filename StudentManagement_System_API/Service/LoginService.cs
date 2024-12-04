@@ -29,10 +29,12 @@ namespace StudentManagement_System_API.Service
         {
             var req = new User
             {
-                Name = users.Name,
+                FirstName = users.FirstName,
+                LastName = users.LastName,
                 Email = users.Email,
                 NICNumber = users.NICNumber,
                 UserRole = users.UserRole,
+                DateOfBirth = users.DateOfBirth,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(users.Password)
             };
 
@@ -63,14 +65,14 @@ namespace StudentManagement_System_API.Service
             return token;
         }
 
-        public async Task<TokenModel> Login(string UserId, string password)
+        public async Task<TokenModel> Login(LogInRequestDTO logInRequest)
         {
-            var user = await _loginRepository.GetUserById(UserId);
+            var user = await _loginRepository.GetUserById(logInRequest.UserId);
             if (user == null)
             {
                 throw new Exception("User Not Found!");
             }
-            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(logInRequest.Password, user.PasswordHash))
             {
                 throw new Exception("Wrong Password!");
             }
@@ -82,10 +84,12 @@ namespace StudentManagement_System_API.Service
         {
             var claimsList = new List<Claim>();
 
-            claimsList.Add(new Claim("Id", user.Id.ToString()));
-            claimsList.Add(new Claim("Name", user.Name));
+           
+            claimsList.Add(new Claim("FirstName", user.FirstName));
+            claimsList.Add(new Claim("LastName", user.LastName));
             claimsList.Add(new Claim("Email", user.Email));
             claimsList.Add(new Claim("NICNumber", user.NICNumber));
+            claimsList.Add(new Claim("UserId", user.UserId));
             claimsList.Add(new Claim("UserRole", user.UserRole.ToString()));
 
             var Key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));

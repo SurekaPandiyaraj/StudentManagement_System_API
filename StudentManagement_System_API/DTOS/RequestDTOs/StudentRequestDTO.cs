@@ -8,7 +8,7 @@
         public string Email { get; set; }
         public string NICNumber { get; set; }
         public string Batch { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public DateOnly DateOfBirth {  get; set; }
   
     }

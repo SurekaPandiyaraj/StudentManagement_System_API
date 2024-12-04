@@ -6,7 +6,8 @@ namespace StudentManagement_System_API.DTOS.RequestDtos
     public class UserRequestDTOs
     {
         public string UserId { get; set; }  
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string? UTNumber { get; set; }
         public string? Batch { get; set; }
         public string Email { get; set; }

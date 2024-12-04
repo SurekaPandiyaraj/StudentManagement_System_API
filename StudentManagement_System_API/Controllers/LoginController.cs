@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement_System_API.DTOS.RequestDtos;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IService;
 
@@ -29,11 +30,11 @@ namespace StudentManagement_System_API.Controllers
 
 
         [HttpPost("Login")]
-        public async Task<IActionResult> UserLogin(string userId, string password)
+        public async Task<IActionResult> UserLogin(LogInRequestDTO logInRequest)
         {
             try
             {
-                var result = await _loginService.Login(userId, password);
+                var result = await _loginService.Login(logInRequest);
                 return Ok(result);
             }
             catch (Exception ex)

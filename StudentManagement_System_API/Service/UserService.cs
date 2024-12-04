@@ -20,9 +20,10 @@ namespace StudentManagement_System_API.Service
         {
             var user = new User
             {
-                Id = Guid.NewGuid(),
+               
                 UserId = userRequestDTOs.UserId,
-                Name = userRequestDTOs.Name,
+                FirstName = userRequestDTOs.FirstName,
+                LastName = userRequestDTOs.LastName,
                 Email = userRequestDTOs.Email,
                 NICNumber = userRequestDTOs.NICNumber,
                 PasswordHash = userRequestDTOs.Password,
@@ -33,9 +34,10 @@ namespace StudentManagement_System_API.Service
 
             var resuser = new UserResponseDTOs
             {
-                Id = data.Id,
+                
                 UserId = data.UserId,
-                Name = data.Name,
+                FirstName = data.FirstName,
+                LastName= data.LastName,
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
@@ -45,14 +47,13 @@ namespace StudentManagement_System_API.Service
             return resuser;
         }
 
-        public async Task<UserResponseDTOs> GetUserById (Guid id) 
+        public async Task<UserResponseDTOs> GetUserById (string userId) 
         {
-            var data = await _repository.GetUserByIdAsync(id);
+            var data = await _repository.GetUserByUserId(userId);
             var resuser = new UserResponseDTOs
             {
-                Id = data.Id,
+              
                 UserId = data.UserId,
-                Name = data.Name,
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
@@ -68,9 +69,11 @@ namespace StudentManagement_System_API.Service
 
             var resusers = data.Select(x => new UserResponseDTOs
             {
-                Id = x.Id,
+                
                 UserId = x.UserId,
-                Name = x.Name,
+                DateOfBirth = x.DateOfBirth,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
                 Email = x.Email,
                 NICNumber = x.NICNumber,
                 Password = x.PasswordHash,
@@ -86,9 +89,10 @@ namespace StudentManagement_System_API.Service
 
             var resusers = new UserResponseDTOs
             {
-                Id = data.Id,
+               
                 UserId = data.UserId,
-                Name = data.Name,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
@@ -102,9 +106,10 @@ namespace StudentManagement_System_API.Service
         {
             var user = new User
             {
-                Id = UserId,
+             
                 UserId = userrequest.UserId,
-                Name = userrequest.Name,
+                FirstName = userrequest.FirstName ,
+                LastName = userrequest.LastName ,
                 Email = userrequest.Email,
                 NICNumber = userrequest.NICNumber,
                 PasswordHash = userrequest.Password,
@@ -115,9 +120,10 @@ namespace StudentManagement_System_API.Service
 
             var resUser = new UserResponseDTOs
             {
-                Id = data.Id,
+               
                 UserId = data.UserId,
-                Name = data.Name,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
                 Email = data.Email,
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
@@ -128,9 +134,9 @@ namespace StudentManagement_System_API.Service
             return resUser;
         }
 
-        public async Task Deleteuser (Guid Id)
+        public async Task Deleteuser (string userId)
         {
-            await _repository.DeleteUserAsync(Id);
+            await _repository.DeleteUserAsync(userId);
         }
     }
 }

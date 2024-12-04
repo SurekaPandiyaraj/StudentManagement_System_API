@@ -77,6 +77,17 @@ namespace StudentManagement_System_API
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
         });
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy(
+                   name: "CORSPolicy",
+                   builder =>
+                   {
+                       builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+
+                   }
+                   );
+            });
 
 
             var app = builder.Build();

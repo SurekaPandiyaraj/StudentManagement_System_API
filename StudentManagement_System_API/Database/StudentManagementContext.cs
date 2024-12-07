@@ -16,6 +16,7 @@ namespace StudentManagement_System_API.Database
         public DbSet<Marks> Marks { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
+        public DbSet<TimeSlot> TimeSlots { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,16 +62,7 @@ namespace StudentManagement_System_API.Database
                 .HasForeignKey(m => m.UTNumber);
 
             // One-to-many relationship between Timetable and Course
-            modelBuilder.Entity<Timetable>()
-                .HasOne(t => t.Course)
-                .WithMany(c => c.Timetables)
-                .HasForeignKey(t => t.CourseId);
 
-            // One-to-many relationship between Attendance and Timetable
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Timetable)
-            //    .WithMany(t => t.Attendances)
-            //    .HasForeignKey(a => a.TimetableId);
 
             // One-to-many relationship between Attendance and Student
             modelBuilder.Entity<Attendance>()
@@ -80,15 +72,30 @@ namespace StudentManagement_System_API.Database
 
 
             modelBuilder.Entity<Course>()
-                .HasMany(e =>e.Enrollments)
+                .HasMany(e => e.Enrollments)
                 .WithOne(c => c.course)
-                .HasForeignKey(c => c.CourseId);
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-                
+            modelBuilder.Entity<TimeSlot>()
+                .HasOne(ts => ts.Timetable)
+                .WithMany(t => t.TimeSlot)
+                .HasForeignKey(ts => ts.TimeTableId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.TimeSlot)
+                .WithMany(ts => ts.Attendances)
+                .HasForeignKey(a => a.TimeSlotId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+
+
 
 
         }
 
-        
+
     }
 }

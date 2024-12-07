@@ -7,13 +7,11 @@ namespace StudentManagement_System_API.Entity
         public Batch Batch { get; set; }
         public DateOnly Day {  get; set; }
         public int Week { get; set; }
-        public string Year { get; set; }
-        public Guid TimeSlotId { get; set; }
+        public int Year { get; set; }
 
 
         // Navigation properties
         public ICollection<TimeSlot>? TimeSlot { get; set; }
-        public ICollection<Attendance>? Attendances { get; set; }  // One-to-many with Attendance
         public Type? Type { get; set; }
         
     }

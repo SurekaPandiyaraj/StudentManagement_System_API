@@ -21,30 +21,30 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateTimetable(Guid CourseId, TimetableRequestDtos timetableRequestDTO)
+        public async Task<IActionResult> CreateTimetable(TimetableRequestDtos timetableRequestDTO)
         {
-            var createdTable = await _timetableService.CreateTable(CourseId, timetableRequestDTO);
+            var createdTable = await _timetableService.CreateTable(timetableRequestDTO);
             return Ok(createdTable);
         }
 
 
-        [HttpGet("{date}")]
+        //[HttpGet("{date}")]
 
-        public async Task<IActionResult> GetTable(DateTime date)
-        {
-            try
-            {
-                var table = await _timetableService.GetTimetableByDate(date);
-                return Ok(table);
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        //public async Task<IActionResult> GetTable(DateTime date)
+        //{
+        //    try
+        //    {
+        //        var table = await _timetableService.GetTimetableByDate(date);
+        //        return Ok(table);
+        //    }catch(Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
            
             
 
             
-        }
+        //}
 
         //[HttpPut("{date}")]
 

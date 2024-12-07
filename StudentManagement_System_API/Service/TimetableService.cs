@@ -6,7 +6,6 @@ using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Repository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StudentManagement_System_API.Service
 {
@@ -23,21 +22,27 @@ namespace StudentManagement_System_API.Service
 
 
 
-        public async Task<TimetableResponceDTO> CreateTable(Guid courseId, TimetableRequestDtos timetableRequestDTO)
+        public async Task<TimetableResponceDTO> CreateTable(TimetableRequestDtos timetableRequestDTO)
         {
             // Get the course details by courseId
-            var course = await _courseRepository.GetCourseById(courseId);
 
             // Create a new Timetable Entity
             var timetable = new Timetable
             {
-                Id = Guid.NewGuid(),
-                CourseId = courseId,
-                CourseName = course.CourseName,
-                Date = timetableRequestDTO.StartTime.Date,
-                StartTime = timetableRequestDTO.StartTime,
-                EndTime = timetableRequestDTO.EndTime,
-            };
+                Id= Guid.NewGuid(),
+                Batch = timetableRequestDTO.Batch,
+                Day = timetableRequestDTO.Day.Date,
+                Week = timetableRequestDTO.Week,
+                TimeSlot = timetableRequestDTO.TimeSlots.Select(t => new TimeSlot
+                {
+                    StartTime = TimeSpan.Parse(t.StartTime),
+                    EndTime = TimeSpan.Parse(t.EndTime),
+                    ClassType = t.ClassType,
+                    CourseId = t.CourseId,
+                }).ToList(),
+                // DateTime myDate = DateTime.ParseExact("2009-05-08 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
+              //  System.Globalization.CultureInfo.InvariantCulture);
+        };
 
             // Create the timetable in the repository/database
             var data = await _repository.CreateTimetableAsync(timetable);
@@ -46,37 +51,33 @@ namespace StudentManagement_System_API.Service
             var response = new TimetableResponceDTO
             {
                 Id = data.Id,
-                CourseId = data.CourseId,
-
-                Date = data.Date.Date,
-                StartTime = data.StartTime.TimeOfDay,
-                EndTime = data.EndTime.TimeOfDay
+                
 
             };
 
             return response;
         }
-        public async Task<List<TimetableResponceDTO>> GetTimetableByDate(DateTime date)
-        {
+        //public async Task<List<TimetableResponceDTO>> GetTimetableByDate(DateTime date)
+        //{
 
 
-            var data = await _repository.GetTimetableByDate(date);
+        //    var data = await _repository.GetTimetableByDate(date);
 
-            if (data == null)
-            {
-                throw new Exception("No Data found");  // Return null if no timetable data is found
-            }
+        //    if (data == null)
+        //    {
+        //        throw new Exception("No Data found");  // Return null if no timetable data is found
+        //    }
 
-            // Map the data to the response DTO
-            var res = data.Select(d => new TimetableResponceDTO
-            {
-                Date = d.Date,
-                StartTime = d.StartTime.TimeOfDay,
-                EndTime = d.EndTime.TimeOfDay,
-                CourseId = d.CourseId,
-            }).ToList();
-            return res;
-        }
+        //    // Map the data to the response DTO
+        //    var res = data.Select(d => new TimetableResponceDTO
+        //    {
+        //        Date = d.Date,
+        //        StartTime = d.StartTime.TimeOfDay,
+        //        EndTime = d.EndTime.TimeOfDay,
+        //        CourseId = d.CourseId,
+        //    }).ToList();
+        //    return res;
+        //}
 
 
 

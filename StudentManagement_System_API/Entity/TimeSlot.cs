@@ -3,7 +3,7 @@
     public class TimeSlot
     {
         public Guid Id { get; set; }
-        public Type? ClassType { get; set; }
+        public ClassType? ClassType { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public Guid CourseId { get; set; }
@@ -16,7 +16,7 @@
 
     }
 
-    public enum Type
+    public enum ClassType
     {
         Lab = 1,
         Session = 2

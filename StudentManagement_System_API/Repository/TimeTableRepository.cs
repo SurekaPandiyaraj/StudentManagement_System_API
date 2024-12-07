@@ -19,11 +19,11 @@ namespace StudentManagement_System_API.Repository
             await _context.SaveChangesAsync();
             return data.Entity;
         }
-        public async Task<List<Timetable>> GetTimetableByDate(DateTime date)
-        {
-            var data = await _context.Timetables.Where(d => d.Date == date.Date).ToListAsync();  
-            return data;
-        }
+        //public async Task<List<Timetable>> GetTimetableByDate(DateTime date)
+        //{
+        //    var data = await _context.Timetables.Where(d => d.Date == date.Date).ToListAsync();  
+        //    return data;
+        //}
 
 
 

@@ -7,7 +7,7 @@ namespace StudentManagement_System_API.DTOS.ResponseDtos
         public Guid Id { get; set; } 
         public string Batch { get; set; } 
         public string Day { get; set; } 
-        public int Week { get; set; } 
+        public int Week { get; set; }  
         public int Year { get; set; } 
         public string? Type { get; set; } 
         public ICollection<TimeSlotResponseDTO>? TimeSlots { get; set; } 

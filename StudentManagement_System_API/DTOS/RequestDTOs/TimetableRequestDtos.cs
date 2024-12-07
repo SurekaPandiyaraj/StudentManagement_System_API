@@ -1,8 +1,10 @@
-﻿namespace StudentManagement_System_API.DTOS.RequestDTOs
+﻿using StudentManagement_System_API.Entity;
+
+namespace StudentManagement_System_API.DTOS.RequestDTOs
 {
     public class TimetableRequestDtos
     {
-        public int Batch { get; set; }
+        public Batch Batch { get; set; }
         public DateTime Day { get; set; }
         public int Week { get; set; }
         public int Year { get; set; }
@@ -16,9 +18,10 @@
 
     public class TimeSlotRequestDto
     {
-        public string CourseId { get; set; }
+        public Guid CourseId { get; set; }
         public string StartTime { get; set; } 
         public string EndTime { get; set; }
-        public int ClassType { get; set; }
+        public ClassType ClassType { get; set; }
+
     }
 }

@@ -32,10 +32,18 @@ namespace StudentManagement_System_API.Controllers
 
         public async Task<IActionResult> GetTable(DateTime date)
         {
-            var table = await _timetableService.GetTimetableByDate(date);
-            if (table == null) return NotFound();
+            try
+            {
+                var table = await _timetableService.GetTimetableByDate(date);
+                return Ok(table);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+            
 
-            return Ok(table);
+            
         }
 
         //[HttpPut("{date}")]

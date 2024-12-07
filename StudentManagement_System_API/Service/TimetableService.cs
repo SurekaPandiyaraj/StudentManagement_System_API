@@ -34,7 +34,7 @@ namespace StudentManagement_System_API.Service
                 Id = Guid.NewGuid(),
                 CourseId = courseId,
                 CourseName = course.CourseName,
-                Date = timetableRequestDTO.Date,
+                Date = timetableRequestDTO.StartTime.Date,
                 StartTime = timetableRequestDTO.StartTime,
                 EndTime = timetableRequestDTO.EndTime,
             };
@@ -47,39 +47,35 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 CourseId = data.CourseId,
-               
-                Date = data.Date,  
-                StartTime = data.StartTime, 
-                EndTime = data.EndTime   
+
+                Date = data.Date.Date,
+                StartTime = data.StartTime.TimeOfDay,
+                EndTime = data.EndTime.TimeOfDay
 
             };
 
             return response;
         }
-        public async Task<TimetableResponceDTO> GetTimetableByDate(DateTime date)
+        public async Task<List<TimetableResponceDTO>> GetTimetableByDate(DateTime date)
         {
 
-          
+
             var data = await _repository.GetTimetableByDate(date);
 
             if (data == null)
             {
-                return null;  // Return null if no timetable data is found
+                throw new Exception("No Data found");  // Return null if no timetable data is found
             }
 
             // Map the data to the response DTO
-            var res = new TimetableResponceDTO
+            var res = data.Select(d => new TimetableResponceDTO
             {
-                Id = data.Id,
-                CourseId = data.CourseId,
-               
-                Date = data.Date,
-                StartTime = data.StartTime,
-                EndTime = data.EndTime,
-             
-            };
-
-            return res;  // Return the mapped response
+                Date = d.Date,
+                StartTime = d.StartTime.TimeOfDay,
+                EndTime = d.EndTime.TimeOfDay,
+                CourseId = d.CourseId,
+            }).ToList();
+            return res;
         }
 
 
@@ -117,12 +113,12 @@ namespace StudentManagement_System_API.Service
 
     }
 
-    
+
 
     //public async Task DeleteTable(DateTime date)
     //{
     //    await _repository.DeleteTimetableByDate(date);
-        
+
     //}
 
 }

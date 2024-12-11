@@ -65,6 +65,11 @@ namespace StudentManagement_System_API.Repository
             return false;
         }
 
+        public async Task<List<Student>>GetStudentsByCourse(string batch)
+        {
+            var data = await _context.Students.Where(s => s.Batch == batch).ToListAsync();
+            return data;
+        }
         public async Task<Student> softDelete(Student student)
         {
             student.IsActive = false;

@@ -21,9 +21,9 @@ namespace StudentManagement_System_API.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> CreateTimetable(Guid CourseId, TimetableRequestDtos timetableRequestDTO)
+        public async Task<IActionResult> CreateTimetable(TimetableRequestDtos timetableRequestDTO)
         {
-            var createdTable = await _timetableService.CreateTable(CourseId, timetableRequestDTO);
+            var createdTable = await _timetableService.CreateTable(timetableRequestDTO);
             return Ok(createdTable);
         }
 
@@ -32,11 +32,35 @@ namespace StudentManagement_System_API.Controllers
 
         public async Task<IActionResult> GetTable(DateTime date)
         {
-            var table = await _timetableService.GetTimetableByDate(date);
-            if (table == null) return NotFound();
+            try
+            {
+                var table = await _timetableService.GetTimetableByDate(date);
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            return Ok(table);
         }
+        [HttpGet("Get-By-WeekNo")]
+
+        public async Task<IActionResult> GetTableByWeekNo(int weekNo, int year)
+        {
+            try
+            {
+                var table = await _timetableService.GetTimetableByWeeKNo(weekNo, year);
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        //}
 
         //[HttpPut("{date}")]
 

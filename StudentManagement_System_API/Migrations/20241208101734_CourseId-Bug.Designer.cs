@@ -12,8 +12,8 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    [Migration("20241202072803_email")]
-    partial class email
+    [Migration("20241208101734_CourseId-Bug")]
+    partial class CourseIdBug
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,18 +37,21 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<bool>("IsPresent")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("TimetableId")
+                    b.Property<string>("StudentUTNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("TimeSlotId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UTNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TimetableId");
+                    b.HasIndex("StudentUTNumber");
 
-                    b.HasIndex("UTNumber");
+                    b.HasIndex("TimeSlotId");
 
                     b.ToTable("Attendances");
                 });
@@ -143,15 +146,18 @@ namespace StudentManagement_System_API.Migrations
                     b.Property<int?>("MarksObtained")
                         .HasColumnType("int");
 
+                    b.Property<string>("StudentUTNumber")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("UTNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExamId");
 
-                    b.HasIndex("UTNumber");
+                    b.HasIndex("StudentUTNumber");
 
                     b.ToTable("Marks");
                 });
@@ -179,34 +185,55 @@ namespace StudentManagement_System_API.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("StudentManagement_System_API.Entity.TimeSlot", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ClassType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.Property<Guid>("TimeTableId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("TimeTableId");
+
+                    b.ToTable("TimeSlots");
+                });
+
             modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Batch")
+                        .HasColumnType("int");
 
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("Day")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Week")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.ToTable("Timetables");
                 });
@@ -242,9 +269,8 @@ namespace StudentManagement_System_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserRole")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserRole")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 
@@ -253,21 +279,19 @@ namespace StudentManagement_System_API.Migrations
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Attendance", b =>
                 {
-                    b.HasOne("StudentManagement_System_API.Entity.Timetable", "Timetable")
-                        .WithMany("Attendances")
-                        .HasForeignKey("TimetableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StudentManagement_System_API.Entity.Student", "Student")
                         .WithMany("Attendances")
-                        .HasForeignKey("UTNumber")
+                        .HasForeignKey("StudentUTNumber");
+
+                    b.HasOne("StudentManagement_System_API.Entity.TimeSlot", "TimeSlot")
+                        .WithMany("Attendances")
+                        .HasForeignKey("TimeSlotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Student");
 
-                    b.Navigation("Timetable");
+                    b.Navigation("TimeSlot");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Enrollment", b =>
@@ -310,9 +334,7 @@ namespace StudentManagement_System_API.Migrations
 
                     b.HasOne("StudentManagement_System_API.Entity.Student", "Student")
                         .WithMany("Marks")
-                        .HasForeignKey("UTNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentUTNumber");
 
                     b.Navigation("Exam");
 
@@ -330,15 +352,23 @@ namespace StudentManagement_System_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
+            modelBuilder.Entity("StudentManagement_System_API.Entity.TimeSlot", b =>
                 {
                     b.HasOne("StudentManagement_System_API.Entity.Course", "Course")
-                        .WithMany("Timetables")
+                        .WithMany("TimeSlotId")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StudentManagement_System_API.Entity.Timetable", "Timetable")
+                        .WithMany("TimeSlots")
+                        .HasForeignKey("TimeTableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Course");
+
+                    b.Navigation("Timetable");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Course", b =>
@@ -347,7 +377,7 @@ namespace StudentManagement_System_API.Migrations
 
                     b.Navigation("Exams");
 
-                    b.Navigation("Timetables");
+                    b.Navigation("TimeSlotId");
                 });
 
             modelBuilder.Entity("StudentManagement_System_API.Entity.Exam", b =>
@@ -364,9 +394,14 @@ namespace StudentManagement_System_API.Migrations
                     b.Navigation("Marks");
                 });
 
-            modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
+            modelBuilder.Entity("StudentManagement_System_API.Entity.TimeSlot", b =>
                 {
                     b.Navigation("Attendances");
+                });
+
+            modelBuilder.Entity("StudentManagement_System_API.Entity.Timetable", b =>
+                {
+                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }

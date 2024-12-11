@@ -28,7 +28,7 @@ namespace StudentManagement_System_API.Repository
         }
         public async Task<List<Enrollment>> GetEnrollmentsByCourseId(Guid CourseId)
         {
-            var data = await _context.Enrollments.Where(a => a.CourseId == CourseId).Include(a => a.Student).ToListAsync();
+            var data = await _context.Enrollments.Where(a => a.CourseId == CourseId).Include(a => a.Student).ThenInclude(a => a.User).ToListAsync();
             return data;
 
         }

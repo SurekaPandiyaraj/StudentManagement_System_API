@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagement_System_API.Database;
 
@@ -11,9 +12,11 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    partial class StudentManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20241210113001_Batch-update")]
+    partial class Batchupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,18 +31,21 @@ namespace StudentManagement_System_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CheckedIn")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsPresent")
                         .HasColumnType("bit");
 
                     b.Property<string>("StudentUTNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("TimeSlotId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UTNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -278,9 +284,7 @@ namespace StudentManagement_System_API.Migrations
                 {
                     b.HasOne("StudentManagement_System_API.Entity.Student", "Student")
                         .WithMany("Attendances")
-                        .HasForeignKey("StudentUTNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentUTNumber");
 
                     b.HasOne("StudentManagement_System_API.Entity.TimeSlot", "TimeSlot")
                         .WithMany("Attendances")

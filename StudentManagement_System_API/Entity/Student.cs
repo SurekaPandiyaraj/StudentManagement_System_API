@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace StudentManagement_System_API.Entity
 {
@@ -14,6 +15,7 @@ namespace StudentManagement_System_API.Entity
         public ICollection<Enrollment>? Enrollments { get; set; }  // Many-to-many with Course via Enrollment
         public ICollection<Marks>? Marks { get; set; }  // One-to-many with Marks
         public ICollection<Attendance>? Attendances { get; set; }  // One-to-many with Attendance
+        public Batch Group { get; set; }
 
     }
 }

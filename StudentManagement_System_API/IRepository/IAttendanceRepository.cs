@@ -7,7 +7,8 @@ namespace StudentManagement_System_API.IRepository
         Task<List<Attendance>> GetAllAsync();
         Task<Attendance> GetByAttendancesById(Guid id);
         Task<Attendance> AddStudentAttendence(Attendance attendance);
+        Task<List<Attendance>> GetStudents(Guid TimeSlotId);
       //  Task<Attendance> UpdateAsync(Attendance attendance);
-     //   Task DeleteAsync(int id);
+      //   Task DeleteAsync(int id);
     }
 }

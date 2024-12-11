@@ -28,22 +28,38 @@ namespace StudentManagement_System_API.Controllers
         }
 
 
-        //[HttpGet("{date}")]
+        [HttpGet("{date}")]
 
-        //public async Task<IActionResult> GetTable(DateTime date)
-        //{
-        //    try
-        //    {
-        //        var table = await _timetableService.GetTimetableByDate(date);
-        //        return Ok(table);
-        //    }catch(Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-           
-            
+        public async Task<IActionResult> GetTable(DateTime date)
+        {
+            try
+            {
+                var table = await _timetableService.GetTimetableByDate(date);
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            
+        }
+        [HttpGet("Get-By-WeekNo")]
+
+        public async Task<IActionResult> GetTableByWeekNo(int weekNo, int year)
+        {
+            try
+            {
+                var table = await _timetableService.GetTimetableByWeeKNo(weekNo, year);
+                return Ok(table);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
         //}
 
         //[HttpPut("{date}")]

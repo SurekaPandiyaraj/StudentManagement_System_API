@@ -9,7 +9,7 @@ namespace StudentManagement_System_API.Entity
         public int Week { get; set; }
         public int Year { get; set; }
         // Navigation properties
-        public ICollection<TimeSlot>? TimeSlot { get; set; }
+        public ICollection<TimeSlot>? TimeSlots { get; set; }
         
     }
 

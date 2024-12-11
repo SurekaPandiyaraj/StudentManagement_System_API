@@ -2,10 +2,8 @@
 {
     public class AttendanceRequestDTO
     {
+        public Guid TimeSlotId { get; set; }
+        public string StudentUTNumber { get; set; }
 
-        public int? TimetableId { get; set; } // Optional filter by timetable
-        public string? UTNumber { get; set; } // Optional filter by student identifier
-        public DateTime? Date { get; set; } // Optional filter by specific date
-        public bool? IsPresent { get; set; } // Optional filter by attendance status
     }
 }

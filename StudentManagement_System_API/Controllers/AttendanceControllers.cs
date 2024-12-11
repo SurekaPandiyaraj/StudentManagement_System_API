@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IService;
 using StudentManagement_System_API.Service;
@@ -36,17 +37,35 @@ namespace StudentManagement_System_API.Controllers
             return Ok(attendance);
         }
 
+        [HttpGet("Get-attendees")]
+        public async Task<ActionResult<Attendance>> GetAttendeesByCourseAndBatch(Guid id,Batch batch)
+        {
+            var attendance = await _attendanceService.GetStudentsByCourseId(id, batch);
+            if (attendance == null)
+            {
+                return NotFound();
+            }
+            return Ok(attendance);
+        }
+
+        [HttpGet("Get-students")]
+        public async Task<IActionResult>GetStudents(Guid timeSlotId)
+        {
+            var data = await _attendanceService.GetStudents(timeSlotId);
+            return Ok(data);
+        }
+
         // POST: api/Attendance
         [HttpPost]
-        public async Task<ActionResult> CreateAttendance([FromBody] Attendance attendance)
+        public async Task<ActionResult> CreateAttendance([FromBody] AttendanceRequestDTO attendanceRequest)
         {
-            if (attendance == null)
+            if (attendanceRequest == null)
             {
                 return BadRequest("Attendance data is required.");
             }
 
-            await _attendanceService.CreateAttendanceAsync(attendance);
-            return CreatedAtAction(nameof(GetAttendanceById), new { id = attendance.Id }, attendance);
+           var data = await _attendanceService.CreateAttendanceAsync(attendanceRequest);
+            return Ok(data);
         }
 
         //PUT: api/Attendance/{id }
@@ -70,9 +89,9 @@ namespace StudentManagement_System_API.Controllers
     //}
 
     [HttpGet("Get-students{courseId}")]
-        public async Task<IActionResult> GetStudentsByCourseId(Guid courseId)
+        public async Task<IActionResult> GetStudentsByCourseId(Guid courseId, Batch batch)
         {
-            var data = await _attendanceService.GetStudentsByCourseId(courseId);
+            var data = await _attendanceService.GetStudentsByCourseId(courseId, batch);
             return Ok(data);
         }
 

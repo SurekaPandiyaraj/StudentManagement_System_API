@@ -72,5 +72,11 @@ namespace StudentManagement_System_API.Repository
 
 
         //}
+
+        public async Task<List<Attendance>>GetStudents(Guid TimeSlotId)
+        {
+            var students = await _context.Attendances.Where(a => a.TimeSlotId == TimeSlotId).ToListAsync();
+            return students;
+        }
     }
 }

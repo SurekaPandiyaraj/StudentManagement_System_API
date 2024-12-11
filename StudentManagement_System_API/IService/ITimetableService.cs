@@ -7,7 +7,8 @@ namespace StudentManagement_System_API.IService
     public interface ITimetableService
     {
         Task<TimetableResponceDTO> CreateTable(TimetableRequestDtos timetableRequestDTO);
-      //  Task<List<TimetableResponceDTO>> GetTimetableByDate(DateTime date);
+        Task<List<TimetableResponceDTO>> GetTimetableByDate(DateTime date);
+        Task<List<IGrouping<string, TimetableResponceDTO>>> GetTimetableByWeeKNo(int weekNo, int year);
       //  Task<TimetableResponceDTO> UpdateTimetable(DateTime date, TimetableRequestDtos timetableRequestDTO);
       // Task DeleteTable(DateTime date);
 

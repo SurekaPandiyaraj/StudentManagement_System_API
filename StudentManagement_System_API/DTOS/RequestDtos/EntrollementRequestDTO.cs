@@ -4,6 +4,6 @@
     {
       //  public DateTime EnrolledDate { get; set; }
         public string StudentId { get; set; }
-        public Guid CourseId { get; set; }
+        public List<Guid> CourseIds { get; set; }
     }
 }

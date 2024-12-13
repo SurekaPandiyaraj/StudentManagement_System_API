@@ -13,12 +13,12 @@ namespace StudentManagement_System_API.Repository
         {
             _context = context;
         }
-        public async Task<Enrollment> AddEnrollment(Enrollment enrollment)
+        public async Task<List<Enrollment>> AddEnrollment(List<Enrollment> enrollments)
         {
-            var data = await _context.Enrollments.AddAsync(enrollment);
+           await _context.Enrollments.AddRangeAsync(enrollments);
             await _context.SaveChangesAsync();
 
-            return enrollment;
+            return enrollments;
         }
         public async Task<List<Enrollment>> GetEnrollmentById(Guid Id)
         {

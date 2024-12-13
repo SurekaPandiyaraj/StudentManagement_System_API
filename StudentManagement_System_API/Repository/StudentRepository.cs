@@ -30,7 +30,7 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<List<Student>> GetAllStudent()
         {
-            var data = await _context.Students.ToListAsync();
+            var data = await _context.Students.Include(s=> s.User).ToListAsync();
             return data;
         }
 

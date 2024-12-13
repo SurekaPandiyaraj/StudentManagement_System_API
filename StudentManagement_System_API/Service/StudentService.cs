@@ -44,7 +44,11 @@ namespace StudentManagement_System_API.Service
                 UTNumber = student.UTNumber,
                 IsActive = student.IsActive,
                 Batch = student.Batch,
-             
+                Email = student.User.Email,
+                FirstName = student.User.FirstName,
+                LastName = student.User.LastName,
+                DateOfBirth = student.User.DateOfBirth,
+                NICNumber = student.User.NICNumber
             };
         }
 
@@ -58,6 +62,11 @@ namespace StudentManagement_System_API.Service
                 var response = new StudentResponceDTO();
                 response.UTNumber = student.UTNumber;
                 response.Batch = student.Batch;
+                response.FirstName = student.User.FirstName;
+                response.LastName = student.User.LastName;
+                response.Email = student.User.Email;
+                response.DateOfBirth = student.User.DateOfBirth;
+                response.NICNumber = student.User.NICNumber;
                 responseList.Add(response);
                // responseList.Add(response);
             }

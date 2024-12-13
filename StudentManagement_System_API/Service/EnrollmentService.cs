@@ -15,24 +15,27 @@ namespace StudentManagement_System_API.Service
             _enrollement = enrollement;
         }
 
-        public async Task<EntrollementResponceDTO> AddEntrollement(EntrollementRequestDTO requestDTO)
+        public async Task<List<EntrollementResponceDTO>> AddEntrollement(EntrollementRequestDTO entrollementRequestDTOs)
         {
-            var enroll = new Enrollment
+            var enrolls = new List<Enrollment>();
+            foreach (var item in entrollementRequestDTOs.CourseIds)
             {
-                EnrolledDate = DateTime.Now,
-                StudentId = requestDTO.StudentId,
-                CourseId = requestDTO.CourseId
-            };
-            var data = await _enrollement.AddEnrollment(enroll);
+                var enroll = new Enrollment();
+                enroll.StudentId = entrollementRequestDTOs.StudentId;
+                enroll.CourseId = item;
+                enroll.EnrolledDate = DateTime.Now; 
+                enrolls.Add(enroll);
+            }
 
-            var resentroll = new EntrollementResponceDTO
+            var data = await _enrollement.AddEnrollment(enrolls);
+
+            var res = data.Select(d => new EntrollementResponceDTO
             {
-                EnrolledDate = DateTime.Now,
-                StudentId = requestDTO.StudentId,
-                CourseId = requestDTO.CourseId
-
-            };
-            return resentroll;
+                EnrolledDate = d.EnrolledDate,
+                CourseId = d.CourseId,
+                StudentId = d.StudentId,
+            }).ToList();
+            return res;
         }
 
         public async Task<List<EntrollementResponceDTO>> GetEnrollmentById(Guid CourseId)

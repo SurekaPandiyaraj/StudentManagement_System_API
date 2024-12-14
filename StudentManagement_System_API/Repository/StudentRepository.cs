@@ -18,12 +18,13 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<Student> GetStudentById(string utNumber)
         {
-            return await _context.Students
+            var data = await _context.Students
                 .Include(s => s.User)
-                .Include(s => s.Enrollments)
+                .Include(s => s.Enrollments).ThenInclude(s => s.course)
                 .Include(s => s.Marks)
                 .Include(s => s.Attendances)
                 .FirstOrDefaultAsync(s => s.UTNumber == utNumber);
+            return data;
         }
 
 

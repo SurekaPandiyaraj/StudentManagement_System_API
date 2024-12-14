@@ -32,24 +32,28 @@ namespace StudentManagement_System_API.Service
         //}
 
 
-        public async Task<StudentResponceDTO> GetStudentById(string utNumber)
+        public async Task<Student> GetStudentById(string utNumber)
         {
             var student = await _studentrepository.GetStudentById(utNumber);
             if (student == null)
             {
                 return null;  // Handle not found case
             }
-            return new StudentResponceDTO
-            {
-                UTNumber = student.UTNumber,
-                IsActive = student.IsActive,
-                Batch = student.Batch,
-                Email = student.User.Email,
-                FirstName = student.User.FirstName,
-                LastName = student.User.LastName,
-                DateOfBirth = student.User.DateOfBirth,
-                NICNumber = student.User.NICNumber
-            };
+            //return new StudentResponceDTO
+            //{
+            //    UTNumber = student.UTNumber,
+            //    IsActive = student.IsActive,
+            //    Batch = student.Batch,
+            //    Email = student.User.Email,
+            //    FirstName = student.User.FirstName,
+            //    LastName = student.User.LastName,
+            //    DateOfBirth = student.User.DateOfBirth,
+            //    NICNumber = student.User.NICNumber,
+            //    Enrollments = (List<Enrollment>)student.Enrollments,
+            //    Marks = (List<Marks>)student.Marks,
+            //    Attendances = (List<Attendance>)student.Attendances,
+            //};
+            return student;
         }
 
 
@@ -67,6 +71,7 @@ namespace StudentManagement_System_API.Service
                 response.Email = student.User.Email;
                 response.DateOfBirth = student.User.DateOfBirth;
                 response.NICNumber = student.User.NICNumber;
+                response.Group = student.Group;
                 responseList.Add(response);
                // responseList.Add(response);
             }

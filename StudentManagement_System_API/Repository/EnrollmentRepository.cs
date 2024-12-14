@@ -42,5 +42,10 @@ namespace StudentManagement_System_API.Repository
             }
   
         }
+        public async Task<List<Enrollment>>GetEnrollsByUtNum(string UtNum)
+        {
+            var data = await _context.Enrollments.Where(e => e.StudentId == UtNum).ToListAsync();
+            return data;
+        }
     }
 }

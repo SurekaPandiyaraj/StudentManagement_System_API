@@ -31,6 +31,18 @@ namespace StudentManagement_System_API.Controllers
             return Ok(data);
         }
 
+        [HttpGet("{utNum}")]
+        public async Task<IActionResult> GetEnroolssbyUtNum(string utNum)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteEntrollement(Guid Id)
         {

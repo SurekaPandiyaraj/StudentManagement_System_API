@@ -21,8 +21,15 @@ namespace StudentManagement_System_API.Controllers
 
         public async Task<IActionResult> AddMarks(MarksRequestDTO marksRequestDTO)
         {
-            var data = await _marksService.CreateUser(marksRequestDTO);
-            return Ok(data);
+            try
+            {
+                var data = await _marksService.AddMarks(marksRequestDTO);
+                return Ok(data);
+            }
+            catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
+           
         }
 
        [HttpGet("{Id}")]
@@ -47,6 +54,19 @@ namespace StudentManagement_System_API.Controllers
         {
             var data = await _marksService.UpdateMarks(Id, marksRequestDTO);
             return Ok(data);
+        }
+
+        [HttpGet("Get-Marks-By-ExamId")]
+        public async Task<IActionResult> GetMarksByExamId(Guid examId)
+        {
+            try
+            {
+                var data = await _marksService.GetMarksByExamId(examId);
+                return Ok(data);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);  
+            }
         }
     }
 }

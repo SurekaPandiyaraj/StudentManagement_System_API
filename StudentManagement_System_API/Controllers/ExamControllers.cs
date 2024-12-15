@@ -21,13 +21,14 @@ namespace StudentManagement_System_API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddExams( ExamRequestDTO exam)
         {
-            if (exam == null)
+            try
             {
-                return BadRequest();
+                var data = await _examService.AddExam(exam);
+                return Ok(data);
             }
-
-            await _examService.AddExam(exam);
-            return CreatedAtAction(nameof(GetById), new { id = exam.CourseId }, exam);
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET: api/exams

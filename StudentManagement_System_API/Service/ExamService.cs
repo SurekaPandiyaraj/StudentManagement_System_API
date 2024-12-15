@@ -20,33 +20,37 @@ namespace StudentManagement_System_API.Service
             {
                 CourseId = examRequestDTO.CourseId,
                 ExamDate = examRequestDTO.ExamDate,
-                CutOffMarks = examRequestDTO.CutOffMarks,
+                Group = examRequestDTO.Group,
+                Batch = examRequestDTO.Batch
+
             };
             var data = await _examRepository.AddExam(exam);
 
             var req = new ExamResponceDTO
             {
-                CourseId = examRequestDTO.CourseId,
-                ExamDate = examRequestDTO.ExamDate,
-                MaximumMarks = examRequestDTO.MaximumMarks,
-                CutOffMarks = examRequestDTO.CutOffMarks,
+                CourseId = data.CourseId,
+                ExamDate = data.ExamDate,
+                Group = data.Group,
+                Batch = data.Batch,
             };
             return req;
 
         }
-            public async Task<ExamResponceDTO> GetExamById(Guid id)
+        public async Task<ExamResponceDTO> GetExamById(Guid id)
+        {
+            var data = await _examRepository.GetByExamById(id);
+            var req = new ExamResponceDTO
             {
-                var data = await _examRepository.GetByExamById(id);
-                var req = new ExamResponceDTO
-                {
-                    CourseId = data.CourseId,
-                    ExamDate = data.ExamDate,
-
-                    CutOffMarks = data.CutOffMarks,
-
-                };
-                return req;
-            }
+                CourseId = data.CourseId,
+                ExamDate = data.ExamDate,
+                Batch = data.Batch,
+                Group = data.Group,
+                Course = data.Course,
+                Marks = data.Marks,
+                Id = data.Id
+            };
+            return req;
+        }
 
         public async Task<List<ExamResponceDTO>> GetAllExams()
         {
@@ -56,7 +60,10 @@ namespace StudentManagement_System_API.Service
             {
                 CourseId = e.CourseId,
                 ExamDate = e.ExamDate,
-                CutOffMarks = e.CutOffMarks,
+                Batch = e.Batch,
+                Group = e.Group,
+                Id = e.Id,
+                Course  = e.Course,
             }).ToList(); ;
             return req;
         }
@@ -66,7 +73,6 @@ namespace StudentManagement_System_API.Service
             var getExam = await _examRepository.GetByExamById(id);
             getExam.CourseId = examRequest.CourseId;
             getExam.ExamDate = examRequest.ExamDate;
-            getExam.CutOffMarks = examRequest.CutOffMarks;
             var data = await _examRepository.UpdateAsync(getExam
                 );
 
@@ -74,7 +80,6 @@ namespace StudentManagement_System_API.Service
             {
                 CourseId = data.CourseId,
                 ExamDate = data.ExamDate,
-                CutOffMarks = data.CutOffMarks,
 
             };
             return req;

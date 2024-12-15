@@ -17,8 +17,20 @@ namespace StudentManagement_System_API.Database
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-
+            // Seed data for the User table
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserId = "Admin",
+                   PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@2024"),
+                   UserRole = Role.Manager
+                }
+            );
+        }
+    }
 
     }
-}

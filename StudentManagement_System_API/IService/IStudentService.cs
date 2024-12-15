@@ -13,6 +13,6 @@ namespace StudentManagement_System_API.IService
         Task<StudentResponceDTO> UpdateStudent(string utnumber, StudentRequestDTO studentRequestDto);
         Task<bool> DeleteStudent(string utNumber);
         Task<StudentResponceDTO> softDelete(string utNumber);
-
+        Task<List<StudentResponceDTO>> GetStudentsForMarking(Guid courseId, string batch, Batch group);
     }
 }

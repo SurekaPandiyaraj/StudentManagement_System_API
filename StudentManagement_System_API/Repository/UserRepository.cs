@@ -23,7 +23,7 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<List<User>> GetUsersAsync()
         {
-            var data = await _context.Users.Where(a => !a.IsDelete).ToListAsync();
+            var data = await _context.Users.Where(a => (bool)!a.IsDelete).ToListAsync();
             return data;
         }
 
@@ -35,7 +35,7 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<User> GetUserByUserId (string UserId)
         {
-            var data = await _context.Users.FirstOrDefaultAsync(x => x.UserId == UserId && !x.IsDelete);
+            var data = await _context.Users.FirstOrDefaultAsync(x => x.UserId == UserId && (bool)!x.IsDelete);
             return data;
         }
 

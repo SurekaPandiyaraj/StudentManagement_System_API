@@ -30,7 +30,6 @@ namespace StudentManagement_System_API.Controllers
             var data = await _entrollment.GetEnrollmentById(Id);
             return Ok(data);
         }
-
         [HttpGet("{utNum}")]
         public async Task<IActionResult> GetEnroolssbyUtNum(string utNum)
         {

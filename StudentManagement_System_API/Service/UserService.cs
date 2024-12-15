@@ -42,7 +42,7 @@ namespace StudentManagement_System_API.Service
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole.ToString(),
-                IsDeleted = data.IsDelete,
+                IsDeleted = (bool)data.IsDelete,
             };
             return resuser;
         }
@@ -58,7 +58,7 @@ namespace StudentManagement_System_API.Service
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole.ToString(),
-                IsDeleted = data.IsDelete,
+                IsDeleted = (bool)data.IsDelete,
             };
             return resuser;
         }
@@ -71,14 +71,14 @@ namespace StudentManagement_System_API.Service
             {
                 
                 UserId = x.UserId,
-                DateOfBirth = x.DateOfBirth,
+                DateOfBirth = (DateTime)x.DateOfBirth,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email = x.Email,
                 NICNumber = x.NICNumber,
                 Password = x.PasswordHash,
                 UserRole = x.UserRole.ToString(),
-                IsDeleted = x.IsDelete,
+                IsDeleted = (bool)x.IsDelete,
             }).ToList(); 
             return resusers;
         }
@@ -97,7 +97,7 @@ namespace StudentManagement_System_API.Service
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole.ToString(),
-                IsDeleted = data.IsDelete,
+                IsDeleted = (bool)data.IsDelete,
             };
             return resusers;
         }
@@ -128,7 +128,7 @@ namespace StudentManagement_System_API.Service
                 NICNumber = data.NICNumber,
                 Password = data.PasswordHash,
                 UserRole = data.UserRole.ToString(),
-                IsDeleted = data.IsDelete
+                IsDeleted = (bool)data.IsDelete
 
             };
             return resUser;

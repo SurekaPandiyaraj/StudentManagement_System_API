@@ -16,13 +16,13 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<List<Exam>> GetAllExam()
         {
-            var data = await _context.Exams.ToListAsync();
+            var data = await _context.Exams.Include(e => e.Course).ToListAsync();
             return data;
         }
 
         public async Task<Exam> GetByExamById(Guid id)
         {
-            var data = await _context.Exams.FirstOrDefaultAsync(x => x.Id == id);
+            var data = await _context.Exams.Include(e => e.Course).Include(e => e.Marks).FirstOrDefaultAsync(x => x.Id == id);
             return data;
 
         }
@@ -52,7 +52,5 @@ namespace StudentManagement_System_API.Repository
 
             }
         }
-
-      
     }
 }

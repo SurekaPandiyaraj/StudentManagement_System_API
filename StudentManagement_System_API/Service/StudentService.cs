@@ -1,4 +1,5 @@
-﻿using StudentManagement_System_API.DTOS.RequestDTOs;
+﻿using Azure;
+using StudentManagement_System_API.DTOS.RequestDTOs;
 using StudentManagement_System_API.DTOS.ResponseDTOs;
 using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IRepository;
@@ -60,7 +61,7 @@ namespace StudentManagement_System_API.Service
         public async Task<List<StudentResponceDTO>> GetAllStudent()
         {
             var students = await _studentrepository.GetAllStudent();
-         var responseList = new List<StudentResponceDTO>();
+            var responseList = new List<StudentResponceDTO>();
             foreach (var student in students)
             {
                 var response = new StudentResponceDTO();
@@ -69,13 +70,14 @@ namespace StudentManagement_System_API.Service
                 response.FirstName = student.User.FirstName;
                 response.LastName = student.User.LastName;
                 response.Email = student.User.Email;
-                response.DateOfBirth = student.User.DateOfBirth;
+                response.DateOfBirth =(DateTime)student.User.DateOfBirth;
                 response.NICNumber = student.User.NICNumber;
                 response.Group = student.Group;
                 responseList.Add(response);
-               // responseList.Add(response);
+                // responseList.Add(response);
             }
-            return responseList;
+            var data = responseList.OrderByDescending(s => s.Batch).ToList();
+            return data;
         }
 
 
@@ -84,10 +86,9 @@ namespace StudentManagement_System_API.Service
             var student = new Student
             {
                 UTNumber = studentRequestDto.UTNumber,
-             
                 Batch = studentRequestDto.Batch,
                 UserId = studentRequestDto.UserId,
-               
+
             };
             var user = new User
             {
@@ -102,18 +103,17 @@ namespace StudentManagement_System_API.Service
                 Batch = createdStudent.Batch,
                 IsActive = createdStudent.IsActive,
                 UserId = createdStudent.UserId,
-               
             };
         }
 
-        public async Task<StudentResponceDTO> UpdateStudent(string utnumber,StudentRequestDTO studentRequestDto)
+        public async Task<StudentResponceDTO> UpdateStudent(string utnumber, StudentRequestDTO studentRequestDto)
         {
             var student = new Student
             {
                 UTNumber = studentRequestDto.UTNumber,
                 Batch = studentRequestDto.Batch,
                 UserId = studentRequestDto.UserId,
-               
+
             };
 
             var updatedStudent = await _studentrepository.UpdateStudent(student);
@@ -121,10 +121,10 @@ namespace StudentManagement_System_API.Service
             return new StudentResponceDTO
             {
                 UTNumber = updatedStudent.UTNumber,
-                IsActive= updatedStudent.IsActive,
+                IsActive = updatedStudent.IsActive,
                 Batch = updatedStudent.Batch,
                 UserId = updatedStudent.UserId,
-              
+
             };
         }
 
@@ -136,7 +136,7 @@ namespace StudentManagement_System_API.Service
         public async Task<StudentResponceDTO> softDelete(string utNumber)
         {
             var getstudent = await _studentrepository.GetStudentById(utNumber);
-            if(getstudent == null)
+            if (getstudent == null)
             {
                 throw new Exception("Student not found!");
             }
@@ -147,6 +147,30 @@ namespace StudentManagement_System_API.Service
             studentDTO.IsActive = softDelete.IsActive;
             studentDTO.Batch = softDelete.Batch;
             return studentDTO;
+        }
+        public async Task<List<StudentResponceDTO>> GetStudentsForMarking(Guid courseId, string batch, Batch group)
+        {
+            var data = await _studentrepository.GetStudentsForMarking(batch, group);
+            var responseList = new List<StudentResponceDTO>();
+            foreach (var student in data)
+            {
+                if(student.Enrollments.Any(c => c.CourseId == courseId))
+                {
+                    var response = new StudentResponceDTO();
+                    response.UTNumber = student.UTNumber;
+                    response.Batch = student.Batch;
+                    response.FirstName = student.User.FirstName;
+                    response.LastName = student.User.LastName;
+                    response.Email = student.User.Email;
+                    response.DateOfBirth = (DateTime)student.User.DateOfBirth;
+                    response.NICNumber = student.User.NICNumber;
+                    response.Group = student.Group;
+                    response.Marks = student.Marks.ToList();
+                    responseList.Add(response);
+                }
+                // responseList.Add(response);
+            }
+            return responseList;
         }
 
 

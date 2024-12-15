@@ -24,7 +24,7 @@ namespace StudentManagement_System_API.Repository
 
         public async Task<List<Marks>> GetAllMarks()
         {
-            var data = await _context.Marks.ToListAsync();
+            var data = await _context.Marks.Include(m => m.Student).Include(m => m.Exam).ToListAsync();
             return data;
         }
 
@@ -43,12 +43,17 @@ namespace StudentManagement_System_API.Repository
 
             data.Student = marks.Student;
             data.MarksObtained = marks.MarksObtained;
-            data.UTNumber = marks.UTNumber;
+            data.StudentUTNumber = marks.StudentUTNumber;
             data.Exam = marks.Exam;
             data.ExamId = marks.ExamId;
 
             await _context.SaveChangesAsync();
 
+            return data;
+        }
+        public async Task<List<Marks>> GetMarksByExamId(Guid examId)
+        {
+            var data = await _context.Marks.Where(m => m.ExamId == examId).Include(m => m.Student).Include(m =>m.Exam).ToListAsync();
             return data;
         }
     }

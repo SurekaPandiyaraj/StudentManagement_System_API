@@ -86,10 +86,10 @@ namespace StudentManagement_System_API.Service
             var claimsList = new List<Claim>();
 
            
-            claimsList.Add(new Claim("FirstName", user.FirstName));
-            claimsList.Add(new Claim("LastName", user.LastName));
-            claimsList.Add(new Claim("Email", user.Email));
-            claimsList.Add(new Claim("NICNumber", user.NICNumber));
+            claimsList.Add(new Claim("FirstName", user.FirstName?? ""));
+            claimsList.Add(new Claim("LastName", user.LastName?? ""));
+            claimsList.Add(new Claim("Email", user.Email ?? ""));
+            claimsList.Add(new Claim("NICNumber", user.NICNumber?? ""));
             claimsList.Add(new Claim("UserId", user.UserId));
             claimsList.Add(new Claim("UserRole", user.UserRole.ToString()));
 

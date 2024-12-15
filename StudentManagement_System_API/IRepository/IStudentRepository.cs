@@ -12,5 +12,6 @@ namespace StudentManagement_System_API.IRepository
         Task<Student> UpdateStudent(Student student);
         Task<bool> DeleteStudent(string utNumber);
         Task<Student> softDelete(Student student);
+        Task<List<Student>> GetStudentsForMarking(string batch, Batch group);
     }
 }

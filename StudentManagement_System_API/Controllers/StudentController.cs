@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentManagement_System_API.DTOS.RequestDTOs;
+using StudentManagement_System_API.DTOS.ResponseDTOs;
+using StudentManagement_System_API.Entity;
 using StudentManagement_System_API.IService;
 
 namespace StudentManagement_System_API.Controllers
@@ -15,8 +17,6 @@ namespace StudentManagement_System_API.Controllers
         {
             _studentService = studentService;
         }
-
-
 
         [HttpGet("GetStudentById")]
         public async Task<IActionResult> GetStudentById(string utNumber)
@@ -45,8 +45,6 @@ namespace StudentManagement_System_API.Controllers
         //    return Ok(data);
         //}
 
-
-
         [HttpPut("UpdateStudent")]
         public async Task<IActionResult> UpdateStudent(string utnumber,StudentRequestDTO studentRequestDto)
         {
@@ -65,8 +63,6 @@ namespace StudentManagement_System_API.Controllers
             return NoContent();
 
         }
-
-
         [HttpPut("SoftDelete")]
         public async Task<IActionResult> softDelete(string utNumber)
         {
@@ -74,6 +70,17 @@ namespace StudentManagement_System_API.Controllers
             return Ok("Successfully Deleted....");
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> GetStudentsForMarking(Guid courseId, string batch, Batch group)
+        {
+            try
+            {
+                var data = await _studentService.GetStudentsForMarking(courseId, batch, group);
+                return Ok(data);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

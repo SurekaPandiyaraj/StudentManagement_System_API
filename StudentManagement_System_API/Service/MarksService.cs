@@ -17,14 +17,14 @@ namespace StudentManagement_System_API.Service
             _marksRepository = marksRepository;
         }
 
-        public async Task<MarksResponceDTO> CreateUser(MarksRequestDTO marksRequest)
+        public async Task<MarksResponceDTO> AddMarks(MarksRequestDTO marksRequest)
         {
             var marks = new Marks
             {
-                ExamId = marksRequest.ExamId,
-                UTNumber = marksRequest.UTNumber,
-                IsApproved = marksRequest.IsApproved,
-
+                ExamId = (Guid)marksRequest.ExamId,
+                StudentUTNumber = marksRequest.UTNumber,
+                IsApproved = false,
+                MarksObtained = marksRequest.Marks
             };
 
             var data = await _marksRepository.AddMarks(marks);
@@ -33,8 +33,9 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 ExamId= data.ExamId,
-                UTNumber = data.UTNumber,
+                UTNumber = data.StudentUTNumber,
                 IsApproved = data.IsApproved,
+                MarksObtained= data.MarksObtained
             };
             return req;
         }
@@ -46,37 +47,30 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 ExamId = data.ExamId,
-                UTNumber = data.UTNumber,
+                UTNumber = data.StudentUTNumber,
                 IsApproved = data.IsApproved,
 
             };
             return req;
         }
 
-        public async Task<List<MarksResponceDTO>> GetAllMarks()
+        public async Task<List<Marks>> GetAllMarks()
         {
             var data = await _marksRepository.GetAllMarks();
-
-            var req = data.Select(m => new MarksResponceDTO
-            {
-                ExamId = m.ExamId,
-                UTNumber = m.UTNumber,
-                IsApproved = m.IsApproved
-            }).ToList();
-
-            return req;
+            return data;
         }
 
-        public async Task<MarksResponceDTO> UpdateMarks(Guid UserId, MarksRequestDTO marksRequest)
+        public async Task<MarksResponceDTO> UpdateMarks(Guid MarkId, MarksRequestDTO marksRequest)
         {
-            var marks = new Marks
-            {
+            //var marks = new Marks
+            //{
+            //    ExamId = (Guid)marksRequest.ExamId,
+            //    StudentUTNumber = marksRequest.UTNumber,
+            //    IsApproved = (bool)marksRequest.IsApproved,
 
-                ExamId = marksRequest.ExamId,
-                UTNumber = marksRequest.UTNumber,
-                IsApproved = marksRequest.IsApproved,
-
-            };
+            //};
+            var marks = await _marksRepository.GetMarksById(MarkId);
+            marks.IsApproved = (bool)marksRequest.IsApproved;
 
             var data = await _marksRepository.UpdateMarks(marks);
 
@@ -84,10 +78,15 @@ namespace StudentManagement_System_API.Service
             {
                 Id = data.Id,
                 ExamId = data.ExamId,
-                UTNumber = data.UTNumber,
+                UTNumber = data.StudentUTNumber,
                 IsApproved = data.IsApproved,
             }; 
             return req;
+        }
+        public async Task<List<Marks>> GetMarksByExamId(Guid examId)
+        {
+            var data = await _marksRepository.GetMarksByExamId(examId);
+            return data;
         }
 
     }

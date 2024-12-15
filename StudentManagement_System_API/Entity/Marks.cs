@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public Guid ExamId { get; set; }
-        public string UTNumber { get; set; }
+        public string StudentUTNumber { get; set; }
         public int? MarksObtained { get; set; }
         public bool IsApproved { get; set; }                
 

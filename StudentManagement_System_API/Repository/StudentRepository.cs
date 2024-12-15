@@ -21,7 +21,7 @@ namespace StudentManagement_System_API.Repository
             var data = await _context.Students
                 .Include(s => s.User)
                 .Include(s => s.Enrollments).ThenInclude(s => s.course)
-                .Include(s => s.Marks)
+                .Include(s => s.Marks).ThenInclude(s => s.Exam)
                 .Include(s => s.Attendances)
                 .FirstOrDefaultAsync(s => s.UTNumber == utNumber);
             return data;
@@ -76,6 +76,11 @@ namespace StudentManagement_System_API.Repository
             student.IsActive = false;
             await _context.SaveChangesAsync();
             return student;
+        }
+        public async Task<List<Student>> GetStudentsForMarking(string batch ,Batch group)
+        {
+            var data = await _context.Students.Where(s => s.Batch == batch && s.Group == group).Include(s => s.Enrollments).Include(s => s.User).Include(s => s.Marks).ToListAsync();
+            return data;
         }
     }
 }

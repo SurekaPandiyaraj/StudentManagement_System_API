@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagement_System_API.Database;
 
@@ -11,9 +12,11 @@ using StudentManagement_System_API.Database;
 namespace StudentManagement_System_API.Migrations
 {
     [DbContext(typeof(StudentManagementContext))]
-    partial class StudentManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20241214232211_Data-Entry")]
+    partial class DataEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,8 +150,11 @@ namespace StudentManagement_System_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StudentUTNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UTNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -277,8 +283,7 @@ namespace StudentManagement_System_API.Migrations
                         {
                             UserId = "Admin",
                             IsDelete = false,
-                            PasswordHash = "$2a$10$WBoWEVdNXx155SV0aaw.XOQnKsoZ0VoBnHEVDU8Kv3g7BlcgYdRRW",
-                            UserRole = 1
+                            PasswordHash = "$2a$10$mGdf1y4guq1uRrah5t8ZSej8cZhoXu/vnJC/r8cDvBEidCo.J2PiO"
                         });
                 });
 
@@ -341,9 +346,7 @@ namespace StudentManagement_System_API.Migrations
 
                     b.HasOne("StudentManagement_System_API.Entity.Student", "Student")
                         .WithMany("Marks")
-                        .HasForeignKey("StudentUTNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentUTNumber");
 
                     b.Navigation("Exam");
 
